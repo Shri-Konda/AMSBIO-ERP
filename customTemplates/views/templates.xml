@@ -1,0 +1,861 @@
+<odoo>
+    <data>
+        <template id="report_saleorder_document_template">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+            <t t-call="web.basic_layout">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-4 text-left">
+                            <h6 style="margin-left: -2px;">
+                                <span style="color: #fff;">.</span>
+                                <img t-att-src="image_data_uri(doc.company_id.logo)" class="float-left"
+                                    style="max-height: 45px;" alt="Logo" />
+                            </h6>
+                        </div>
+                        <div class="col-4 text-left">
+                            <h6>
+                                <div t-field="doc.company_id.partner_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True, "phone_icons": True}' />
+                            </h6>
+                        </div>
+                        <div class="col-4 text-left">
+                            <h6>
+                                <div>VAT reg. no.: <span t-field="doc.company_id.partner_id.vat" /></div>
+                                <div>EORI: <span t-field="doc.company_id.x_studio_eori" /></div>
+                                <div>Email: <span t-field="doc.company_id.partner_id.email" /></div>
+                                <div><i class="fa fa-phone fa-fw" /><span t-field="doc.company_id.partner_id.phone" /></div>
+                            </h6>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+                <div class="page">
+                    <div class="oe_structure" />
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Delivery Address:</strong>
+                            <div t-field="doc.partner_shipping_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                        </div>
+                        <div class="col-6">
+                            <strong>Invoice Address:</strong>
+                            <div t-field="doc.partner_invoice_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                        </div>
+                    </div>
+                    <br />
+                    <h2 class="mt16">
+                        <span t-if="doc.state not in ['draft','sent']">Order N°</span>
+                        <span t-if="doc.state in ['draft','sent']">Quotation N°</span>
+                        <span t-field="doc.name" />
+                    </h2>
+                    <br />
+                    <div class="row mt32 mb32" id="informations">
+                        <div t-if="doc.commitment_date and doc.state in ['draft', 'sent']"
+                            class="col-auto col-3 mw-100 mb-2" name="expiration_date">
+                            <strong>Estimated delivery in:</strong>
+                            <p class="m-0" t-field="doc.commitment_date" />
+                        </div>
+                        <div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
+                            <strong>Order Date:</strong>
+                            <p class="m-0" t-field="doc.date_order" />
+                        </div>
+                        <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
+                            <strong>Quotation Date:</strong>
+                            <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date"}' />
+                        </div>
+                        <div t-if="doc.payment_term_id" class="col-auto col-3 mw-100 mb-2">
+                            <strong>Payment Terms:</strong>
+                            <p class="m-0" t-field="doc.payment_term_id" />
+                        </div>
+                    </div>
+                    <br />
+                    <t t-set="display_discount" t-value="any(l.discount for l in doc.order_line)" />
+
+                    <table class="table table-sm o_main_table">
+                        <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                        <thead style="display: table-row-group">
+                            <tr>
+                                <th name="th_codenum" class="text-left">Code No</th>
+                                <th name="th_description" class="text-left">Description</th>
+                                <th name="th_packsize" class="text-left">Pack Size</th>
+                                <th name="th_vat" class="text-right">VAT</th>
+                                <th name="th_quantity" class="text-right">Quantity</th>
+                                <th name="th_priceunit" class="text-right">Unit Price</th>
+                                <th name="th_discount" t-if="display_discount" class="text-right"
+                                    groups="product.group_discount_per_so_line">
+                                    <span>Disc.%</span>
+                                </th>
+                                <th name="th_subtotal" class="text-right">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+
+                            <t t-set="current_subtotal" t-value="0" />
+
+                            <t t-foreach="doc.order_line" t-as="line">
+
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"
+                                    groups="account.group_show_line_subtotals_tax_excluded" />
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total"
+                                    groups="account.group_show_line_subtotals_tax_included" />
+
+                                <tr
+                                    t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                    <t t-if="not line.display_type">
+                                        <td name="td_codenum"><span t-field="line.product_id.x_studio_sku_1" /></td>
+                                        <td name="td_name"><span t-field="line.name" style="width: 175px;" /></td>
+                                        <td name="td_packsize"><span t-field="line.x_studio_pack_size" /></td>
+                                        <td name="td_vat" class="text-right"><span
+                                                t-esc="str('%.0f'%line.tax_id.amount)" />%
+                                        </td>
+                                        <td name="td_quantity" class="text-right">
+                                            <span t-field="line.product_uom_qty" />
+                                            <span t-field="line.product_uom" />
+                                        </td>
+                                        <td name="td_priceunit" class="text-right">
+                                            <span t-field="line.price_unit" />
+                                        </td>
+                                        <td t-if="display_discount" class="text-right"
+                                            groups="product.group_discount_per_so_line">
+                                            <span t-field="line.discount" />
+                                        </td>
+                                        <td name="td_subtotal" class="text-right o_price_total">
+                                            <span t-field="line.price_total" />
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <div class="clearfix" name="so_total_summary">
+                        <div id="total" class="row" name="total">
+                            <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                <table class="table table-sm">
+                                    <tr class="border-black o_subtotal">
+                                        <td name="td_amount_untaxed_label"><strong>Subtotal</strong></td>
+                                        <td name="td_amount_untaxed" class="text-right">
+                                            <span t-field="doc.amount_untaxed" />
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
+                                        <tr>
+                                            <t t-if="amount_by_group[5] == 1 and doc.amount_untaxed == amount_by_group[2]">
+                                                <td name="td_amount_by_group_label_3">
+                                                    <span t-esc="amount_by_group[0]" />
+                                                    <span>&amp;nbsp;<span>on</span>&amp;nbsp;
+                                                        <t t-esc="amount_by_group[2]"
+                                                            t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}' />
+                                                    </span>
+                                                </td>
+                                                <td name="td_amount_by_group_3" class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[1]"
+                                                        t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}' />
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td name="td_amount_by_group_label">
+                                                    <span t-esc="amount_by_group[0]" />
+                                                </td>
+                                                <td name="td_amount_by_group" class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[1]"
+                                                        t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}' />
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr class="border-black o_total">
+                                        <td name="td_amount_total_label"><strong>Total</strong></td>
+                                        <td name="td_amount_total" class="text-right">
+                                            <span t-field="doc.amount_total" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div t-if="doc.state == 'draft'">
+                        <p>
+                            Orders can be placed by online on our website, phone, fax, email (
+                            <t t-esc="doc.company_id.email" />).
+                        </p>
+                        <p>
+                            Validity: 1 month from the date of offer
+                        </p>
+                        <hr />
+                        <h4>
+                            Standard Conditions Apply:
+                        </h4>
+                        <ol style="padding-left: 15px;">
+                            <li>This offer is to be considered confidential information and should not be divulged to other
+                                parties.
+                            </li>
+                            <li>This offer is only valid for the period stated.</li>
+                            <li>Reference number above should be quoted at the time of ordering. Failure to do so may result
+                                in list
+                                prices being charged.</li>
+                            <li>This offer is valid only for the purchase of the products listed above with respect to
+                                quantity
+                                &amp; type. A new quotation must be made for any modification.</li>
+                            <li>Prices quoted do not include VAT or other sales taxes.</li>
+                            <li>This offer may only be used once. Should a further offer be required for more purchases,
+                                please
+                                contact AMSBIO.</li>
+                        </ol>
+                    </div>
+                    <style type="text/css">
+                        li {
+                            list-style-type: lower-alpha;
+                        }
+
+                        .amsbio-tos ol {
+                            margin-left: 2em;
+                        }
+
+                        .amsbio-tos h1 {
+                            font-size: 14pt;
+                            font-weight: bold;
+                        }
+
+                        .amsbio-tos h2 {
+                            font-size: 12pt;
+                            font-weight: bold;
+                        }
+
+                        .amsbio-tos {
+                            text-align: justify;
+                            font-size: 10pt;
+                            page-break-before: always;
+                        }
+
+                        .footer-style {
+                            position: absolute;
+                            margin-top: 10px;
+                            padding: 0px;
+                        }
+                    </style>
+                    <div class="amsbio-tos">
+                        <h1>Terms of Sale</h1>
+                        <h2>(1) Introduction</h2>
+
+                        <p>
+                            Please read these terms of sale carefully.
+                        </p>
+                        <p>
+
+                            You will be asked to expressly agree to these terms of sale before you place an order for
+                            products
+                            from
+                            our website.
+                        </p>
+
+                        <h2>(2) Interpretation</h2>
+
+                        <p>
+                            In these terms of sale, "we" means AMS Biotechnology (and "us" and "our" will be construed
+                            accordingly);
+                            and "you" means our customer or potential customer for products (and "your" will be construed
+                            accordingly).
+                        </p>
+
+                        <h2>(3) Order process</h2>
+                        <p>
+                            The advertising of products on our website constitutes an "invitation to treat"; and your order
+                            for
+                            products constitutes a contractual offer. No contract will come into force between you and us
+                            unless
+                            and
+                            until we accept your order in accordance with the procedure detailed below.
+                        </p>
+                        <p>
+
+                            In order to enter into a contract to purchase products from us, you will need to take the
+                            following
+                            steps: (i) you must add the products you wish to purchase to your shopping cart, and then
+                            proceed to
+                            the
+                            checkout; (ii) if you do not have a credit account with us you may pay for your order with an
+                            acceptable
+                            bank or credit card or contact our sales office to request a pro-forma invoice or the opening of
+                            a
+                            credit account (a request which may or may not be granted); if you are an existing customer with
+                            a
+                            credit account you may instead elect to charge the purchase to your account; (iii) you must
+                            select
+                            your
+                            preferred method of delivery and confirm your order and your consent to these terms of sale;
+                            (iv) if
+                            you
+                            have elected to pay by an acceptable bank or credit card you will be transferred to our payment
+                            gateway
+                            for your payment to be processed; (v) if the order (and, if applicable, bank or credit card
+                            payment)
+                            is/are processed successfully the web site will acknowledge your order and we will send you an
+                            email
+                            acknowledgement of your order; and (vi) once we have checked whether we are able to meet your
+                            order,
+                            we
+                            will either send you an order confirmation (at which point your order will become a binding
+                            contract) or
+                            we will confirm by email that we are unable to meet your order.
+                        </p>
+                        <p>
+
+                            We will not file a copy of these terms of sale specifically in relation to your order. We may
+                            update
+                            the
+                            version of these terms of sale on the website from time to time, and we do not guarantee that
+                            the
+                            version you have agreed to will remain accessible. We therefore recommend that you download,
+                            print
+                            and
+                            retain a copy of these terms of sale for your records.
+                        </p>
+                        <p>
+
+                            The only language in which we provide these terms of sale is English.
+                        </p>
+                        <p>
+
+                            Before you place your order, you will have the opportunity of identifying whether you have made
+                            any
+                            input errors by reviewing the order confirmation page at the end of the purchasing sequence
+                            and/or
+                            by
+                            reviewing the email acknowledgement that you will receive at the end of the ordering sequence.
+                            You
+                            may
+                            correct those input errors contacting the UK sales office before mid-day local time on the first
+                            working
+                            day after the order is placed.
+                        </p>
+                        <h2>(4) The products</h2>
+                        <p>
+                            We are a premier provider of quality life science research reagents and services.
+                        </p>
+
+
+                        <h2>(5) Price and payment</h2>
+                        <p>
+                            Whenever possible prices for products are quoted on our website. Where no price is stated prices
+                            are
+                            available on enquiry. The website contains several hundred thousand products and it is always
+                            possible
+                            that some of the prices on the website may be incorrect. We will verify prices as part of our
+                            sale
+                            procedures so that a product's correct price will be stated when your order is confirmed.
+                        </p>
+                        <p>
+                            In addition to the price of the products, you will have to pay a delivery charge, which will be
+                            as
+                            stated when your order is confirmed.
+                        </p>
+                        <p>
+
+                            Unless we have granted you a credit account payment must be made upon the submission of your
+                            order.
+                            We
+                            may withhold the products and/or cancel the contract between us if the price is not received
+                            from
+                            you in
+                            full in cleared funds.
+                        </p>
+                        <p>
+
+                            From time to time we may agree to open a customer account for you, enabling you to pay in
+                            arrears.
+                            Where
+                            you hold a customer account, then upon or following the dispatch of products, we will send to
+                            you an
+                            invoice for payment of the price of those products, and you will pay such invoice within thirty
+                            [30]
+                            days of the date of the invoice. Accounts will be subject to such credit limits as we may notify
+                            to
+                            you
+                            from time to time.
+                        </p>
+                        <p>
+
+                            If you do not pay any amount properly due to us under or in connection with these terms of sale
+                            on
+                            time,
+                            we may: charge you interest on the overdue amount at the rate of 8% per year above the base rate
+                            of
+                            HSBC
+                            Bank plc from time to time (which interest will accrue daily until the date of actual payment,
+                            be
+                            compounded quarterly, and be payable on demand); or claim interest and statutory compensation
+                            from
+                            you
+                            pursuant to the Late Payment of Commercial Debts (Interest) Act 1998.
+                        </p>
+                        <p>
+
+                            The prices on the website exclude all value added taxes (where applicable).
+                        </p>
+                        <p>
+
+                            Payment for all products must be made by bank transfer, cheque or by an acceptable bank or
+                            credit
+                            card.
+                            Account holders may pay by bank transfer or cheque only; accounts may not be settled by bank or
+                            credit
+                            card.
+                        </p>
+                        <p>
+
+                            Prices for products are liable to change at any time, but changes will not affect contracts
+                            which
+                            have
+                            come into force.
+                        </p>
+                        <h2>(6) Delivery policy</h2>
+                        <p>
+                            We will arrange for the products to be delivered to the address for delivery indicated in your
+                            order.
+                            The time needed for delivery is determined by our suppliers and we aim to keep you fully
+                            informed of
+                            any
+                            untoward delays. We will use reasonable endeavours to deliver products in a timely manner.
+                            However,
+                            we
+                            cannot guarantee delivery by any specific date.
+                        </p>
+                        <h2>(7) Risk and ownership</h2>
+                        <p>
+                            The products will be at your risk from the time of delivery. Ownership of the products will only
+                            pass to
+                            you upon the later of:
+                        </p>
+                        (a) delivery of the products; and
+
+                        (b) receipt by us of full payment of all sums due in respect of the products (including delivery
+                        charges).
+                        <p>
+                            Until ownership of the products has passed to you, you will possess the products as our
+                            fiduciary
+                            agent
+                            and bailee, you will store the products separately from other goods, will ensure that the
+                            products
+                            are
+                            clearly identifiable as belonging to us, and you will ensure that they are properly stored in a
+                            safe,
+                            dry and clean environment.
+                        </p>
+                        <p>
+
+                            We will be entitled to recover payment for the products even where ownership has not passed to
+                            you.
+                        </p>
+                        <h2>(8) Product warranties</h2>
+                        <p>
+                            We warrant to you that the products purchased from our website will:
+                        </p>
+                        (a) conform in all material respects to any applicable specification of such products published on
+                        our
+                        website and/or issued by us; and
+
+                        (b) be free from material defects in materials and workmanship.
+
+                        <p>
+                            For the avoidance of doubt, above warranties do not cover any defect in the products arising
+                            from
+                            fair
+                            wear and tear, wilful damage, accident, negligence (including, but not limited to, inappropriate
+                            storage) by you or a third party, use otherwise than in accordance with the manufacturer's or
+                            our
+                            instructions or recommendations, or any alteration carried out by you or any third party.
+                        </p>
+                        <p>
+
+                            These terms of sale set out the full extent of our obligations and liabilities in respect of the
+                            products supplied hereunder. To the maximum extent permitted by applicable law and subject to
+                            the
+                            first
+                            paragraph of Section [13], all conditions, warranties or other terms concerning the products
+                            which
+                            might
+                            otherwise be implied into a contract under these terms of sale are expressly excluded.
+                        </p>
+
+
+                        <h2>(9) Returns, refunds and replacements</h2>
+                        <p>
+                            Products may only be returned to us with our prior agreement, at your expense, and according to
+                            our
+                            directions. Any products returned in contravention of this Section will not be the subject of
+                            any
+                            refunds or replacements and you will continue to be liable for payment of the price of such
+                            products.
+                        </p>
+                        <p>
+
+                            Where you return products to us in accordance with the provisions of this Section, and in our
+                            reasonable
+                            opinion those products do not conform with the warranties set out in Section [8], then you will
+                            be
+                            entitled to replacement products (where replacements are available) or, where we agree, a refund
+                            of
+                            the
+                            price paid in respect of those products (including all delivery charges).
+                        </p>
+                        <h2>(10) Your warranties</h2>
+                        <p>
+                            You warrant to us that:
+                        </p>
+                        <ol>
+                            <li>
+                                you are legally capable of entering into binding contracts, and you have full authority,
+                                power
+                                and
+                                capacity to agree to these terms of sale, and
+                            </li>
+                            <li>
+                                any you are lawfully entitled to any tax or fiscal exemptions or privileges that you are
+                                claiming
+                                for your order, and
+                            </li>
+                            <li>
+                                the use of the products we supply is lawful, and
+                            </li>
+                            <li>
+                                the products we supply will not be used in any jurisdiction or domain that is proscribed by
+                                law,
+                                and
+                            </li>
+                            <li>
+                                the information provided in your order is accurate and complete; and
+                            </li>
+                            <li>
+                                you will be able to accept delivery of the products.
+                            </li>
+                        </ol>
+
+                        <h2>(11) Your indemnity</h2>
+                        <p>
+                            You hereby indemnify us and undertake to keep us indemnified against all and any liabilities,
+                            losses,
+                            damages, expenses and costs (including legal expenses and amounts paid in settlement of any
+                            demand,
+                            action or claim) arising, directly or indirectly, out of a breach by you of any of your
+                            obligations
+                            under these terms of sale.
+                        </p>
+                        <h2>(12) Force majeure</h2>
+                        <p>
+                            In this Section [12] and Section [13] below, "force majeure event" means:
+                        </p>
+                        <ol>
+                            <li>
+                                any event which is beyond our reasonable control;
+                            </li>
+                            <li>
+                                the unavailability of raw materials, components or products; and/or
+                            </li>
+                            <li>
+                                power failure, industrial disputes affecting any third party, governmental regulations,
+                                fires,
+                                floods, disasters, civil riots, terrorist attacks or wars.
+                            </li>
+                        </ol>
+                        <p>
+                            Where a force majeure event gives rise to a failure or delay in us performing our obligations
+                            under
+                            these terms of sale, those obligations will be suspended for the duration of the force majeure
+                            event.
+                        </p>
+                        <p>
+
+                            If we become aware of a force majeure event which gives rise to, or which is likely to give rise
+                            to,
+                            any
+                            failure or delay in us performing our obligations under these terms of sale, we will notify you
+                            forthwith.
+                        </p>
+                        <p>
+
+                            We will take reasonable steps to mitigate the effects of the any force majeure event.
+                        </p>
+                        <h2>(13) Limitations and exclusions of liability</h2>
+                        <p>
+                            Nothing in the terms of sale will: (a) limit or exclude the liability of a party for death or
+                            personal
+                            injury resulting from negligence; (b) limit or exclude the liability of a party for fraud or
+                            fraudulent
+                            misrepresentation by that party; (c) limit any liability of a party in any way that is not
+                            permitted
+                            under applicable law; or (d) exclude any liability of a party that may not be excluded under
+                            applicable
+                            law.
+                        </p>
+                        <p>
+
+                            The limitations and exclusions of liability set out in this Section [and elsewhere in the terms
+                            of
+                            sale]: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under
+                            the
+                            terms of sale or in relation to the subject matter of the terms of sale, including liabilities
+                            arising
+                            in contract, in tort (including negligence) and for breach of statutory duty.
+                        </p>
+                        <p>
+
+                            We will not be liable to you in respect of any losses arising out of a force majeure event.
+                        </p>
+                        <p>
+
+                            We will not be liable to you in respect of any business losses, such as loss of or damage to
+                            profits,
+                            income, revenue, use, production, anticipated savings, business, contracts, commercial
+                            opportunities
+                            or
+                            goodwill.
+                        </p>
+                        <p>
+
+                            We will not be liable to you in respect of any loss or corruption of any data, database or
+                            software.
+                        </p>
+                        <p>
+
+                            We will not be liable to you in respect of any special, indirect or consequential loss or
+                            damage.
+                        </p>
+                        <p>
+
+                            Our aggregate liability to you under the terms of sale will not exceed the greater of: (a) one
+                            thousand
+                            pounds Sterling and (b) the total amount paid or (if greater) payable by you to us under the
+                            terms
+                            of
+                            sale.
+                        </p>
+                        <h2>(14) Contract cancellation</h2>
+                        <p>
+                            We may cancel a contract to supply products made under these terms of sale immediately by
+                            written
+                            notice
+                            to you if:
+                        </p>
+                        <ol>
+                            <li>
+                                you fail to pay, on time and in full, any amount due to us under any contract, or commit any
+                                material breach of your obligations to us under any contract;
+                            </li>
+                            <li>
+                                you cease to trade;
+                            </li>
+                            <li>
+                                you become insolvent or unable to pay your debts within the meaning of the insolvency
+                                legislation
+                                applicable to you;
+                            </li>
+                            <li>
+                                a person (including the holder of a charge or other security interest) is appointed to
+                                manage or
+                                take control of the whole or part of your business or assets, or notice of an intention to
+                                appoint
+                                such a person is given or documents relating to such an appointment are filed with any
+                                court;
+                            </li>
+                            <li>
+                                the ability of your creditors to take any action to enforce their debts is suspended,
+                                restricted
+                                or
+                                prevented, or some or all of your creditors accept, by agreement or pursuant to a court
+                                order,
+                                an
+                                amount of less than the sums owing to them in satisfaction of those sums; or
+                            </li>
+                            <li>
+                                any process is instituted which could lead to you being dissolved and your assets being
+                                distributed
+                                to your creditors, shareholders or other contributors (other than for the purposes of
+                                solvent
+                                amalgamation or reconstruction).
+                            </li>
+                        </ol>
+
+                        <h2>(15) Consequences of cancellation</h2>
+                        <p>
+                            Upon the cancellation of a contract in accordance with Section [14]:
+                        </p>
+                        <ol>
+                            <li>
+                                we will cease to have any obligation to deliver products which are undelivered at the date
+                                of
+                                cancellation;
+                            </li>
+                            <li>
+                                you will continue to have an obligation where applicable to pay for products which have been
+                                delivered at the date of cancellation (without prejudice to any right we may have to recover
+                                the
+                                products); and
+                            </li>
+                            <li>
+                                all the other provisions of these terms of sale will cease to have effect, except that
+                                Sections
+                                7 to
+                                13 and 15 will survive termination and have effect indefinitely.
+                            </li>
+                        </ol>
+                        <h2>(16) Scope of these terms of sale</h2>
+                        <p>
+                            These terms of sale do not constitute or contain any assignment or licence of any intellectual
+                            property
+                            rights, do not govern the licensing of works (including software and literary works) comprised
+                            or
+                            stored
+                            in products, and do not govern the provision of any services by us or any third party in
+                            relation to
+                            the
+                            products.
+                        </p>
+
+                        <h2>(17) General terms</h2>
+                        <p>
+                            Images of products on our website are for illustrative purposes; actual products may differ from
+                            such
+                            images.
+                        </p>
+                        <p>
+
+                            We will treat all your personal information that we collect in connection with your order in
+                            accordance
+                            with the terms of our privacy policy; use of our website will be subject to our website terms of
+                            use.
+                            These documents can be consulted on our web site.
+                        </p>
+                        <p>
+
+                            Contracts under these terms of sale may only be varied by an instrument in writing signed by
+                            both
+                            you
+                            and us. We may revise these terms of sale from time-to-time, but such revisions will not affect
+                            the
+                            terms of any contracts which we have entered into with you.
+                        </p>
+                        <p>
+
+                            If any provision of these terms of sale is held invalid or unenforceable by a court of competent
+                            jurisdiction, the remaining provisions will remain in full force and effect, and such invalid or
+                            unenforceable provisions or portion thereof will be deemed omitted.
+                        </p>
+                        <p>
+
+                            No waiver of any provision of these terms of sale, whether by conduct or otherwise, in any one
+                            or
+                            more
+                            instances, will be deemed to be, or be construed as, a further or continuing waiver of that
+                            provision or
+                            any other provision of these terms of sale.
+                        </p>
+                        <p>
+
+                            You may not assign, charge, sub-contract or otherwise transfer any of your rights or obligations
+                            arising
+                            under these terms of sale. Any attempt by you to do so will be null and void. We may assign,
+                            charge,
+                            sub-contract or otherwise transfer any of our rights or obligations arising under these terms of
+                            sale,
+                            at any time.
+                        </p>
+                        <p>
+
+                            Each contract under these terms of sale is made for the benefit of the parties to it and is not
+                            intended
+                            to benefit, or be enforceable by, any other person. The right of the parties to terminate,
+                            rescind,
+                            or
+                            agree any amendment, variation, waiver or settlement under such contracts is not subject to the
+                            consent
+                            of any person who is not a party to the relevant contract.
+                        </p>
+                        <p>
+
+                            Subject to the first paragraph of Section [13]: these terms of sale contain the entire agreement
+                            and
+                            understanding of the parties in relation to the purchase of products from our website, and
+                            supersede
+                            all
+                            previous agreements and understandings between the parties in relation to the purchase of
+                            products
+                            from
+                            our website; and each party acknowledges that no representations not expressly contained in
+                            these
+                            terms
+                            of sale have been made by or on behalf of the other party in relation to the purchase of
+                            products
+                            from
+                            our website.
+                        </p>
+                        <p>
+
+                            These terms of sale will be governed by and construed in accordance with English law, and the
+                            courts
+                            of
+                            England and Wales will have non-exclusive jurisdiction to adjudicate any dispute arising under
+                            or in
+                            relation to these terms of sale.
+                        </p>
+                        <h2>(18) About us</h2>
+                        <p>
+                            Our full name is AMS Biotechnology (Europe) Limited
+                        </p>
+                        <p>
+
+                            Our registered office and our principal trading address is 184 Milton Park, Abingdon,
+                            Oxfordshire
+                            OX14
+                            4SE
+                        </p>
+                        <p>
+                            Our company registration number is 2117791
+                        </p>
+                        <p>
+                            Our email address is info@amsbio.com
+                        </p>
+                        <p>
+
+                            Our VAT number is GB 502 2372 95
+                        </p>
+                        <p>
+
+                            Supplies by our Swiss office are made under VAT number CHE-102.073.068 MWST
+                        </p>
+                    </div>
+                    <div class="oe_structure" />
+                </div>
+                <div class="footer">
+                    <div class="text-center" style="border-top: 1px solid black; font-size: 8pt;">
+                        <div class="row">
+                            <div class="col-3">
+                                <!-- <img t-att-src="'/sale/static/img/Thames_valley.jpg'" class="text-left"
+                                    style="max-width: 150px; margin-top: 2px;" /> -->
+                            </div>
+                            <div class="col-6">
+                                AMS Biotechnology (Europe) Limited<br />
+                                Company registered in England &amp; Wales. Company Reg No: 2117791<br />
+                                Goods remain the property of AMS Biotechnology until paid for in full<br />
+                                Page: <span class="page" /> / <span class="topage" />
+                            </div>
+                            <div class="col-3">
+                                <!-- <img t-att-src="'/sale/static/img/MicrosoftTeams-image.png'" class="text-right"
+                                    style="max-width: 150px; max-height: 70px; margin-top: 2px;" /> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_saleorder_custom">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="customTemplates.report_saleorder_document_template" t-lang="doc.partner_id.lang" />
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
