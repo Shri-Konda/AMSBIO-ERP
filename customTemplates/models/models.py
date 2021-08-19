@@ -3,5 +3,5 @@
 from odoo import models, fields, api
 
 
-class customTemplates(models.Model):
-    _name = 'customTemplates.customTemplates'
+class cusTemplates(models.Model):
+    _name = 'customTemplates'
