@@ -10,7 +10,3 @@ class my_module(models.Model):
     name = fields.Char()
     value = fields.Integer()
     description = fields.Text()
-
-
-class SaleOrder(models.Model):
-    _inherit = 'sale.order'
