@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ti_view_picking_form_inherit" model="ir.ui.view">
+            <field name="name">ti.view.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="backorder_id" position="after">
+                    <field name="reserve_status" attrs="{'invisible': ['|', ('state', '!=', 'assigned'), ('picking_type_code', '!=', 'outgoing')]}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
