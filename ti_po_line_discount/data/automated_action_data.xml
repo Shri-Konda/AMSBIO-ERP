@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ti_po_line_price_automation_action" model="base.automation">
+            <field name="name">Update the purchase price based on the sales price</field>
+            <field name="model_id" ref="purchase.model_purchase_order_line"/>
+            <field name="state">code</field>
+            <field name="trigger">on_create_or_write</field>
+            <field name="code">
+for rec in records:
+    sale_line_obj = rec.sale_line_id
+    if sale_line_obj and sale_line_obj.company_id and sale_line_obj.company_id.po_line_discount and sale_line_obj.price_unit:
+        rec.update({
+            'price_unit': sale_line_obj.price_unit - ((sale_line_obj.price_unit * sale_line_obj.company_id.po_line_discount) / 100)
+        })
+            </field>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>
