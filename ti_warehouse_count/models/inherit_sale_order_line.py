@@ -27,8 +27,8 @@ class Product(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    uk_warehouse_qty = fields.Float('Available Qty For UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
-    uk_us_warehouse_qty = fields.Float('Available Qty For UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    uk_warehouse_qty = fields.Float('Available Qty in UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    uk_us_warehouse_qty = fields.Float('Available Qty in UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
 
 
     @api.depends('product_id')
@@ -52,8 +52,8 @@ class SaleOrderLine(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    uk_warehouse_qty = fields.Float('Available Qty For UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
-    uk_us_warehouse_qty = fields.Float('Available Qty For UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    uk_warehouse_qty = fields.Float('Available Qty in UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    uk_us_warehouse_qty = fields.Float('Available Qty in UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
 
 
     @api.depends('product_id')
@@ -63,7 +63,7 @@ class PurchaseOrderLine(models.Model):
                 warehouses = self.env['stock.warehouse'].sudo().search([("company_id","=",line.company_id.id)])
                 if len(warehouses)==2:
                     line.uk_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[0])
-                    line.uk_us_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[0])
+                    line.uk_us_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[1])
                 else:
                     line.uk_warehouse_qty = 0
                     line.uk_us_warehouse_qty = 0
