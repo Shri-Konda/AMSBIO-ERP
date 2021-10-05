@@ -1,7 +1,6 @@
 <odoo>
     <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
-       <xpath expr="//t" position="replace">
-        <t t-call="web.basic_layout">
+       <xpath expr="//t" position="after">
 			<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
             <div class="header" style="font-family: Calibri;">
                 <div class="row">
@@ -846,7 +845,7 @@
                 <div class="text-center" style="border-top: 1px solid black; font-size: 8pt;">
                     <div class="row">
                         <div class="col-3">
-                            <img t-att-src="'/sale/static/img/Thames_valley.jpg'" class="text-left"
+                            <img t-att-src="'/my_module/static/img/Thames_valley.jpg'" class="text-left"
                                 style="max-width: 150px; margin-top: 2px;" />
                         </div>
                         <div class="col-6">
@@ -856,7 +855,7 @@
                             Page: <span class="page" /> / <span class="topage" />
                         </div>
                         <div class="col-3">
-                            <img t-att-src="'/sale/static/img/MicrosoftTeams-image.png'" class="text-right"
+                            <img t-att-src="'/my_module/static/img/MicrosoftTeams-image.png'" class="text-right"
                                 style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
                         </div>
                     </div>
