@@ -1,5 +1,5 @@
 <odoo>
-  <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+  <!-- <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
         <xpath expr="//t" position="replace">
             <t t-call="web.basic_layout">
               <div class="header" style="font-family: Calibri;">
@@ -30,5 +30,5 @@
               </div>
             </t>
         </xpath>
-  </template>
+  </template> -->
 </odoo>
