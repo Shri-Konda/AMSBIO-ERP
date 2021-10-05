@@ -1,8 +1,34 @@
 <odoo>
   <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
-        <xpath expr="//t/div[hasclass('page')]/table/thead/tr/th[2]" position="after">
-            <th name="th_quantity" class="text-right">Quantity Delivered</th>
-            <th name="th_quantity" class="text-right">Quantity Invoiced</th>
+        <xpath expr="//t" position="replace">
+            <t t-call="web.basic_layout">
+              <div class="header" style="font-family: Calibri;">
+                <div class="row">
+                    <div class="col-4 text-left">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(doc.company_id.logo)" class="float-left"
+                                style="max-height: 45px;" alt="Logo" />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div t-field="doc.company_id.partner_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True, "phone_icons": True}' />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div>VAT reg. no.: <span t-field="doc.company_id.partner_id.vat" /></div>
+                            <div>EORI: <span t-field="doc.company_id.x_studio_eori" /></div>
+                            <div>Email: <span t-field="doc.company_id.partner_id.email" /></div>
+                            <div><i class="fa fa-phone fa-fw" /><span t-field="doc.company_id.partner_id.phone" /></div>
+                        </h6>
+                    </div>
+                </div>
+                <hr />
+              </div>
+            </t>
         </xpath>
   </template>
 </odoo>
