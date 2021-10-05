@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "my_module",
+    'name': "Custom templates",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        A custom module to update legacy pdf reports""",
 
     'description': """
-        Long description of module's purpose
+        This module inherits legacy pdf reports and update them to company's default pdf report
     """,
 
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'author': "Vaibhavnath Jha",
+    'website': "",
 
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/master/odoo/addons/base/module/module_data.xml
-    # for the full list
     'category': 'Uncategorized',
     'version': '0.1',
 

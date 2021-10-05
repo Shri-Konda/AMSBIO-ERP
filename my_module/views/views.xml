@@ -1,8 +1,7 @@
 <odoo>
-  <!-- <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
-        <xpath expr="//t" position="replace">
-            <t t-call="web.basic_layout">
-              <div class="header" style="font-family: Calibri;">
+  <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//t/div[1]" position="replace">
+            <div class="header" style="font-family: Calibri;">
                 <div class="row">
                     <div class="col-4 text-left">
                         <h6 style="margin-left: -2px;">
@@ -27,8 +26,7 @@
                     </div>
                 </div>
                 <hr />
-              </div>
-            </t>
+            </div>
         </xpath>
-  </template> -->
+  </template>
 </odoo>
