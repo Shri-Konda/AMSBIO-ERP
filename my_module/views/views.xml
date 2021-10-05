@@ -1,6 +1,11 @@
 <odoo>
+    <!-- <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+       <xpath expr="//t" position="replace">
+        
+       </xpath> 
+    </template> -->
   <template id="report_header_footer" inherit_id="web.external_layout_standard">
-        <xpath expr="//div[1]" position="replace">
+        <xpath expr="//t/div[hasclass('header')]" position="replace">
             <div class="header" style="font-family: Calibri;">
                 <div class="row">
                     <div class="col-4 text-left">
@@ -29,7 +34,7 @@
             </div>
         </xpath>
 
-        <xpath expr="//div[3]" position="replace">
+        <xpath expr="//t/div[hasclass('footer')]" position="replace">
             <div class="footer" style="font-family: Calibri;">
                 <div class="text-center" style="border-top: 1px solid black; font-size: 8pt;">
                     <div class="row">
