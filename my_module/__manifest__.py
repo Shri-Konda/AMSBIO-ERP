@@ -20,6 +20,6 @@
 
     # always loaded
     'data': [
-        'views/views.xml',
+        'views/OrderQuotationTemplate.xml',
     ],
 }

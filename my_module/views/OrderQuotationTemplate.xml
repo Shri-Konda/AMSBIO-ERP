@@ -1,14 +1,12 @@
 <odoo>
     <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
        <xpath expr="//t" position="after">
+        <t t-call="web.basic_layout">
 			<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
             <div class="header" style="font-family: Calibri;">
                 <div class="row">
                     <div class="col-4 text-left">
-                        <h6 style="margin-left: -2px;">
-                            <img t-att-src="image_data_uri(doc.company_id.logo)" class="float-left"
-                                style="max-height: 45px;" alt="Logo" />
-                        </h6>
+                        <img t-att-src="image_data_uri(doc.company_id.logo)" class="float-left" style="max-height: 45px;" alt="Logo" />
                     </div>
                     <div class="col-4 text-left">
                         <h6>
