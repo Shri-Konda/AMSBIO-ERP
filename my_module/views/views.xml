@@ -1,6 +1,6 @@
 <odoo>
   <template id="report_header_footer" inherit_id="web.external_layout_standard">
-        <xpath expr="//div[@class='header]" position="replace">
+        <xpath expr="//div[@class='header']" position="replace">
             <div class="header" style="font-family: Calibri;">
                 <div class="row">
                     <div class="col-4 text-left">
