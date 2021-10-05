@@ -1,0 +1,104 @@
+<odoo>
+    <template id="report_remittance_document_inherit" inherit_id="account.report_payment_receipt_document">
+        <xpath expr="//t" position="replace">
+            <t t-call="web.basic_layout">
+                <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
+                    <div class="row">
+                        <div class="col-4">
+                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </div>
+                        <div class="col-4 text-left">
+                            <h6>
+                                <div t-field="o.company_id.partner_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True, "phone_icons": True}' />
+                            </h6>
+                        </div>
+                        <div class="col-4 text-left">
+                            <h6>
+                                <div t-if="o.company_id.partner_id.vat">VAT reg. no.: <span
+                                        t-field="o.company_id.partner_id.vat" /></div>
+                                <div t-if="o.company_id.x_studio_eori">EORI: <span t-field="o.company_id.x_studio_eori" />
+                                </div>
+                                <div>Email: <span t-field="o.company_id.partner_id.email" /></div>
+                                <div><i class="fa fa-phone fa-fw" /><span t-field="o.company_id.partner_id.phone" /></div>
+                            </h6>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+                <div class="page" style="font-family: Calibri;">
+                    <div class="row">
+                        <div class="col-6" />
+                        <div class="col-6">
+                            <div t-field="o.partner_shipping_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                        </div>
+                    </div>
+                    <h2><strong>Receipt of Payment: <span t-field="o.name" /></strong></h2>
+                    <div class="row mt64">
+                        <div class="col-3" t-if="o.date">
+                            <strong>Date: </strong>
+                            <p class="m-0" t-field="o.date" />
+                        </div>
+                        <div class="col-3" t-if="o.ref">
+                            <strong>Payment Ref: </strong>
+                            <p class="m-0" t-field="o.ref" />
+                        </div>
+                    </div>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th><span>Date</span></th>
+                                <th><span>Our Reference</span></th>
+                                <th><span>Your Reference</span></th>
+                                <th class="text-right"><span>Original Amount</span></th>
+                                <th class="text-right"><span>Amount Paid</span></th>
+                                <th class="text-right"><span>Balance</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.move_id._get_reconciled_invoices_partials()" t-as="rec">
+                                <t t-set="amount" t-value="rec[1]" />
+                                <t t-set="inv" t-value="rec[2].move_id" />
+                                <t t-if="inv.move_type != 'entry'">
+                                    <td><span t-field="inv.invoice_date" /></td>
+                                    <td><span t-field="inv.name" /></td>
+                                    <td><span t-field="inv.ref" /></td>
+                                    <td class="text-right"><span t-field="inv.amount_total" /></td>
+                                    <td class="text-right"><span t-esc="amount"
+                                            t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" /></td>
+                                    <td class="text-right"><span t-field="inv.amount_residual" /></td>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer" style="font-family: Calibri;">
+                    <div class="text-center" style="border-top: 1px solid black;">
+                        <div t-if="o.company_id.country_id == 'USA'" class="row">
+                            <div class="col-12">
+                                Page: <span class="page" /> / <span class="topage" />
+                            </div>
+                        </div>
+                        <div t-else="" class="row">
+                            <div class="col-3">
+                                <img t-att-src="'/sale/static/img/Thames_valley.jpg'" class="text-left"
+                                    style="max-width: 150px; margin-top: 2px;" />
+                            </div>
+                            <div class="col-6">
+                                AMS Biotechnology (Europe) Limited<br />
+                                Company registered in England &amp; Wales. Company Reg No: 2117791<br />
+                                Goods remain the property of AMS Biotechnology until paid for in full<br />
+                                Page: <span class="page" /> / <span class="topage" />
+                            </div>
+                            <div class="col-3">
+                                <img t-att-src="'/sale/static/img/MicrosoftTeams-image.png'" class="text-right"
+                                    style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>
