@@ -841,7 +841,12 @@
             </div>
             <div class="footer" style="font-family: Calibri;">
                 <div class="text-center" style="border-top: 1px solid black; font-size: 8pt;">
-                    <div class="row">
+                    <div t-if="o.company_id.country_id.name == 'United States'" class="row">
+                        <div class="col-12">
+                            Page: <span class="page" /> / <span class="topage" />
+                        </div>
+                    </div>
+                    <div t-else="" class="row">
                         <div class="col-3">
                             <img t-att-src="'/my_module/static/img/Thames_valley.jpg'" class="text-left"
                                 style="max-width: 150px; margin-top: 2px;" />
