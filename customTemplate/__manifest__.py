@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Custom templates",
+    'name': "Custom Templates",
 
     'summary': """
         A custom module to update legacy pdf reports""",
