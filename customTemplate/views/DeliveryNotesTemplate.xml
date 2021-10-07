@@ -110,7 +110,7 @@
                     </div>
                     <div t-else="" class="row">
                         <div class="col-3">
-                            <img t-att-src="'/my_module/static/img/Thames_valley.jpg'" class="text-left"
+                            <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-left"
                                 style="max-width: 150px; margin-top: 2px;" />
                         </div>
                         <div class="col-6">
@@ -120,7 +120,7 @@
                             Page: <span class="page" /> / <span class="topage" />
                         </div>
                         <div class="col-3">
-                            <img t-att-src="'/my_module/static/img/MicrosoftTeams-image.png'" class="text-right"
+                            <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-right"
                                 style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
                         </div>
                     </div>
