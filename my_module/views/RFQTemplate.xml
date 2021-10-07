@@ -93,7 +93,7 @@
                 </div>
                 <div class="footer" style="font-family: Calibri;">
                     <div class="text-center" style="border-top: 1px solid black; font-size: 8pt;">
-                        <div t-if="o.company_id.country_id == 'USA'" class="row">
+                        <div t-if="o.company_id.country_id.name == 'United States'" class="row">
                             <div class="col-12">
                                 Page: <span class="page" /> / <span class="topage" />
                             </div>
