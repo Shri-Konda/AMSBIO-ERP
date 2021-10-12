@@ -26,7 +26,7 @@ class StockBackorderConfirmation(models.TransientModel):
         return res
 
     def process_cancel_backorder(self):
-        res = super(StockBackorderConfirmation,self).process()
+        res = super(StockBackorderConfirmation,self).process_cancel_backorder()
         for picking in self.pick_ids:
             po_picking_ids = picking._get_po_picking_ids()
             if po_picking_ids:
