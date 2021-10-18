@@ -33,7 +33,7 @@ class StockBackorderConfirmation(models.TransientModel):
                 for po_picking in po_picking_ids.filtered(lambda po_pick: po_pick.state in ['assigned']):
                     backorder_confirmation_id = self.env['stock.backorder.confirmation'].with_context(button_validate_picking_ids=po_picking.ids).sudo().create({
                         'pick_ids': [(4, po_picking.id)],
-                        'backorder_confirmation_line_ids': [(0, 0, {'to_backorder': True, 'picking_id': pick_id.id}) for pick_id in po_picking],
+                        'backorder_confirmation_line_ids': [(0, 0, {'to_backorder': False, 'picking_id': pick_id.id}) for pick_id in po_picking],
                     })
                     backorder_confirmation_id.process_cancel_backorder()
 
@@ -101,7 +101,7 @@ class Picking(models.Model):
 
         for picking in self:
             move = None
-            if picking.sale_id and not picking.purchase_id:
+            if picking.sale_id and not picking.purchase_id and picking.sale_id.auto_purchase_order_id:
                 move = picking.sale_id._create_invoices(final=True)
             elif picking.sale_id and picking.purchase_id:
                 move = picking.purchase_id.action_create_invoice()
