@@ -103,6 +103,7 @@ class Picking(models.Model):
             move = None
             if picking.sale_id and not picking.purchase_id and picking.sale_id.auto_purchase_order_id:
                 move = picking.sale_id._create_invoices(final=True)
+                move.action_post()
             elif picking.sale_id and picking.purchase_id:
                 move = picking.purchase_id.action_create_invoice()
                 move = self.env['account.move'].sudo().browse([move.get('res_id',None)])
@@ -111,7 +112,7 @@ class Picking(models.Model):
                         'ref'           : '%s-%s'%(move.ref,move.id),
                         'invoice_date'  : fields.Date.today(),
                     })
-            move.action_post()
+                move.action_post()
         return res
 
 
