@@ -33,7 +33,7 @@
                     <div class="col-6">
                         <strong>Shipping address:</strong>
                         <p>
-                            <t t-esc="o.company_id" />
+                            <t t-esc="getattr(res_company, 'id' , 4)" />
                         </p>
                     </div>
                     <div class="col-6">
