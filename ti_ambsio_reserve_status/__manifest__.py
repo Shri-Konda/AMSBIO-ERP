@@ -8,5 +8,8 @@
     'depends': ["base", "stock"],
     'data': [
         'views/stock_picking_views.xml'
-    ]
+    ],
+    "application"          :  True,
+     "installable"          :  True,
+     "auto_install"         :  False,
 }
