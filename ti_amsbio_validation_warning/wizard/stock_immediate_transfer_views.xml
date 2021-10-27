@@ -8,7 +8,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//group" position="replace">
                     <group>
-                        <p>You have not recorded <i>done</i> quantities yet, by clicking on <i>apply</i> Odoo will process all the quantities. <span attrs="{'invisible': [('is_receipt', '=', False)]}">This will receive all products on this purchase order, please check that all products have been received.</span></p>
+                        <p>You have not recorded <i>done</i> quantities yet, by clicking on <i>apply</i> Odoo will process all the quantities.<br/>
+                        <strong class="font-italic text-danger" style="font-size:16px;" attrs="{'invisible': [('is_receipt', '=', False)]}">*This will receive all products on this purchase order, please check that all products have been received.</strong></p>
                     </group>
                     <field name="is_receipt" invisible="1"/>
                 </xpath>
