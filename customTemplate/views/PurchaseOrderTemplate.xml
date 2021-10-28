@@ -32,7 +32,7 @@
                 <div class="row" style="font-family: Calibri;">
                     <div class="col-6">
                         <strong>Shipping address:</strong>
-                        <p>
+                        <p style="width: 150px;">
                             <t t-esc="o.x_studio_delivery_location" />
                         </p>
                     </div>
