@@ -11,5 +11,17 @@
                 </field>
             </field>
         </record>
+        
+        
+        <record id="ti_view_picking_tree_inherit" model="ir.ui.view">
+            <field name="name">ti.view.picking.tree.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="reserve_status"/>
+                  </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

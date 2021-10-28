@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ti_stock_immediate_transfer_view_form" model="ir.ui.view">
+            <field name="name">ti.stock.immediate.transfer.view.form</field>
+            <field name="model">stock.immediate.transfer</field>
+            <field name="inherit_id" ref="stock.view_immediate_transfer"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="replace">
+                    <group>
+                        <p>You have not recorded <i>done</i> quantities yet, by clicking on <i>apply</i> Odoo will process all the quantities.<br/>
+                        <strong class="font-italic text-danger" style="font-size:16px;" attrs="{'invisible': [('is_receipt', '=', False)]}">*This will receive all products on this purchase order, please check that all products have been received.</strong></p>
+                    </group>
+                    <field name="is_receipt" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

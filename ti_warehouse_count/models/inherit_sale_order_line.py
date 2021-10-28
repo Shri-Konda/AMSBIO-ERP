@@ -27,8 +27,8 @@ class Product(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    uk_warehouse_qty = fields.Float('Available Qty in UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
-    uk_us_warehouse_qty = fields.Float('Available Qty in UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    uk_warehouse_qty = fields.Float('Available Qty For UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    uk_us_warehouse_qty = fields.Float('Available Qty For UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
 
 
     @api.depends('product_id')
@@ -52,8 +52,8 @@ class SaleOrderLine(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    uk_warehouse_qty = fields.Float('Available Qty in UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
-    uk_us_warehouse_qty = fields.Float('Available Qty in UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    uk_warehouse_qty = fields.Float('Available Qty For UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    uk_us_warehouse_qty = fields.Float('Available Qty For UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
 
 
     @api.depends('product_id')
