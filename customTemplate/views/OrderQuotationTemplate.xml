@@ -60,6 +60,13 @@
                         <strong>Quotation Date:</strong>
                         <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date"}' />
                     </div>
+                    <div t-if="doc.x_studio_delivery_time_weeks != 0" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Delivery Time:</strong>
+                        <p class="m-0"> 
+                            <span t-field="doc.x_studio_delivery_time_weeks" /> 
+                            <span> week(s)</span>
+                        </p>
+                    </div>
                     <div t-if="doc.payment_term_id" class="col-auto col-3 mw-100 mb-2">
                         <strong>Payment Terms:</strong>
                         <p class="m-0" t-field="doc.payment_term_id" />
