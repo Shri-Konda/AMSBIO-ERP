@@ -6,7 +6,7 @@
             <div class="header" style="font-family: Calibri;">
                 <div class="row">
                     <div class="col-4 text-left">
-                        <img t-att-src="image_data_uri(doc.company_id.logo)" class="float-left" style="max-height: 45px;" alt="Logo" />
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
                     </div>
                     <div class="col-4 text-left">
                         <h6>
