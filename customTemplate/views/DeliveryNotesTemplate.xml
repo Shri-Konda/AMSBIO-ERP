@@ -32,7 +32,6 @@
             <div class="page" style="font-family: Calibri;">
                 <div class="oe_structure" />
                 <div class="row">
-                    <div class="col-6" />
                     <div class="col-6">
                         <strong>Deliver To:</strong>
                         <div t-field="o.partner_id"
@@ -40,10 +39,18 @@
                     </div>
                 </div>
                 <br />
-                <h2 class="mt16">
-                    <span>Delivery Note</span>
-                    <span t-field="o.name" />
-                </h2>
+                <div class="row">
+                    <div class="col-auto col-8">
+                        <h2 class="mt16">
+                            <span>Delivery Note</span>
+                        <span t-field="o.name" />
+                        </h2>
+                    </div>
+                    <div t-if="o.sale_id.client_order_ref" class="col-auto col-4">
+                        <span>Your Reference</span>
+                        <span t-field="o.sale_id.client_order_ref"/>
+                    </div>
+                </div>
                 <br />
                 <div class="row mt32 mb32" id="informations">
                     <div t-if="o.date" class="col-auto col-3 mw-100 mb-2">
@@ -87,13 +94,13 @@
                                 <span />
                             </td>
                             <td name="td_tariffcode" class="text-right">
-                                <span />
+                                <span t-field="line.product_id.intrastat_id"/>
                             </td>
                             <td name="td_qty" class="text-right">
                                 <span t-field="line.product_uom_qty" />
                                 <span t-field="line.product_uom" />
                             </td>
-                            <td name="td_outstanding">
+                            <td name="td_outstanding" class="text-right">
                                 <span t-esc="line.product_uom_qty - line.quantity_done" />
                             </td>
                         </tr>

@@ -107,8 +107,7 @@
                             <t t-set="current_subtotal" t-value="current_subtotal + line.price_total"
                                 groups="account.group_show_line_subtotals_tax_included" />
 
-                            <tr
-                                t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                            <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
                                 <t t-if="not line.display_type">
                                     <td name="td_codenum"><span t-field="line.product_id.default_code" /></td>
                                     <td name="td_name"><span t-field="line.name" style="width: 175px;" /></td>
@@ -129,6 +128,18 @@
                                     </td>
                                     <td name="td_subtotal" class="text-right o_price_total">
                                         <span t-field="line.price_total" />
+                                    </td>
+                                </t>
+                                 <t t-if="line.display_type == 'line_section'">
+                                    <td name="td_section_line" colspan="99">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <t t-set="current_section" t-value="line"/>
+                                    <t t-set="current_subtotal" t-value="0"/>
+                                </t>
+                                <t t-if="line.display_type == 'line_note'">
+                                    <td name="td_note_line" colspan="99">
+                                        <span t-field="line.name"/>
                                     </td>
                                 </t>
                             </tr>
@@ -191,6 +202,8 @@
                         Validity: 1 month from the date of offer
                     </p>
                     <hr />
+                </div>
+                <div>
                     <h4>
                         Standard Conditions Apply:
                     </h4>
@@ -243,7 +256,8 @@
                         padding: 0px;
                     }
                 </style>
-                <div t-if="doc.state in ['draft','sent']" class="amsbio-tos">
+                <!-- <div t-if="doc.state in ['draft','sent']" class="amsbio-tos"> -->
+                <div class="amsbio-tos">
                     <h1>Terms of Sale</h1>
                     <h2>(1) Introduction</h2>
 
@@ -834,10 +848,11 @@
                         Supplies by our Swiss office are made under VAT number CHE-102.073.068 MWST
                     </p>
                 </div>
-                <div t-if="doc.state not in ['draft','sent']">
+                <!-- <div t-if="doc.state not in ['draft','sent']"> -->
+                <div>
                     <p>
                         <strong>Cancellation Policy</strong>
-                        If you wish to cancel your order please call 617-945-5033
+                        If you wish to cancel your order please contact us by phone
                         or email
                         <t t-esc="doc.company_id.email" />. Please note that any cancellation requests must be made
                         within 24
