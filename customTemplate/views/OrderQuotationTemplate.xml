@@ -48,7 +48,7 @@
                             <span t-field="doc.name" />
                         </h2>
                     </div>
-                    <div t-if="doc.client_order_ref" class="col-auto col-4 text-center">
+                    <div t-if="doc.client_order_ref" class="col-auto col-4" style="text-align: center;">
                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.client_order_ref, 400, 75)" style="width:400px;height:75px" alt="Barcode"/>
                     </div>
                 </div>
