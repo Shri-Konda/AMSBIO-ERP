@@ -41,21 +41,16 @@
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-auto col-6">
+                    <div class="col-auto col-8">
                         <h2 class="mt16">
                             <span t-if="doc.state not in ['draft','sent']">Order Confirmation</span>
                             <span t-if="doc.state in ['draft','sent']">Quotation N°</span>
                             <span t-field="doc.name" />
                         </h2>
                     </div>
-                    <div t-if="doc.client_order_ref" class="col-auto col-6 text-center">
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.client_order_ref, 600, 100)" style="width:600px;height:100px" alt="Barcode"/>
+                    <div t-if="doc.client_order_ref" class="col-auto col-4 text-center">
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.client_order_ref, 400, 75)" style="width:400px;height:75px" alt="Barcode"/>
                     </div>
-                <h2 class="mt16">
-                    <span t-if="doc.state not in ['draft','sent']">Order Confirmation</span>
-                    <span t-if="doc.state in ['draft','sent']">Quotation N°</span>
-                    <span t-field="doc.name" />
-                </h2>
                 </div>
                 <br />
                 <div class="row mt32 mb32" id="informations">
