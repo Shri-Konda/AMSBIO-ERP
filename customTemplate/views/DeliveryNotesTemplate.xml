@@ -47,7 +47,7 @@
                         </h2>
                     </div>
                     <div t-if="o.sale_id.client_order_ref" class="col-auto col-4">
-                        <span>Your Reference</span>
+                        <span>Your Reference:</span>
                         <span t-field="o.sale_id.client_order_ref"/>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                                 <span />
                             </td>
                             <td name="td_tariffcode" class="text-right">
-                                <span t-field="line.product_id.intrastat_id"/>
+                                <span t-field="line.product_id.intrastat_id.code"/>
                             </td>
                             <td name="td_qty" class="text-right">
                                 <span t-field="line.product_uom_qty" />
