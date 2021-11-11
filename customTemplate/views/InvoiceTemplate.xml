@@ -128,7 +128,7 @@
                                         <td name="td_taxes" class="text-right"><span t-esc="str('%.0f'%line.tax_ids.amount)" />%
                                         </td>
                                         <td name="td_tariffcode" class="text-right"><span
-                                                t-field="line.product_id.x_studio_tarriff_code" class="text-nowrap" /></td>
+                                                t-field="line.product_id.intrastat_id.code" class="text-nowrap" /></td>
                                         <td name="td_subtotal" class="text-right o_price_total">
                                             <span t-field="line.price_total" />
                                         </td>
