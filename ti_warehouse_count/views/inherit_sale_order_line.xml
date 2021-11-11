@@ -10,6 +10,11 @@
                 <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
                     <field name="uk_warehouse_qty"  />
                     <field name="uk_us_warehouse_qty"  />
+                    <field name="ch_warehouse_qty"  />
+                    <field name="bv_warehouse_qty"  />
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="delivery_time_week" required='1' string="Delivery Time (Weeks)"/>
                 </xpath>
 
             </field>
@@ -24,9 +29,39 @@
                 <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
                     <field name="uk_warehouse_qty" />
                     <field name="uk_us_warehouse_qty" />
+                    <field name="ch_warehouse_qty"  />
+                    <field name="bv_warehouse_qty"  />
                 </xpath>
             </field>
         </record>
-    </data>
 
+
+        <record id="ti_view_picking_form" model="ir.ui.view">
+            <field name="name">ti.stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='operations']//field[@name='move_ids_without_package']//tree//button[@name='action_show_details']" position="after">
+                    <button name="ti_action_assign_serial_show_details" type="object"
+                            class="btn-link" attrs="{'invisible': [('display_assign_serial', '=', False)]}" options='{"warn": true}'
+                            string="Assign Serial Numbers">
+                    </button>
+                </xpath>
+
+                <xpath expr="//field[@name='origin']" position='after'>
+                    <field name='client_order_ref'/>
+                </xpath>
+            </field>
+        </record>
+
+        <template id="ti_report_shipping" inherit_id="stock.report_picking">
+            <xpath expr="//div[@name='div_sched_date']" position="after">
+                <div class="col-auto" name='cust_reference'>
+                    <strong>Customer Reference:</strong>
+                    <p t-field="o.client_order_ref"/>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
 </odoo>

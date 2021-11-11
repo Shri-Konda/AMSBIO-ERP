@@ -2,7 +2,7 @@
   "name"                 :  "TI Warehouse count",
   "summary"              :  """TI-Warehouse Count.""",
   "category"             :  "Inventory/Inventory",
-  "version"              :  "1.0.3",
+  "version"              :  "1.0.7",
   "sequence"             :  1,
   "author"               :  "Target Integration.",
   "website"              :  "http://www.targetintegration.com",
@@ -14,6 +14,8 @@
   "data"                 :  [
                               
                               'views/inherit_sale_order_line.xml',
+                              'views/inherit_res_config_setting.xml',
+                              'data/action.xml',
                             ],
   "application"          :  True,
   "installable"          :  True,

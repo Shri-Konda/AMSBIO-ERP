@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Vendor Pricelist Automation https://support.targetintegration.com/issues/6180-->
+
+        <record model="base.automation" id="action_create_vendor_pricelist">
+            <field name="name">Vendor Pricelist For Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="trigger">on_create</field>
+            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
+            <field name="code">
+IrDefault = env['ir.default'].sudo()
+companies_ids = IrDefault.get('res.config.settings', 'vendor_pricelist_company_ids')
+companies = env['res.company'].sudo().browse(companies_ids)
+
+vendor_company = IrDefault.get('res.config.settings', 'vendor_pricelist_partner_company')
+vendor_company = env['res.company'].sudo().browse([vendor_company])
+for rec in records:
+  for company in companies:
+    vendor_priceList = env['product.supplierinfo'].sudo().create({
+      'company_id'      : company.id,
+      'product_tmpl_id' : rec.id,
+      'name'            : vendor_company.partner_id.id,
+      'currency_id'     : company.currency_id.id,
+    })
+            </field>
+     </record>
+
+    <record model="ir.cron" id="action_cron_create_vendor_pricelist">
+            <field name="name">Vendor Pricelist Cron For Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="active" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="doall" eval="False"/>
+            <field name="numbercall">-1</field>
+            <field name="interval_number">40</field>
+            <field name="interval_type">minutes</field>
+            <field name="code">
+IrDefault = env['ir.default'].sudo()
+companies_ids = IrDefault.get('res.config.settings', 'vendor_pricelist_company_ids')
+companies = env['res.company'].sudo().browse(companies_ids)
+
+vendor_company = IrDefault.get('res.config.settings', 'vendor_pricelist_partner_company')
+vendor_company = env['res.company'].sudo().browse([vendor_company])          
+for rec in env['product.template'].sudo().search([('is_vendor_updated','=',False)],limit=17000):
+  for company in companies:
+    vendor_priceList = env['product.supplierinfo'].sudo().create({
+      'company_id'      : company.id,
+      'product_tmpl_id' : rec.id,
+      'name'            : vendor_company.partner_id.id,
+      'currency_id'     : company.currency_id.id,
+    })
+  rec.write({
+    'is_vendor_updated' : True,
+  })
+            </field>
+    </record>
+    <!--  -->
+
+    <!-- Reordering Rule automation  https://support.targetintegration.com/issues/6730 -->
+
+        <record model="base.automation" id="action_create_reordering_rule">
+            <field name="name">Reordering Rule For Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="trigger">on_create</field>
+            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
+            <field name="code">
+IrDefault = env['ir.default'].sudo()
+company_id = IrDefault.get('res.config.settings', 'reordering_rule')
+company = env['res.company'].sudo().browse([company_id])         
+warehouses = env['stock.warehouse'].sudo().search([("company_id","=",company.id)])
+for rec in records:
+  for wh in warehouses:
+    reordering = env['stock.warehouse.orderpoint'].sudo().create({
+      'company_id'      : company.id,
+      'product_id'      : rec.product_variant_ids[0].id,
+      'location_id'     : wh.lot_stock_id.id,
+      'product_min_qty' : 0,
+      'product_max_qty' : 0,
+      'qty_multiple'    : 1,
+      'warehouse_id'    : wh.id,
+    })
+            </field>
+     </record>
+
+    <record model="ir.cron" id="action_cron_create_reordering_rule">
+            <field name="name">Reordering Rule Cron For Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="active" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="doall" eval="False"/>
+            <field name="numbercall">-1</field>
+            <field name="interval_number">40</field>
+            <field name="interval_type">minutes</field>
+            <field name="code">
+IrDefault = env['ir.default'].sudo()
+company_id = IrDefault.get('res.config.settings', 'reordering_rule')
+company = env['res.company'].sudo().browse([company_id])
+warehouses = env['stock.warehouse'].sudo().search([("company_id","=",company.id)])
+for rec in env['product.template'].sudo().search([('is_reordering_updated','=',False)],limit=17000):
+  for wh in warehouses:
+    reordering = env['stock.warehouse.orderpoint'].sudo().create({
+      'company_id'      : company.id,
+      'product_id'      : rec.product_variant_ids[0].id,
+      'location_id'     : wh.lot_stock_id.id,
+      'product_min_qty' : 0,
+      'product_max_qty' : 0,
+      'qty_multiple'    : 1,
+      'warehouse_id'    : wh.id,
+    })
+  rec.write({
+    'is_reordering_updated' : True,
+  })
+            </field>
+    </record>
+
+      <!--  -->
+    <!-- Automation action for Customer Reference https://support.targetintegration.com/issues/7342 -->
+      <record model="base.automation" id="action_customer_reference">
+            <field name="name">Customer Reference in sale order</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="state">code</field>
+            <field name="trigger">on_create</field>
+            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
+            <field name="code">
+for rec in records:
+  if rec.auto_purchase_order_id:
+    original_so = rec.auto_purchase_order_id._get_sale_orders()
+    rec.write({
+      'client_order_ref'  : "%s,%s"%(rec.client_order_ref,original_so.client_order_ref or "")
+    })
+            </field>
+     </record>
+
+    <record model="base.automation" id="action_customer_reference_transfer">
+            <field name="name">Customer Reference in transfer</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="state">code</field>
+            <field name="trigger">on_create_or_write</field>
+            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
+            <field name="code">
+for rec in records:
+  if rec.sale_id:
+    rec.write({
+      'client_order_ref'  : rec.sale_id.client_order_ref,
+    })
+            </field>
+     </record>
+    <!--  -->
+
+    </data>
+</odoo>

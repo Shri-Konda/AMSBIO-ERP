@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="ti_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.base.setup.iap</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='invite_users']" position="before">
+                    <div id="amsbio_setting">
+                        <h2>Amsbio Configuration</h2>
+                        <div class="row mt16 o_settings_container" name="amsbio_setting_container">
+                            <div class="col-12 col-lg-6 o_setting_box" id="amsbio_setting">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">For Warehouse Stock Count</span>
+                                    <div class="text-muted">
+                                        Select the company for which count of Warehouse stock is computed in sale order.  
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row mx-2">                                            
+                                            <field name="warehouse_count" options="{'no_create': True}" class="oe_inline" required="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="reordering_setting">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">For Reordering Rule</span>
+                                    <div class="text-muted">
+                                        Select the company for which reordering rules are created for a product.  
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row mx-2">                                            
+                                            <field name="reordering_rule" options="{'no_create': True}" class="oe_inline" required="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="vendor_pricelist_setting">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">For Vendor Pricelist</span>
+                                    <div class="text-muted">
+                                        Select the companies for which vendor pricelist is created in a product.
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row mx-2">
+                                            <field name="vendor_pricelist_company_ids"  options="{'no_create': True}" widget="many2many_tags"  class="oe_inline" required="1"/>
+                                        </div>
+                                        <div class="mt16 row mx-2">
+                                            <field name="vendor_pricelist_partner_company"  options="{'no_create': True}" class="oe_inline" required="1"/>
+                                        </div>
+                                        <div class="row mx-2 text-muted">
+                                            Select the Vendor company.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+</odoo>
