@@ -12,18 +12,18 @@
                     </div>
                     <div class="col-4 text-left">
                         <h6>
-                            <div t-field="o.company_id.partner_id"
-                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True, "phone_icons": True}' />
+                            184, Milton Park,<br/>
+                            Abingdon Oxfordshire (GB), <br/>
+                            OX14 4SE, <br/>
+                            United Kingdom
                         </h6>
                     </div>
                     <div class="col-4 text-left">
                         <h6>
-                            <div t-if="o.company_id.partner_id.vat">VAT reg. no.: <span
-                                    t-field="o.company_id.partner_id.vat" /></div>
-                            <div t-if="o.company_id.x_studio_eori">EORI: <span t-field="o.company_id.x_studio_eori" />
-                            </div>
-                            <div t-if="o.company_id.partner_id.email">Email: <span t-field="o.company_id.partner_id.email" /></div>
-                            <div><i class="fa fa-phone fa-fw" /><span t-field="o.company_id.partner_id.phone" /></div>
+                            <div>VAT reg. no.: 502237295</div>
+                            <div>EORI:  GB502237295000</div>
+                            <div>Email: accounts@amsbio.com</div>
+                            <div><i class="fa fa-phone fa-fw" />  +44 1235828200</div>
                         </h6>
                     </div>
                 </div>
@@ -137,6 +137,60 @@
         </xpath>
     </template>
 
+    <template id="report_deliverynote_document_inherit_US" inherit_id="report_deliverynote_document_inherit">
+        <xpath expr="//t/div[1]/div" position="replace">
+            <div class="row">
+                    <div class="col-4">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            1035, CAMBRIDGE STREET, <br />
+                            Suite 16 B, <br />
+                            CAMBRIDGEMassachusetts (US)02141 <br />
+                            United States
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div>VAT reg. no.: 	US27-5243412</div>
+                            <div>Email: sales-llc@amsbio.com</div>
+                            <div><i class="fa fa-phone fa-fw" /> +16179455033</div>
+                        </h6>
+                    </div>
+                </div>
+        </xpath>
+    </template>
+
+    <template id="report_deliverynote_document_inherit_CHF" inherit_id="report_deliverynote_document_inherit">
+        <xpath expr="//t/div[1]/div" position="replace">
+            <div class="row">
+                    <div class="col-4">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            Via Lisano 3, <br />
+                            (CP 683)<br />
+                            MassagnoCH-6900 <br />
+                            Switzerland
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div>VAT reg. no.: CHE-102.073.068 MWST</div>
+                            <div><i class="fa fa-phone fa-fw" />  +41 91 6045522</div>
+                        </h6>
+                    </div>
+                </div>
+        </xpath>
+    </template>
 
     <template id="report_deliverynote_document_inherit_BV" inherit_id="report_deliverynote_document_inherit">
         <xpath expr="//t/div[1]/div" position="replace">
@@ -165,6 +219,18 @@
                     </div>
                 </div>
         </xpath>
+    </template>
+
+    <template id="report_deliveryslip_US">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="customTemplate.report_deliverynote_document_inherit_US" t-lang="o.partner_id.lang"/>
+        </t>
+    </template>
+
+    <template id="report_deliveryslip_CHF">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="customTemplate.report_deliverynote_document_inherit_CHF" t-lang="o.partner_id.lang"/>
+        </t>
     </template>
 
     <template id="report_deliveryslip_BV">
