@@ -136,4 +136,40 @@
             </t>
         </xpath>
     </template>
+
+
+    <template id="report_deliverynote_document_inherit_BV" inherit_id="report_deliverynote_document_inherit">
+        <xpath expr="//t/div[1]/div" position="replace">
+            <div class="row">
+                    <div class="col-4">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            AMSBIO Europe BV<br/>	
+                            Joop Geesinkweg 841,<br/>
+                            Amsterdam 1114,<br/>
+                            Netherlands
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div>VAT reg. no.: <span/></div>
+                            <div >EORI: <span /></div>
+                            <div t-if="o.company_id.partner_id.email">Email: <span t-field="o.company_id.partner_id.email" /></div>
+                            <div><i class="fa fa-phone fa-fw" /><span t-field="o.company_id.partner_id.phone" /></div>
+                        </h6>
+                    </div>
+                </div>
+        </xpath>
+    </template>
+
+    <template id="report_deliveryslip_BV">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="customTemplate.report_deliverynote_document_inherit_BV" t-lang="o.partner_id.lang"/>
+        </t>
+    </template>
 </odoo>
