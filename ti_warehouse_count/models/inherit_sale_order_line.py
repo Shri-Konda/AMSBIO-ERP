@@ -126,9 +126,9 @@ class SaleOrder(models.Model):
 
 
     def _action_confirm(self):
-        for rec in self:
-            rec.order_line.with_context(sale_order=rec)._action_launch_stock_rule()
-        return super(SaleOrder, self)._action_confirm()
+        self = self.with_context(sale_order=self)
+        res = super(SaleOrder, self)._action_confirm()
+        return res
 
 
     def action_confirm(self):
