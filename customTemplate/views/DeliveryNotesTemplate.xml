@@ -22,7 +22,7 @@
                                     t-field="o.company_id.partner_id.vat" /></div>
                             <div t-if="o.company_id.x_studio_eori">EORI: <span t-field="o.company_id.x_studio_eori" />
                             </div>
-                            <div>Email: <span t-field="o.company_id.partner_id.email" /></div>
+                            <div t-if="o.company_id.partner_id.email">Email: <span t-field="o.company_id.partner_id.email" /></div>
                             <div><i class="fa fa-phone fa-fw" /><span t-field="o.company_id.partner_id.phone" /></div>
                         </h6>
                     </div>
@@ -101,7 +101,7 @@
                                 <span t-field="line.product_uom" />
                             </td>
                             <td name="td_outstanding" class="text-right">
-                                <span t-esc="line.product_uom_qty - line.quantity_done" />
+                                <span t-esc="line.stock_valuation_layer_ids.remaining_qty" />
                             </td>
                         </tr>
                     </tbody>
