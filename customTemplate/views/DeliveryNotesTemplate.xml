@@ -1,5 +1,5 @@
 <odoo>
-    <template id="report_deliverynote_document_inherit" inherit_id="stock.report_delivery_document">
+    <template id="report_deliverynote_document_inherit" inherit_id="stock.report_delivery_document" primary="True">
         <xpath expr="//t" position="replace">
             <t t-call="web.basic_layout">
             <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
@@ -137,7 +137,7 @@
         </xpath>
     </template>
 
-    <template id="report_deliverynote_document_inherit_US" inherit_id="report_deliverynote_document_inherit">
+    <template id="report_deliverynote_document_inherit_US" inherit_id="report_deliverynote_document_inherit" primary="True">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
                     <div class="col-4">
@@ -164,8 +164,8 @@
                 </div>
         </xpath>
     </template>
-<!-- 
-    <template id="report_deliverynote_document_inherit_CHF" inherit_id="report_deliverynote_document_inherit">
+
+    <template id="report_deliverynote_document_inherit_CHF" inherit_id="report_deliverynote_document_inherit" primary="True">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
                     <div class="col-4">
@@ -190,9 +190,9 @@
                     </div>
                 </div>
         </xpath>
-    </template> -->
+    </template>
 
-    <template id="report_deliverynote_document_inherit_BV" inherit_id="report_deliverynote_document_inherit">
+    <template id="report_deliverynote_document_inherit_BV" inherit_id="report_deliverynote_document_inherit" primary="True">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
                     <div class="col-4">
@@ -221,19 +221,19 @@
         </xpath>
     </template>
 
-    <template id="report_deliveryslip_US">
+    <template id="report_deliveryslip_US" primary="True">
         <t t-foreach="docs" t-as="o">
             <t t-call="customTemplate.report_deliverynote_document_inherit_US" t-lang="o.partner_id.lang"/>
         </t>
     </template>
 
-    <!-- <template id="report_deliveryslip_CHF">
+    <template id="report_deliveryslip_CHF" primary="True">
         <t t-foreach="docs" t-as="o">
             <t t-call="customTemplate.report_deliverynote_document_inherit_CHF" t-lang="o.partner_id.lang"/>
         </t>
-    </template> -->
+    </template>
 
-    <template id="report_deliveryslip_BV">
+    <template id="report_deliveryslip_BV" primary="True">
         <t t-foreach="docs" t-as="o">
             <t t-call="customTemplate.report_deliverynote_document_inherit_BV" t-lang="o.partner_id.lang"/>
         </t>
