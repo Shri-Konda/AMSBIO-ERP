@@ -138,6 +138,36 @@
         </xpath>
     </template>
 
+    <template id="report_deliverynote_document_inherit_UK" inherit_id="report_deliverynote_document_inherit" primary="True">
+        <xpath expr="//t/div[1]/div" position="replace">
+            <div class="row">
+                    <div class="col-4">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            AMS Biotechnology (Europe) Limited <br/>
+                            184, Milton Park,<br/>
+                            Abingdon Oxfordshire (GB), <br/>
+                            OX14 4SE, <br/>
+                            United Kingdom
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div>VAT reg. no.: 502237295</div>
+                            <div>EORI:  GB502237295000</div>
+                            <div>Email: accounts@amsbio.com</div>
+                            <div><i class="fa fa-phone fa-fw" />  +44 1235828200</div>
+                        </h6>
+                    </div>
+                </div>
+        </xpath>
+    </template>
+
     <template id="report_deliverynote_document_inherit_US" inherit_id="report_deliverynote_document_inherit" primary="True">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
@@ -222,6 +252,12 @@
                     </div>
                 </div>
         </xpath>
+    </template>
+
+    <template id="report_deliveryslip_UK">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="customTemplate.report_deliverynote_document_inherit_UK" t-lang="o.partner_id.lang"/>
+        </t>
     </template>
 
     <template id="report_deliveryslip_US">
