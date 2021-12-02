@@ -1,5 +1,5 @@
 <odoo>
-    <template id="report_deliverynote_document_inherit" inherit_id="stock.report_delivery_document" primary="True">
+    <template id="report_deliverynote_document_inherit" inherit_id="stock.report_delivery_document">
         <xpath expr="//t" position="replace">
             <t t-call="web.basic_layout">
             <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
@@ -137,7 +137,7 @@
         </xpath>
     </template>
 
-    <template id="report_deliverynote_document_inherit_US" inherit_id="report_deliverynote_document_inherit" primary="True">
+    <template id="report_deliverynote_document_inherit_US" inherit_id="report_deliverynote_document_inherit">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
                     <div class="col-4">
@@ -165,7 +165,7 @@
         </xpath>
     </template>
 
-    <template id="report_deliverynote_document_inherit_CHF" inherit_id="report_deliverynote_document_inherit" primary="True">
+    <template id="report_deliverynote_document_inherit_CHF" inherit_id="report_deliverynote_document_inherit">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
                     <div class="col-4">
@@ -192,7 +192,7 @@
         </xpath>
     </template>
 
-    <template id="report_deliverynote_document_inherit_BV" inherit_id="report_deliverynote_document_inherit" primary="True">
+    <template id="report_deliverynote_document_inherit_BV" inherit_id="report_deliverynote_document_inherit">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
                     <div class="col-4">
