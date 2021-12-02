@@ -164,7 +164,7 @@
                 </div>
         </xpath>
     </template>
-
+<!-- 
     <template id="report_deliverynote_document_inherit_CHF" inherit_id="report_deliverynote_document_inherit">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
@@ -190,7 +190,7 @@
                     </div>
                 </div>
         </xpath>
-    </template>
+    </template> -->
 
     <template id="report_deliverynote_document_inherit_BV" inherit_id="report_deliverynote_document_inherit">
         <xpath expr="//t/div[1]/div" position="replace">
@@ -227,11 +227,11 @@
         </t>
     </template>
 
-    <template id="report_deliveryslip_CHF">
+    <!-- <template id="report_deliveryslip_CHF">
         <t t-foreach="docs" t-as="o">
             <t t-call="customTemplate.report_deliverynote_document_inherit_CHF" t-lang="o.partner_id.lang"/>
         </t>
-    </template>
+    </template> -->
 
     <template id="report_deliveryslip_BV">
         <t t-foreach="docs" t-as="o">
