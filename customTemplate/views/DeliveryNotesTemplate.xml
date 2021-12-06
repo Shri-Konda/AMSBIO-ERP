@@ -102,7 +102,7 @@
                                 <span t-field="line.product_uom" />
                             </td>
                             <td name="td_outstanding" class="text-right">
-                                <t t-set="out_qty" t-value="line.sale_id.order_line.product_uom_qty - line.sale_id.order_line.qty_delivered">
+                                <t t-set="out_qty" t-value="line.sale_line_id.product_uom_qty - line.sale_line_id.qty_delivered">
                                     <span t-esc="out_qty" />
                                 </t>
                             </td>
