@@ -58,9 +58,9 @@
                         <strong>Date:</strong>
                         <p class="m-0" t-field="o.date" t-options='{"widget": "date"}' />
                     </div>
-                    <div t-if="o.origin" class="col-auto col-3 mw-100 mb-2">
+                    <div t-if="o.intercompany_sale_order" class="col-auto col-3 mw-100 mb-2">
                         <strong>Order No:</strong>
-                        <p class="m-0" t-field="o.origin" />
+                        <p class="m-0" t-field="o.intercompany_sale_order" />
                     </div>
                 </div>
                 <br />
@@ -102,7 +102,9 @@
                                 <span t-field="line.product_uom" />
                             </td>
                             <td name="td_outstanding" class="text-right">
-                                <span t-esc="line.stock_valuation_layer_ids.remaining_qty" />
+                                <t t-set="out_qty" t-value="line.sale_id.order_line.product_uom_qty - line.sale_id.order_line.qty_delivered">
+                                    <span t-esc="out_qty" />
+                                </t>
                             </td>
                         </tr>
                     </tbody>
