@@ -90,7 +90,7 @@
                             <td name="stock_line_name">
                                 <span t-field="line.product_id.default_code" t-options="{'widget': 'text'}" />
                             </td>
-                            <td name="stock_line_name" style="max-width: 75px;">
+                            <td name="stock_line_name" style="max-width: 125px;">
                                 <span t-field="line.name" t-options="{'widget': 'text'}" />
                             </td>
                             <td name="td_storage" class="text-left o_price_total">
@@ -109,7 +109,7 @@
                             <td name="td_outstanding" class="text-right">
                                 <t t-set="out_qty" t-value="line.sale_line_id.product_uom_qty - line.sale_line_id.qty_delivered" />
                                 <t t-esc="out_qty"/>
-                                <t t-log="out_qty"/>
+                                <span t-field="line.product_uom" />
                             </td>
                         </tr>
                     </tbody>
