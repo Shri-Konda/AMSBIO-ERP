@@ -225,6 +225,7 @@
                     <div class="col-4 text-left">
                         <h6>
                             <div>VAT reg. no.: CHE-102.073.068 MWST</div>
+                            <div>Email: sales@amsbio.com</div>
                             <div><i class="fa fa-phone fa-fw" />  +41 91 6045522</div>
                         </h6>
                     </div>
@@ -251,10 +252,10 @@
                     </div>
                     <div class="col-4 text-left">
                         <h6>
-                            <div>VAT reg. no.: <span/></div>
-                            <div >EORI: <span /></div>
-                            <div t-if="o.company_id.partner_id.email">Email: <span t-field="o.company_id.partner_id.email" /></div>
-                            <div><i class="fa fa-phone fa-fw" /><span t-field="o.company_id.partner_id.phone" /></div>
+                            <div>VAT reg. no.: NL863058681B01<span/></div>
+                            <div >EORI: NL863058681<span /></div>
+                            <div>Email: eurosales@amsbio.com</div>
+                            <div><i class="fa fa-phone fa-fw" />+31 72 808 0244</div>
                         </h6>
                     </div>
                 </div>

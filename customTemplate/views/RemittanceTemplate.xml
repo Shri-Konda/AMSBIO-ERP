@@ -5,7 +5,10 @@
                 <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
                     <div class="row">
                         <div class="col-4">
-                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                            <h6 style="margin-left: -2px;">
+                                <span style="color: #fff;">.</span>
+                                <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                            </h6>
                         </div>
                         <div class="col-4 text-left">
                             <h6>

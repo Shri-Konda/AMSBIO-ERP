@@ -5,8 +5,11 @@
 			<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
             <div class="header" style="font-family: Calibri;" t-att-style="report_header_style">
                 <div class="row">
-                    <div class="col-4 text-left">
-                        <img t-att-src="image_data_uri(doc.company_id.logo)" class="float-left" style="max-height: 45px;" alt="Logo" />
+                    <div class="col-4">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </h6>
                     </div>
                     <div class="col-4 text-left">
                         <h6>
