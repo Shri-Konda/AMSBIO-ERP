@@ -69,13 +69,14 @@
         </template>
 
         <template id="ti_report_delivery_document_inherit" inherit_id="stock.report_delivery_document">
-            <xpath expr="//div[@name='div_sched_date']" position="after">
+             <xpath expr="//div[@class='row mt32 mb32']" position="inside">
                 <div class="row justify-content-end" t-if="o.sudo().intercompany_sale_order">
                     <div class="col-auto">
                         <strong>InterCompany Sales Order:</strong>
                         <p t-field="o.sudo().intercompany_sale_order"/>
                     </div>
                 </div>
+                </div>               
             </xpath>
         </template>
 
