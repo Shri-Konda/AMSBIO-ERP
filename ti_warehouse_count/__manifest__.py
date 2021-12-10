@@ -2,7 +2,7 @@
   "name"                 :  "TI Warehouse count",
   "summary"              :  """TI-Warehouse Count.""",
   "category"             :  "Inventory/Inventory",
-  "version"              :  "1.0.13",
+  "version"              :  "1.0.15",
   "sequence"             :  1,
   "author"               :  "Target Integration.",
   "website"              :  "http://www.targetintegration.com",
