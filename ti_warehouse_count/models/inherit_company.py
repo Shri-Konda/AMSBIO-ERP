@@ -17,6 +17,8 @@ class ResCompany(models.Model):
     
     product_tracking_number = fields.Char('Product Tracking Number',default='1')
 
+    route_id = fields.Many2one('stock.location.route', string='Route', domain=[('sale_selectable', '=', True)], ondelete='restrict', check_company=True)
+
 
 class StockMove(models.Model):
     _inherit = "stock.move"

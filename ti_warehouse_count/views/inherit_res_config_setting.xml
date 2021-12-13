@@ -59,4 +59,19 @@
                 </xpath>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="ti_view_company_inter_change_inherit_form">
+            <field name="name">res.company.form.inherit</field>
+            <field name="inherit_id" ref="account_inter_company_rules.view_company_inter_change_inherit_form"/>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='inter_company_transactions']" position="inside">
+                    <group>
+                        <group>
+                            <field name="route_id" />
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
 </odoo>

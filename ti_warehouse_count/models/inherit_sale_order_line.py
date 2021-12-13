@@ -20,6 +20,8 @@ class ProductTemplate(models.Model):
     is_vendor_updated = fields.Boolean('Is vendor updated',default=False)
     is_reordering_updated = fields.Boolean('Is reordering updated',default=False)
 
+    is_eu_supplier = fields.Boolean('Is EU Supplier',default=False)
+
 
 class Product(models.Model):
     _inherit = "product.product"
@@ -71,6 +73,14 @@ class SaleOrderLine(models.Model):
                     line.uk_us_warehouse_qty = 0
                     line.ch_warehouse_qty = 0
                     line.bv_warehouse_qty = 0
+
+
+    @api.onchange('product_id')
+    def product_id_change(self):
+        result = super(SaleOrderLine, self).product_id_change()
+        if self.product_id and self.product_id.is_eu_supplier:
+            self.route_id = self.order_id.company_id.route_id and self.order_id.company_id.route_id.id
+        return result
 
 
 

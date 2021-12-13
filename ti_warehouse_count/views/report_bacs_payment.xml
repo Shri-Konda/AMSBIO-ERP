@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_template_bacs_payment">
+$FN:1
+$FT:<t t-esc='sum(docs.mapped("amount"))'/>
+$FC:GBP
+$DS
+F01:51723014
+F02:<t t-esc='datetime.datetime.now().strftime("%d%m%y")'/>
+F03:
+F04:<t t-esc='len(docs)'/>
+F05:<t t-esc='sum(docs.mapped("amount"))'/>
+<t t-foreach="docs" t-as="o">$LS
+S01:<t t-esc='o.partner_bank_id.acc_number'/>
+S02:<t t-esc='o.partner_bank_id.x_studio_sort_code'/>
+S03:<t t-esc='o.partner_id.name.upper()'/>
+S04:<t t-esc='o.amount'/>
+S05:<t t-esc='o.ref or "AMSBIO"'/>
+$LE
+</t>$DE
+</template>
+
+</odoo>
