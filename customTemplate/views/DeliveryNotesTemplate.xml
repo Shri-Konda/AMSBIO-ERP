@@ -32,18 +32,18 @@
             </div>
             <div class="page" style="font-family: Calibri;">
                 <div class="oe_structure" />
-                <div class="row">
-                    <div class="col-6">
-                        <strong>Deliver To:</strong>
-                        <div t-field="o.partner_id"
-                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Deliver To:</strong>
+                            <div t-field="o.partner_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                        </div>
                     </div>
-                </div>
                 <br />
                 <div>
-                    <strong>Courier Reference:<strong/>
+                    <strong>Courier Reference:</strong>
                     <span t-field="o.sale_id.x_studio_courier_ref" />
-                <div/>
+                </div>
                 <div class="row">
                     <div class="col-auto col-8">
                         <h2 class="mt16">
