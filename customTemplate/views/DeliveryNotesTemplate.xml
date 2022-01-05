@@ -44,6 +44,7 @@
                     <strong>Courier Reference:</strong>
                     <span t-field="o.sale_id.x_studio_courier_ref" />
                 </div>
+                <br />
                 <div class="row">
                     <div class="col-auto col-8">
                         <h2 class="mt16">
