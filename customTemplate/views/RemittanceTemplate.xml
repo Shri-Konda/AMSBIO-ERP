@@ -27,7 +27,9 @@
                             </h6>
                         </div>
                     </div>
+                    <hr />
                 </div>
+                <br />
                 <br />
                 <div class="page" style="font-family: Calibri;">
                     <div class="row">
@@ -48,6 +50,7 @@
                             <p class="m-0" t-field="o.ref" />
                         </div>
                     </div>
+                    <br />
                     <br />
                     <table class="table table-sm">
                         <thead>
