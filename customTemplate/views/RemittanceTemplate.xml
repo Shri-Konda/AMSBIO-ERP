@@ -87,7 +87,7 @@
                                     <td><strong>Total</strong></td>
                                     <td class="text-right">
                                         <!-- <span t-field="o.currency_id"/> -->
-                                        <span t-field="{:.0f}.format(o.amount)" widget="monetory"/>
+                                        <span t-field="'{:.0f}'.format(o.amount)" widget="monetory"/>
                                     </td>
                                 </tr>
                             </table>
