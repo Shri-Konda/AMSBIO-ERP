@@ -27,8 +27,8 @@
                             </h6>
                         </div>
                     </div>
-                    <hr />
                 </div>
+                <hr />
                 <div class="page" style="font-family: Calibri;">
                     <div class="row">
                         <div class="col-6" />
@@ -37,7 +37,7 @@
                                 t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
                         </div>
                     </div>
-                    <h2><strong>Receipt of Payment: <span t-field="o.name" /></strong></h2>
+                    <h2><strong>Remittance Advice: <span t-field="o.name" /></strong></h2>
                     <div class="row mt64">
                         <div class="col-3" t-if="o.date">
                             <strong>Date: </strong>
@@ -54,7 +54,6 @@
                                 <th><span>Date</span></th>
                                 <th><span>Our Reference</span></th>
                                 <th><span>Your Reference</span></th>
-                                <th class="text-right"><span>Original Amount</span></th>
                                 <th class="text-right"><span>Amount Paid</span></th>
                                 <th class="text-right"><span>Balance</span></th>
                             </tr>
@@ -67,7 +66,6 @@
                                     <td><span t-field="inv.invoice_date" /></td>
                                     <td><span t-field="inv.name" /></td>
                                     <td><span t-field="inv.ref" /></td>
-                                    <td class="text-right"><span t-field="inv.amount_total" /></td>
                                     <td class="text-right"><span t-esc="amount"
                                             t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" /></td>
                                     <td class="text-right"><span t-field="inv.amount_residual" /></td>
@@ -75,6 +73,20 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="clearfix">
+                    <div id="total" class="row">
+                        <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                            <table class="table table-sm" style="page-break-inside: avoid;">
+                                <tr class="border-black o_total">
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-right"><span t-esc="o.amount"
+                                            t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="footer" style="font-family: Calibri;">
                     <div class="text-center" style="border-top: 1px solid black; font-size: 8pt;">
