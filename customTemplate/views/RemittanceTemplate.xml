@@ -84,7 +84,7 @@
                             <table class="table table-sm" style="page-break-inside: avoid;">
                                 <tr class="border-black o_total">
                                     <td><strong>Total</strong></td>
-                                    <td class="text-right"><span t-esc="o.amount"
+                                    <td class="text-right"><span t-esc="str('%.0f'%o.amount)"
                                             t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" />
                                     </td>
                                 </tr>
