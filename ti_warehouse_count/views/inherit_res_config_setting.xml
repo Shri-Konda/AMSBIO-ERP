@@ -54,6 +54,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="exported_currency_setting">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Commercial Invoices Currency</span>
+                                    <div class="text-muted">
+                                        Select the Currency in which you want to export the commercial invoices.  
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row mx-2">                                            
+                                            <field name="exported_currency" options="{'no_create': True}" class="oe_inline" required="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </xpath>
