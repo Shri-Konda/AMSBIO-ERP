@@ -35,7 +35,7 @@
                         <p>
                             <t t-if="o.x_studio_delivery_location == 'US'">
                                 <p>
-                                    1035, Cambridge Street,<br />Suite 16 B,<br />Cambridge,<br />MA 02141.<br />Tel: +1 (617) 945 5033
+                                    1035, Cambridge Street,<br />Suite 16 B,<br />Cambridge,<br />MA 02141.<br />USA<br />Tel: +1 (617) 945 5033
                                 </p>
                             </t>
                             <t t-if="o.x_studio_delivery_location == 'UK'">
@@ -45,7 +45,7 @@
                             </t>
                             <t t-if="o.x_studio_delivery_location == 'BV'">
                                 <p>
-                                    Berenkoog 41,<br />1822 BH Alkmaar<br />Tel: +31 (0) 72 8080244
+                                    Berenkoog 41,<br />1822 BH Alkmaar<br />The Netherlands<br />Tel: +31 (0) 72 8080244
                                 </p>
                             </t>
                         </p>
