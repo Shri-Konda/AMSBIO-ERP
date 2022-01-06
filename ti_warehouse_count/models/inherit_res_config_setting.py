@@ -11,6 +11,7 @@ class ResConfigSettings(models.TransientModel):
     vendor_pricelist_company_ids = fields.Many2many('res.company',string='Vendor Pricelist Companies')
     vendor_pricelist_partner_company = fields.Many2one('res.company',string='Vendor Pricelist Partner Company',)
     reordering_rule = fields.Many2one('res.company',string='Reordering Rule company',)
+    exported_currency = fields.Many2one('res.currency',string='Export in Currency',)
 
 
     def set_values(self):
@@ -20,6 +21,7 @@ class ResConfigSettings(models.TransientModel):
         IrDefault.set('res.config.settings', 'reordering_rule', self.reordering_rule.id)
         IrDefault.set('res.config.settings', 'vendor_pricelist_partner_company', self.vendor_pricelist_partner_company.id)
         IrDefault.set('res.config.settings', 'vendor_pricelist_company_ids', self.vendor_pricelist_company_ids.ids)
+        IrDefault.set('res.config.settings', 'exported_currency', self.exported_currency.id)
 
     @api.model
     def get_values(self):
@@ -30,6 +32,7 @@ class ResConfigSettings(models.TransientModel):
                 warehouse_count = IrDefault.get('res.config.settings', 'warehouse_count'),
                 reordering_rule = IrDefault.get('res.config.settings', 'reordering_rule'),
                 vendor_pricelist_partner_company = IrDefault.get('res.config.settings', 'vendor_pricelist_partner_company'),
+                exported_currency = IrDefault.get('res.config.settings', 'exported_currency'),
                 # vendor_pricelist_company_ids = [(6,0,vendor_pricelist_company_ids)],
                 )
         return res

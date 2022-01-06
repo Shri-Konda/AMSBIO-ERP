@@ -93,6 +93,21 @@ class PurchaseOrderLine(models.Model):
     bv_warehouse_qty = fields.Float('Available Qty For BV Warehouse', readonly=True, compute='_compute_warehouse_qty')
 
 
+    converted_price_unit = fields.Float(compute='_compute_converted_price_subtotal', string='Unit Price in USD',)
+
+    converted_price_subtotal = fields.Monetary(compute='_compute_converted_price_subtotal', string='Subtotal in USD',)
+
+
+    @api.depends('product_qty', 'price_unit', 'taxes_id', 'price_subtotal', 'price_unit')
+    def _compute_converted_price_subtotal(self):
+        IrDefault = self.env['ir.default'].sudo()
+        currency_id = IrDefault.get('res.config.settings', 'exported_currency')
+        currency_id = self.env['res.currency'].sudo().browse([currency_id])
+        for line in self:
+            line.converted_price_subtotal = line.order_id.currency_id._convert(line.price_subtotal, currency_id, line.company_id, fields.Date.context_today(line))
+            line.converted_price_unit = line.order_id.currency_id._convert(line.price_unit, currency_id, line.company_id, fields.Date.context_today(line))
+
+
     @api.depends('product_id')
     def _compute_warehouse_qty(self):
         for line in self:
