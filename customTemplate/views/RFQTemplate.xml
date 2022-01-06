@@ -3,7 +3,7 @@
         <xpath expr="//t" position="replace">
             <t t-call="web.basic_layout">
             <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
-                <div class="header" style="font-family: Calibri;">
+                <div class="header" style="font-family: Calibri;" t-att-style="report_header_style">
                     <div class="row">
                         <div class="col-4 text-left">
                             <h6 style="margin-left: -2px;">
