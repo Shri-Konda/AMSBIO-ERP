@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <odoo>
-    <template id="report_commercial_inovice_document_CH">
+    <template id="report_commercial_invoice_document_CH" primary="True">
         <t t-call="web.basic_layout">
             <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
                 <div class="row">
@@ -241,7 +243,7 @@
     <template id="report_commercial_invoice_CH">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="customTemplate.report_commercial_inovice_document_CH" t-lang="o.partner_id.lang" />
+                <t t-call="customTemplate.report_commercial_invoice_document_CH" t-lang="o.partner_id.lang" />
             </t>
         </t>
     </template>
