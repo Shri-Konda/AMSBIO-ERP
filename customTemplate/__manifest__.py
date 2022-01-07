@@ -26,6 +26,7 @@
         'views/PurchaseOrderTemplate.xml',
         'views/RemittanceTemplate.xml',
         'views/RFQTemplate.xml',
+        'views/Commercial_InvoiceTemplate.xml',
         'views/stock_report.xml'
     ],
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <odoo>
-    <template id="report_commercial_invoice_document_CH" primary="True">
+    <template id="report_commercial_invoice_document_CH">
         <t t-call="web.basic_layout">
             <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
                 <div class="row">
@@ -152,7 +152,7 @@
                                         <strong>Total</strong>
                                     </td>
                                     <td name="td_amount_total" class="text-right">
-                                        <span t-field="o.sale_id.amount_total"/>
+                                        <span t-field="o.sale_id.amount_total" />
                                     </td>
                                 </tr>
                             </table>
