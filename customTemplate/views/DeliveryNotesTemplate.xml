@@ -38,6 +38,11 @@
                             <div t-field="o.partner_id"
                                 t-options='{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": True, "phone_icons": True}' />
                         </div>
+                        <div class="col-6">
+                            <strong>Invoice Address:</strong>
+                            <div t-field="o.sale_id.partner_invoice_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": True, "phone_icons": True}' />
+                        </div>
                     </div>
                 <br />
                 <div>
@@ -63,8 +68,12 @@
                         <strong>Date:</strong>
                         <p class="m-0" t-field="o.date" t-options='{"widget": "date"}' />
                     </div>
-                    <div t-if="o.intercompany_sale_order" class="col-auto col-3 mw-100 mb-2">
+                    <div t-if="o.origin" class="col-auto col-3 mw-100 mb-2">
                         <strong>Order No:</strong>
+                        <p class="m-0" t-field="o.origin" />
+                    </div>
+                    <div t-if="o.intercompany_sale_order" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Intercompany Sale Order:</strong>
                         <p class="m-0" t-field="o.intercompany_sale_order" />
                     </div>
                 </div>
