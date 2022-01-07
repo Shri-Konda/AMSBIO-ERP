@@ -1,0 +1,248 @@
+<odoo>
+    <template id="report_commercial_inovice_document_CH">
+        <t t-call="web.basic_layout">
+            <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
+                <div class="row">
+                    <div class="col-4">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            AMS Biotechnology (Europe) Limited
+                            <br />
+                            184, Milton Park,
+                            <br />
+                            Abingdon Oxfordshire (GB),
+                            <br />
+                            OX14 4SE,
+                            <br />
+                            United Kingdom
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div>VAT reg. no.: 502237295</div>
+                            <div>EORI:  GB502237295000</div>
+                            <div>Email: accounts@amsbio.com</div>
+                            <div>
+                                <i class="fa fa-phone fa-fw" />
+                                +44 1235828200
+                            </div>
+                        </h6>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <div class="page" style="font-family: Calibri;">
+                <div class="oe_structure" />
+                <div class="row">
+                    <div class="col-6">
+                        <strong>Deliver To:</strong>
+                        <div t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": True, "phone_icons": True}' />
+                    </div>
+                    <div class="col-6">
+                        <strong>Invoice Address:</strong>
+                        <div t-field="o.sale_id.partner_invoice_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": True, "phone_icons": True}' />
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <strong>Courier Reference:</strong>
+                    <span t-field="o.sale_id.x_studio_courier_ref" />
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-auto col-8">
+                        <h2 class="mt16">
+                            <span>Commercial Invoice</span>
+                            <span t-field="o.name" />
+                        </h2>
+                    </div>
+                    <div t-if="o.sale_id.client_order_ref" class="col-auto col-4 text-center">
+                        <span>Your Reference:</span>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.sale_id.client_order_ref, 400, 75)" style="width:400px;height:75px" alt="Barcode" />
+                        <span t-field="o.sale_id.client_order_ref" />
+                    </div>
+                </div>
+                <br />
+                <div class="row mt32 mb32" id="informations">
+                    <div t-if="o.date" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Date:</strong>
+                        <p class="m-0" t-field="o.date" t-options='{"widget": "date"}' />
+                    </div>
+                    <div t-if="o.origin" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Order No:</strong>
+                        <p class="m-0" t-field="o.origin" />
+                    </div>
+                    <div t-if="o.intercompany_sale_order" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Intercompany Sale Order:</strong>
+                        <p class="m-0" t-field="o.intercompany_sale_order" />
+                    </div>
+                </div>
+                <br />
+
+                <table class="table table-sm o_main_table" name="stock_line_table">
+                    <thead>
+                        <tr>
+                            <th name="th_codenum" class="text-left">
+                                <span>Code</span>
+                            </th>
+                            <th name="th_description" class="text-left">
+                                <span>Description</span>
+                            </th>
+                            <th name="th_storage" class="text-left">
+                                <span>Storage Condition</span>
+                            </th>
+                            <th name="th_shipping" class="text-left">
+                                <span>Shipping Temp</span>
+                            </th>
+                            <th name="th_tariffcode" class="text-right">
+                                <span>Tariff Code</span>
+                            </th>
+                            <th name="th_quantity" class="text-right">
+                                <span>Quantity</span>
+                            </th>
+                            <th name="th_outsantding" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                <span>Outstanding</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)" />
+                        <tr t-foreach="lines" t-as="line">
+                            <td name="stock_line_name">
+                                <span t-field="line.product_id.default_code" t-options="{'widget': 'text'}" />
+                            </td>
+                            <td name="stock_line_name" style="max-width: 125px;">
+                                <span t-field="line.name" t-options="{'widget': 'text'}" />
+                            </td>
+                            <td name="td_storage" class="text-left o_price_total">
+                                <span t-field="line.product_id.x_studio_storage_temperature" />
+                            </td>
+                            <td name="td_shipping" class="text-left o_price_total">
+                                <span t-field="line.product_id.x_studio_shipping_temperature" />
+                            </td>
+                            <td name="td_tariffcode" class="text-right">
+                                <span t-field="line.product_id.intrastat_id.code" />
+                            </td>
+                            <td name="td_qty" class="text-right">
+                                <span t-field="line.product_uom_qty" />
+                                <span t-field="line.product_uom" />
+                            </td>
+                            <td name="td_outstanding" class="text-right">
+                                <t t-set="out_qty" t-value="line.sale_line_id.product_uom_qty - line.sale_line_id.qty_delivered" />
+                                <t t-esc="out_qty" />
+                                <span t-field="line.product_uom" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="clearfix" name="so_total_summary">
+                    <div id="total" class="row" name="total">
+                        <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                            <table class="table table-sm">
+                                <tr class="border-black o_total">
+                                    <td name="td_amount_total_label">
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td name="td_amount_total" class="text-right">
+                                        <span t-field="o.sale_id.amount_total"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure" />
+                <div class="row">
+                    <br />
+                    We, AMS Biotechnology (Europe) Limited, exporter of the goods covered by this document, declare that the goods meet the conditions required to obtain originating status in preferential trade with Switzerland and that the country of origin of the goods to be
+                </div>
+                <div class="row">
+                    <br />
+                    <div class="col-6 text-center" style="text: center;">
+                        NOTE TO RECIPIENT
+                        <br />
+                        <br />
+                        This document is produced for customs purposes only. The
+                        retail invoice for you to pay will follow under seperate cover.
+                        Please do not make payment against this document
+                    </div>
+                    <div class="col-6 text-center" style="text: center;">
+                        NOTE AU DESTINATAIRE
+                        <br />
+                        <br />
+                        Le présent document a été conçu exclusivement à des fins
+                        douanières. La facture détaillée à régler sera envoyée sous pli
+                        séparé. Merci de ne pas effectuer un paiement contre ce
+                        document.
+                    </div>
+                    <br />
+                </div>
+                <div class="row">
+                    <div class="col-6 text-center" style="text: center;">
+                        NOTA PER IL DESTINATARIO
+                        <br />
+                        <br />
+                        Il presente documento viene prodotto solo per fini doganali. Il
+                        dettaglio della vostra fattura di vendita da pagare seguirà
+                        separatamente. Si prega di non effettuare il pagamento tramite
+                        questo documento.
+                    </div>
+                    <div class="col-6 text-center" style="text: center;">
+                        BITTE BEACHTEN!
+                        <br />
+                        <br />
+                        Dieses Dokument ist ausschliesslich für Zollzwecke zu
+                        verwenden. Ihre Rechnung wird in einem separaten Brief
+                        folgen.
+                    </div>
+                </div>
+            </div>
+            <div class="footer" style="font-family: Calibri;">
+                <div class="text-center" style="border-top: 1px solid black; font-size: 8pt;">
+                    <div t-if="o.company_id.country_id.name == 'United States'" class="row">
+                        <div class="col-12">
+                            Page:
+                            <span class="page" />
+                            /
+                            <span class="topage" />
+                        </div>
+                    </div>
+                    <div t-else="" class="row">
+                        <div class="col-3">
+                            <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-left" style="max-width: 150px; margin-top: 2px;" />
+                        </div>
+                        <div class="col-6">
+                            AMS Biotechnology (Europe) Limited
+                            <br />
+                            Company registered in England &amp; Wales. Company Reg No: 2117791
+                            <br />
+                            Goods remain the property of AMS Biotechnology until paid for in full
+                            <br />
+                            Page:
+                            <span class="page" />
+                            /
+                            <span class="topage" />
+                        </div>
+                        <div class="col-3">
+                            <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-right" style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_commercial_invoice_CH">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="customTemplate.report_commercial_inovice_document_CH" t-lang="o.partner_id.lang" />
+            </t>
+        </t>
+    </template>
+</odoo>
