@@ -50,7 +50,7 @@
                                 <span t-if="doc.state not in ['draft','sent']">Order Confirmation</span>
                                 <span t-if="doc.state in ['draft','sent']">Quotation N°</span>
                             </t>
-                            <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
+                            <t t-if="(env.context.get('proforma', False) or is_pro_forma)">
                                 <span>Pro-Forma Invoice</span>
                             </t>
                             <span t-field="doc.name" />
@@ -888,14 +888,12 @@
                             Bank transfers may be made to:
                         </strong>
                         <br />
-                        HSBC Bank plc, International Branch, 27-32 Poultry, London EC2P 2BX – U.K.
-                        IBAN: GB03HBUK40127673806781
-                        SWIFT code (BIC):HBUKGB4B
-                        Sort code: 40 12 76
-                        Account number: 73806781
-                        We also accept payment by Visa &amp; Mastercard.
-                        <strong>Payment Terms: </strong>
-                        30 Days
+                        HSBC Bank plc, International Branch, 27-32 Poultry, London EC2P 2BX – U.K. <br />
+                        IBAN: GB03HBUK40127673806781 <br />
+                        SWIFT code (BIC):HBUKGB4B <br />
+                        Sort code: 40 12 76 <br />
+                        Account number: 73806781 <br />
+                        We also accept payment by Visa &amp; Mastercard. <br />
                     </p>
                 </t>
                 <div class="oe_structure" />
