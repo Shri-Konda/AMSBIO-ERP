@@ -95,7 +95,7 @@ class PurchaseOrderLine(models.Model):
 
     converted_price_unit = fields.Float(compute='_compute_converted_price_subtotal', string='Unit Price in USD',)
 
-    converted_price_subtotal = fields.Monetary(compute='_compute_converted_price_subtotal', string='Subtotal in USD',)
+    converted_price_subtotal = fields.Float(compute='_compute_converted_price_subtotal', string='Subtotal in USD',)
 
 
     @api.depends('product_qty', 'price_unit', 'taxes_id', 'price_subtotal', 'price_unit')

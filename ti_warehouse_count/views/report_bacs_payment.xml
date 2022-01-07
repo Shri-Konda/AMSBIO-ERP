@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="report_template_bacs_payment">
-$FN:1
-$FT:<t t-esc='sum(docs.mapped("amount"))'/>
+<template id="report_template_bacs_payment"><t t-set="total_amount" t-value="sum(docs.mapped(&quot;amount&quot;))" t-options='{"widget": "float", "precision": 2}' />$FN:1
+$FT:<t t-esc="'%.2f'%(total_amount)"/>
 $FC:GBP
 $DS
 F01:51723014
-F02:<t t-esc='datetime.datetime.now().strftime("%d%m%y")'/>
+F02:<t t-esc="datetime.datetime.now().strftime(&quot;%d%m%y&quot;)"/>
 F03:
-F04:<t t-esc='len(docs)'/>
-F05:<t t-esc='sum(docs.mapped("amount"))'/>
-<t t-foreach="docs" t-as="o">$LS
-S01:<t t-esc='o.partner_bank_id.acc_number'/>
-S02:<t t-esc='o.partner_bank_id.x_studio_sort_code'/>
-S03:<t t-esc='o.partner_id.name.upper()'/>
-S04:<t t-esc='o.amount'/>
-S05:<t t-esc='o.ref or "AMSBIO"'/>
+F04:<t t-esc="len(docs)"/>
+F05:<t t-esc="'%.2f'%(total_amount)"/>
+<t t-foreach="docs" t-as="o"><t t-set="o_amount" t-value="o.amount" t-options='{"widget": "float", "precision": 2}' />$LS
+S01:<t t-esc="o.partner_bank_id.acc_number"/>
+S02:<t t-esc="o.partner_bank_id.x_studio_sort_code"/>
+S03:<t t-esc="o.partner_id.name.upper()[:15]"/>
+S04:<t t-esc="'%.2f'%(o_amount)"/>
+S05:<t t-esc="o.ref or &quot;AMSBIO&quot;"/>
 $LE
 </t>$DE
 </template>
