@@ -30,7 +30,7 @@
             </div>
             <div class="page" style="font-family: Calibri;">
                 <div class="oe_structure" />
-                <div class="row">
+                <div t-if="doc.state not in ['draft','sent']" class="row">
                     <div class="col-6">
                         <strong>Delivery Address:</strong>
                         <div t-field="doc.partner_shipping_id"
@@ -39,6 +39,13 @@
                     <div class="col-6">
                         <strong>Invoice Address:</strong>
                         <div t-field="doc.partner_invoice_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                    </div>
+                </div>
+                <div t-if="doc.state in ['draft','sent']" class="row">
+                    <div class="col-6">
+                        <strong>Customer Address:</strong>
+                        <div t-field="doc.partner_shipping_id"
                             t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
                     </div>
                 </div>
