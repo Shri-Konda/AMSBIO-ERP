@@ -27,7 +27,6 @@
         'views/RemittanceTemplate.xml',
         'views/RFQTemplate.xml',
         'views/Commercial_InvoiceTemplate.xml',
-        'views/stock_report.xml',
-        'views/custom_purchase_ordr_mail_template.xml'
+        'views/stock_report.xml'
     ],
 }
