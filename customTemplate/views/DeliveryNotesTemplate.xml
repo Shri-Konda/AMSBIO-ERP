@@ -68,13 +68,13 @@
                         <strong>Date:</strong>
                         <p class="m-0" t-field="o.date" t-options='{"widget": "date"}' />
                     </div>
-                    <div t-if="o.origin" class="col-auto col-3 mw-100 mb-2">
-                        <strong>Order No:</strong>
-                        <p class="m-0" t-field="o.origin" />
-                    </div>
                     <div t-if="o.intercompany_sale_order" class="col-auto col-3 mw-100 mb-2">
-                        <strong>Intercompany Sale Order:</strong>
+                        <strong>Order No:</strong>
                         <p class="m-0" t-field="o.intercompany_sale_order" />
+                    </div>
+                    <div t-if="o.origin" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Intercompany Sale Order:</strong>
+                        <p class="m-0" t-field="o.origin" />
                     </div>
                 </div>
                 <br />
