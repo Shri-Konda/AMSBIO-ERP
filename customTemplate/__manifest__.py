@@ -13,7 +13,7 @@
     'website': "",
 
     'category': 'Uncategorized',
-    'version': '1.0',
+    'version': '1.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'stock'],
@@ -27,6 +27,7 @@
         'views/RemittanceTemplate.xml',
         'views/RFQTemplate.xml',
         'views/Commercial_InvoiceTemplate.xml',
-        'views/stock_report.xml'
+        'views/stock_report.xml',
+        'views/custom_purchase_ordr_mail_template.xml'
     ],
 }
