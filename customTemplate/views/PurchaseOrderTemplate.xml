@@ -79,7 +79,6 @@
                         <thead>
                             <tr>
                                 <th name="th_description"><strong>Description</strong></th>
-                                <th name="th_code"><strong>Code</strong></th>
                                 <th name="th_taxes"><strong>Taxes</strong></th>
                                 <th name="th_date_req" class="text-center"><strong>Lot ID</strong></th>
                                 <th name="th_quantity" class="text-right"><strong>Qty</strong></th>
@@ -100,9 +99,6 @@
                                     <t t-if="not line.display_type">
                                         <td id="product">
                                             <span t-field="line.name" />
-                                        </td>
-                                        <td name="account_invoice_line_name"><span t-field="line.product_id.default_code"
-                                                t-options="{'widget': 'text'}" />
                                         </td>
                                         <td name="td_taxes" class="text-right"><span
                                                 t-esc="str('%.0f'%line.taxes_id.amount)" />%

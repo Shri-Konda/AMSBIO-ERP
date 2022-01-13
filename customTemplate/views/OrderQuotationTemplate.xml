@@ -894,8 +894,7 @@
                             If you wish to cancel your order please contact us by phone
                             or email
                             <t t-esc="doc.company_id.email" />. Please note that any cancellation requests must be made
-                            within 24
-                            hours of receipt of this order confirmation email
+                            within 24 hours of receipt of this order confirmation email
                         </p>
                     </div>
                 </t>
@@ -911,12 +910,40 @@
                             Bank transfers may be made to:
                         </strong>
                         <br />
-                        HSBC Bank plc, International Branch, 27-32 Poultry, London EC2P 2BX – U.K. <br />
-                        IBAN: GB03HBUK40127673806781 <br />
-                        SWIFT code (BIC):HBUKGB4B <br />
-                        Sort code: 40 12 76 <br />
-                        Account number: 73806781 <br />
-                        We also accept payment by Visa &amp; Mastercard. <br />
+                        <div t-if="doc.company_id.country_id.name == 'United Kingdom'">
+                            <p>
+                                HSBC Bank plc, International Branch, 27-32 Poultry, London EC2P 2BX – U.K. <br />
+                                IBAN: GB03HBUK40127673806781 <br />
+                                SWIFT code (BIC):HBUKGB4B <br />
+                                Sort code: 40 12 76 <br />
+                                Account number: 73806781 <br />
+                            </p>
+                        </div>
+                        <div t-if="doc.company_id.country_id.name == 'United States'">
+                            <p>
+                                Santander Bank NA, 599 Massachussets Avenue, Cambridge, MA 02139 <br />
+                                SWIFT code (BIC):SVRNUS33 <br />
+                                Account number: 2761130456 <br />
+                                Account name: AMSBIO LLC
+                            </p>
+                        </div>
+                        <div t-if="doc.company_id.country_id.name == 'Switzerland'">
+                            <p>
+                                Union Bank of Switzerland, Piazza Riforma, CH Lugano <br />
+                                IBAN: CH55 0024 7247 3124 1801 N <br />
+                                SWIFT code (BIC):UBSWCHZH80A <br />
+                                Account number: 312 418 01N
+                            </p>
+                        </div>
+                        <div t-if="doc.company_id.country_id.name == 'Netherlands'">
+                            <p>
+                               Transferwise Europe SA/NV, Square De Meeus 38/40, BE Brussels
+                               IBAN: BE59 9672 3706 4326
+                               SWIFT (BIC): TRWIBEB1XXX
+                               Account name: AMSBIO Europe BV
+                            </p>
+                        </div>
+                        We also accept payment by Visa &amp; Mastercard.<br />
                     </p>
                 </t>
                 <div class="oe_structure" />
