@@ -216,10 +216,10 @@
                     </div>
                     <div t-if="o.company_id.country_id.name == 'Netherlands'">
                         <p>
-                           Transferwise Europe SA/NV, Square De Meeus 38/40, BE Brussels
-                           IBAN: BE59 9672 3706 4326
-                           SWIFT (BIC): TRWIBEB1XXX
-                           Account name: AMSBIO Europe BV
+                           Transferwise Europe SA/NV, Square De Meeus 38/40, BE Brussels<br />
+                           IBAN: BE59 9672 3706 4326<br />
+                           SWIFT (BIC): TRWIBEB1XXX<br />
+                           Account name: AMSBIO Europe BV<br />
                         </p>
                     </div>
                     <p>We also accept payment by Visa and Mastercard.</p>
