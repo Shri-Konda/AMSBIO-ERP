@@ -1,0 +1,1 @@
+from . import inherit_ir_ui_menu
