@@ -901,7 +901,7 @@
                 <t t-if="env.context.get('proforma', False) or is_pro_forma">
                     <br />
                     <p>
-                        <strong>PAYMENT IS DUE BY: 07/07/2021</strong>
+                        <strong>PAYMENT IS DUE BY: <span t-field="doc.payment_term_id" /></strong>
                         <br />
                         <br />
                         <strong>

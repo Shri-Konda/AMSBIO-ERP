@@ -13,26 +13,18 @@
                     </div>
                     <div class="col-4 text-left">
                         <h6>
-                            AMS Biotechnology (Europe) Limited
-                            <br />
-                            184, Milton Park,
-                            <br />
-                            Abingdon Oxfordshire (GB),
-                            <br />
-                            OX14 4SE,
-                            <br />
-                            United Kingdom
+                            AMS Biotechnology (Europe) Limited (CH) <br />
+                            Via Lisano 3, <br />
+                            (CP 683)<br />
+                            MassagnoCH-6900 <br />
+                            Switzerland
                         </h6>
                     </div>
                     <div class="col-4 text-left">
                         <h6>
-                            <div>VAT reg. no.: 502237295</div>
-                            <div>EORI:  GB502237295000</div>
-                            <div>Email: accounts@amsbio.com</div>
-                            <div>
-                                <i class="fa fa-phone fa-fw" />
-                                +44 1235828200
-                            </div>
+                            <div>VAT reg. no.: CHE-102.073.068 MWST</div>
+                            <div>Email: sales@amsbio.com</div>
+                            <div><i class="fa fa-phone fa-fw" />  +41 91 6045522</div>
                         </h6>
                     </div>
                 </div>
@@ -43,11 +35,19 @@
                 <div class="row">
                     <div class="col-6">
                         <strong>Deliver To:</strong>
-                        <div t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": True, "phone_icons": True}' />
+                        <div t-field="o.sale_id.partner_invoice_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": True, "phone_icons": True}' />
                     </div>
                     <div class="col-6">
                         <strong>Invoice Address:</strong>
-                        <div t-field="o.sale_id.partner_invoice_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": True, "phone_icons": True}' />
+                        <div>
+                            AMS Biotechnology (Europe) Limited (CH) <br />
+                            Via Lisano 3, <br />
+                            (CP 683)<br />
+                            MassagnoCH-6900 <br />
+                            Switzerland <br />
+                            Email: sales@amsbio.com <br />
+                            <i class="fa fa-phone fa-fw" />  +41 91 6045522
+                        </div>
                     </div>
                 </div>
                 <br />
