@@ -32,7 +32,7 @@ class StockPicking(models.Model):
             else:
                 for move in picking.move_lines:
                     rounding = move.product_id.uom_id.rounding
-                    if float_compare(move.product_uom_qty, move.forecast_availability, precision_rounding=rounding) == 0:
+                    if float_compare(move.product_uom_qty, move.reserved_availability, precision_rounding=rounding) == 0:
                         status = "full"
                     else:
                         status = "partial"
