@@ -8,6 +8,7 @@ class StockPicking(models.Model):
 
 
     searched_reserve_status = fields.Selection([
+        ('nothing', "Nothing Ready"),
         ('full', "Fully Ready"),
         ('partial', "Partially Ready"),
         ('complete', "Complete"),
@@ -15,6 +16,7 @@ class StockPicking(models.Model):
     ],string="Reserved Status",help="*Fully Ready: If all the products in the delivery order are reserved.\n*Partially Ready: If some of the products in the delivery order are reserved.")
 
     reserve_status = fields.Selection([
+        ('nothing', "Nothing Ready"),
         ('full', "Fully Ready"),
         ('partial', "Partially Ready"),
         ('complete', "Complete"),
@@ -34,7 +36,17 @@ class StockPicking(models.Model):
                     if move.product_id.type == 'product':
                         rounding = move.product_id.uom_id.rounding
                         if float_compare(move.product_uom_qty, move.reserved_availability, precision_rounding=rounding) == 0:
-                            status = "full"
+                            if status in ['full', None]:
+                                status = "full"
+                            else:
+                                status = "partial"
+                                break
+                        elif move.reserved_availability == 0:
+                            if status in ['nothing', None]:
+                                status = "nothing"
+                            else:
+                                status = "partial"
+                                break
                         else:
                             status = "partial"
                             break

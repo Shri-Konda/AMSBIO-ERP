@@ -3,7 +3,7 @@
     'name': "Delivery Orders Reserve Status",
     'author': "Target Integration",
     'summary': "Displays Status of Reserved Quantities",
-    'version': "1.0.3",
+    'version': "1.0.4",
     'website': "http://www.targetintegration.com",
     'depends': ["base", "stock"],
     'data': [
