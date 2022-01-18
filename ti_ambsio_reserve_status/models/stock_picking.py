@@ -31,12 +31,13 @@ class StockPicking(models.Model):
                 status = "cancel"
             else:
                 for move in picking.move_lines:
-                    rounding = move.product_id.uom_id.rounding
-                    if float_compare(move.product_uom_qty, move.reserved_availability, precision_rounding=rounding) == 0:
-                        status = "full"
-                    else:
-                        status = "partial"
-                        break
+                    if move.product_id.type == 'product':
+                        rounding = move.product_id.uom_id.rounding
+                        if float_compare(move.product_uom_qty, move.reserved_availability, precision_rounding=rounding) == 0:
+                            status = "full"
+                        else:
+                            status = "partial"
+                            break
             picking.reserve_status = status
             picking.searched_reserve_status = status
 
