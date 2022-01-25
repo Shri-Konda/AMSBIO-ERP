@@ -219,7 +219,7 @@
                     </div>
                     <div t-if="o.company_id.country_id.name == 'Netherlands'">
                         <p>
-                            ING Bank N.V., PO BOX 1800, 1000BV AMSTERDAM, BE Brussels<br />
+                            ING Bank N.V., PO BOX 1800, 1000BV AMSTERDAM, NL Netherlands<br />
                             IBAN: NL53 INGB 0675 0952 04<br />
                             SWIFT (BIC): INGBNL2A<br />
                             Account number: 0675095204<br />
