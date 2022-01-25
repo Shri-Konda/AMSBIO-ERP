@@ -197,6 +197,7 @@
                             Sort code: 403534 <br />
                             Account number: 51723014
                         </p>
+                        <p>We also accept payment by Visa and Mastercard.</p>
                     </div>
                     <div t-if="o.company_id.country_id.name == 'United States'">
                         <p>
@@ -205,6 +206,7 @@
                             Account number: 2761130456 <br />
                             Account name: AMSBIO LLC
                         </p>
+                        <p>We also accept payment by Visa and Mastercard.</p>
                     </div>
                     <div t-if="o.company_id.country_id.name == 'Switzerland'">
                         <p>
@@ -213,16 +215,17 @@
                             SWIFT code (BIC):UBSWCHZH80A <br />
                             Account number: 312 418 01N
                         </p>
+                        <p>We also accept payment by Visa and Mastercard.</p>
                     </div>
                     <div t-if="o.company_id.country_id.name == 'Netherlands'">
                         <p>
-                           Transferwise Europe SA/NV, Square De Meeus 38/40, BE Brussels<br />
-                           IBAN: BE59 9672 3706 4326<br />
-                           SWIFT (BIC): TRWIBEB1XXX<br />
-                           Account name: AMSBIO Europe BV<br />
+                            ING Bank N.V., PO BOX 1800, 1000BV AMSTERDAM, BE Brussels<br />
+                            IBAN: NL53 INGB 0675 0952 04<br />
+                            SWIFT (BIC): INGBNL2A<br />
+                            Account number: 0675095204<br />
+                            Account name: AMSBIO Europe B.V.<br />
                         </p>
                     </div>
-                    <p>We also accept payment by Visa and Mastercard.</p>
                     <div t-if="o.invoice_payment_term_id">
                         <strong>Payment Terms: </strong><span t-field="o.invoice_payment_term_id" />
                     </div>
