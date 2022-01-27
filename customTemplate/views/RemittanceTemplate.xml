@@ -41,11 +41,15 @@
                     </div>
                     <h2><strong>Remittance Advice: <span t-field="o.name" /></strong></h2>
                     <div class="row mt64">
-                        <div class="col-3" t-if="o.date">
+                        <div class="col-4" t-if="o.date">
                             <strong>Date: </strong>
                             <p class="m-0" t-field="o.date" />
                         </div>
-                        <div class="col-3" t-if="o.ref">
+                        <div class="col-4" t-if="o.partner_id">
+                            <strong>Name: </strong>
+                            <p class="m-0" t-field="o.partner_id" />
+                        </div>
+                        <div class="col-4" t-if="o.ref">
                             <strong>Payment Ref: </strong>
                             <p class="m-0" t-field="o.ref" />
                         </div>
@@ -87,7 +91,8 @@
                                     <td><strong>Total</strong></td>
                                     <td class="text-right">
                                         <span t-field="o.currency_id"/>
-                                        <span t-esc="str('%.0f'%o.amount)"/>
+                                        <!-- <span t-esc="str('%.0f'%o.amount)"/> -->
+                                        <span t-field="o.amount"/>
                                     </td>
                                 </tr>
                             </table>
