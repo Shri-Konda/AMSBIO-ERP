@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-extend="Export.SavedList">
+        <t t-jquery="select.o_exported_lists_select" t-operation="replace">
+            <t t-set='hide_delete_button' t-value='False'/>
+            <select class="form-control ml-4 o_exported_lists_select">
+                <option></option>
+                <option class="font-italic" value="new_template">New template</option>
+                <t t-foreach="existing_exports" t-as="export">
+                    <option t-if='export.id &gt;0'  t-att-value="export.id">
+                        <t t-esc="export.name"/>
+                    </option>
+                    <t t-elif='export.id==-1'>
+                        <t t-set='hide_delete_button' t-value='export.hide_delete_button'/>
+                    </t>
+                </t>
+            </select>
+        </t>
+        <t t-jquery="button.o_delete_exported_list" t-operation="replace">
+            <button type="button" t-if='hide_delete_button' class="btn btn-secondary d-none ml-1 o_delete_exported_list">
+                <i class="fa fa-trash"/>
+            </button>
+        </t>
+    </t>
+
+</templates>
