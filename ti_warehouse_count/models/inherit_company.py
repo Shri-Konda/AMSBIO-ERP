@@ -86,3 +86,14 @@ class ResPartner(models.Model):
         ], string='Address Type',
         default='contact',
         help="Invoice & Delivery addresses are used in sales orders.")
+
+
+class Account_Payment(models.Model):
+    _inherit = 'account.payment'
+
+    def action_generate_bacs_payment(self):
+        payment_date = set(self.mapped('date'))
+        if len(payment_date) >= 2:
+            raise UserError(_('Please Select Payments with same date.'))
+        else:
+            return self.env.ref('ti_warehouse_count.ti_amsbio_payment_transaction_report').report_action(self)

@@ -2,6 +2,20 @@
 <odoo>
     <data noupdate="0">
 
+      <record id="ti_bacs_payment" model="ir.actions.server">
+        <field name="name">Print BACS_Payment</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="account.model_account_payment"/>
+        <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+  action = records.action_generate_bacs_payment()
+        </field>
+    </record>
+
         <!-- Vendor Pricelist Automation https://support.targetintegration.com/issues/6180-->
 
         <record model="base.automation" id="action_create_vendor_pricelist">
@@ -74,16 +88,17 @@ company_id = IrDefault.get('res.config.settings', 'reordering_rule')
 company = env['res.company'].sudo().browse([company_id])         
 warehouses = env['stock.warehouse'].sudo().search([("company_id","=",company.id)])
 for rec in records:
-  for wh in warehouses:
-    reordering = env['stock.warehouse.orderpoint'].sudo().create({
-      'company_id'      : company.id,
-      'product_id'      : rec.product_variant_ids[0].id,
-      'location_id'     : wh.lot_stock_id.id,
-      'product_min_qty' : 0,
-      'product_max_qty' : 0,
-      'qty_multiple'    : 1,
-      'warehouse_id'    : wh.id,
-    })
+  if rec.type=='product':
+    for wh in warehouses:
+      reordering = env['stock.warehouse.orderpoint'].sudo().create({
+        'company_id'      : company.id,
+        'product_id'      : rec.product_variant_ids[0].id,
+        'location_id'     : wh.lot_stock_id.id,
+        'product_min_qty' : 0,
+        'product_max_qty' : 0,
+        'qty_multiple'    : 1,
+        'warehouse_id'    : wh.id,
+      })
             </field>
      </record>
 
@@ -102,7 +117,7 @@ IrDefault = env['ir.default'].sudo()
 company_id = IrDefault.get('res.config.settings', 'reordering_rule')
 company = env['res.company'].sudo().browse([company_id])
 warehouses = env['stock.warehouse'].sudo().search([("company_id","=",company.id)])
-for rec in env['product.template'].sudo().search([('is_reordering_updated','=',False)],limit=17000):
+for rec in env['product.template'].sudo().search([('is_reordering_updated','=',False),('type','=','product')],limit=17000):
   for wh in warehouses:
     reordering = env['stock.warehouse.orderpoint'].sudo().create({
       'company_id'      : company.id,
@@ -125,16 +140,25 @@ for rec in env['product.template'].sudo().search([('is_reordering_updated','=',F
             <field name="name">Customer Reference in sale order</field>
             <field name="model_id" ref="sale.model_sale_order"/>
             <field name="state">code</field>
-            <field name="trigger">on_create</field>
+            <field name="trigger">on_create_or_write</field>
             <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
             <field name="code">
 for rec in records:
   if rec.auto_purchase_order_id:
     original_so = rec.auto_purchase_order_id._get_sale_orders()
     rec.write({
-      'client_order_ref'  : "%s"%(original_so.client_order_ref or ""),
+      'client_order_ref'  : "%s"%(original_so.client_order_ref or rec.client_order_ref),
       'intercompany_sale_order': "%s"%(rec.auto_purchase_order_id.origin or ""),
+      'x_studio_courier_ref'   : "%s"%(original_so.x_studio_courier_ref or ""),
     })
+  else:
+    po = rec._get_purchase_orders()
+    if po and len(po)==1 and po.partner_ref and po.state=='purchase':
+      sale_order = env['sale.order'].sudo().search([('name','=',po.partner_ref)],limit=1)
+      if sale_order:
+        sale_order.write({
+          'x_studio_courier_ref'   : "%s"%(rec.x_studio_courier_ref or ""),
+        })
             </field>
      </record>
 

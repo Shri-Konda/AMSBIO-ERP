@@ -5,16 +5,16 @@ $FT:<t t-esc="'%.2f'%(total_amount)"/>
 $FC:GBP
 $DS
 F01:51723014
-F02:<t t-esc="datetime.datetime.now().strftime(&quot;%d%m%y&quot;)"/>
+F02:<t t-esc="list(set(docs.mapped('date')))[0].strftime(&quot;%d%m%y&quot;)"/>
 F03:
 F04:<t t-esc="len(docs)"/>
 F05:<t t-esc="'%.2f'%(total_amount)"/>
-<t t-foreach="docs" t-as="o"><t t-set="o_amount" t-value="o.amount" t-options='{"widget": "float", "precision": 2}' />$LS
+<t t-foreach="docs" t-as="o"><t t-set="o_amount" t-value="o.amount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>$LS
 S01:<t t-esc="o.partner_bank_id.acc_number"/>
 S02:<t t-esc="o.partner_bank_id.x_studio_sort_code"/>
 S03:<t t-esc="o.partner_id.name.upper()[:15]"/>
 S04:<t t-esc="'%.2f'%(o_amount)"/>
-S05:<t t-esc="o.ref or &quot;AMSBIO&quot;"/>
+S05:AMSBIO
 $LE
 </t>$DE
 </template>
