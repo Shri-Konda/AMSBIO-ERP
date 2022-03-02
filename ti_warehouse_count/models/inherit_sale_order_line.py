@@ -162,8 +162,33 @@ class SaleOrder(models.Model):
             if not order.auto_purchase_order_id:
                 po = order._get_purchase_orders()
                 if po and len(po)==1 and po.state!='purchase':
+                    for line in order.order_line.sudo():
+                        line = line.with_company(line.company_id)
+                        if not line.product_id:
+                            line.env['purchase.order.line'].sudo().create(order._prepare_po_line_data(line, order.date_order, po))
+
                     po.button_confirm()
+
         return result
+
+
+    def _prepare_po_line_data(self, so_line, date_order,purchase_order):
+        """ Generate purchase order line values, from the SO line
+            :param so_line : origin SO line
+            :rtype so_line : sale.order.line record
+            :param date_order : the date of the orgin SO
+        """
+        return {
+            'name': so_line.name,
+            'product_qty': 0,
+            'product_id': so_line.product_id and so_line.product_id.id or False,
+            'product_uom': so_line.product_id and so_line.product_id.uom_po_id.id or so_line.product_uom.id,
+            'price_unit': 0.0,
+            'company_id': self.company_id.id,
+            'date_planned': so_line.order_id.expected_date or date_order,
+            'display_type': so_line.display_type,
+            'order_id': purchase_order.id,
+        }
 
 
 class purchase_order(models.Model):
