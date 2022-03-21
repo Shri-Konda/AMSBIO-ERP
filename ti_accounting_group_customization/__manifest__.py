@@ -2,7 +2,7 @@
   "name"                 :  "Ti Accounting Group Customization",
   "summary"              :  """Accounting Group Customization.""",
   'category'             :  'Accounting/Accounting',
-  "version"              :  "1.0.1",
+  "version"              :  "1.0.2",
   "sequence"             :  1,
   "author"               :  "Target Integration.",
   "website"              :  "http://www.targetintegration.com",

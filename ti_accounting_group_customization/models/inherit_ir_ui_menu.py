@@ -20,10 +20,10 @@ class IrUiMenu(models.Model):
                 
                 accounting_menu = self.env.ref('account.menu_finance_entries').id
                 dashboard_menu = self.env.ref('account.menu_board_journal_1').id
-                reporting_menu = self.env.ref('account.menu_finance_reports').id
+                # reporting_menu = self.env.ref('account.menu_finance_reports').id
                 configuration_menu = self.env.ref('account.menu_finance_configuration').id
                 
-                menu_ids.extend([dashboard_menu,accounting_menu,reporting_menu,configuration_menu])
+                menu_ids.extend([dashboard_menu,accounting_menu,configuration_menu])
             except Exception as e:
                 _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
                 pass
