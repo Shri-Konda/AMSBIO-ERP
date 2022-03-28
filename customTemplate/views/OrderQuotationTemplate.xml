@@ -21,7 +21,7 @@
                         <h6>
                             <div>VAT reg. no.: <span t-field="doc.company_id.partner_id.vat" /></div>
                             <div>EORI: <span t-field="doc.company_id.x_studio_eori" /></div>
-                            <div>Email: <span t-field="doc.company_id.partner_id.email" /></div>
+                            <div>Email-ID: <span t-field="doc.company_id.partner_id.email" /></div>
                             <div><i class="fa fa-phone fa-fw" /><span t-field="doc.company_id.partner_id.phone" /></div>
                         </h6>
                     </div>
