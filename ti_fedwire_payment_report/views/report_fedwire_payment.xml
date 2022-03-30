@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_template_fedwire_payment"><xml version="1.0" encoding="utf-8">
+        <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03" xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03 file:///Z:/A-Z/X/XML/Schemas/pain.001.001.03.xsd">
+            <CstmrCdtTrfInitn>
+                <GrpHdr>
+                    <MsgId><t t-esc="datetime.datetime.today().strftime('%Y-%m-%dT%H:%M:%S')"/></MsgId>
+                    <CreDtTm><t t-esc="datetime.datetime.today().strftime('%Y-%m-%dT%H:%M:%S')"/></CreDtTm>
+                    <NbOfTxs><t t-esc='len(docs)'/></NbOfTxs>
+                    <InitgPty>
+                        <Id>
+                            <OrgId>
+                                <Othr>
+                                    <Id>ABC32204001</Id>
+                                </Othr>
+                            </OrgId>
+                        </Id>
+                    </InitgPty>
+                </GrpHdr>
+                <PmtInf>
+                    <PmtInfId>ORIGINATOR REFERENCE</PmtInfId>
+                    <PmtMtd>TRF</PmtMtd>
+                    <PmtTpInf>
+                        <SvcLvl>
+                            <Cd>URGP</Cd>
+                        </SvcLvl>
+                    </PmtTpInf>
+                    <!-- Date of selected payment always same  -->
+                    <ReqdExctnDt><t t-esc="list(set(docs.mapped('date')))[0].strftime('%Y-%m-%d')"/></ReqdExctnDt>
+                    <Dbtr>
+                        <Nm>AMS Biotechnology (Europe) Limited</Nm>
+                        <PstlAdr>
+                            <StrtNm>184, Milton Park</StrtNm>
+                            <PstCd>OX14 4SE</PstCd>
+                            <TwnNm>ABINGDON</TwnNm>
+                            <Ctry>GB</Ctry>
+                        </PstlAdr>
+                    </Dbtr>
+                    <DbtrAcct>
+                        <Id>
+                            <IBAN>GB03HBUK40127673806781</IBAN>
+                        </Id>
+                    </DbtrAcct>
+                    <DbtrAgt>
+                        <FinInstnId>
+                            <BIC>HBUKGB4B</BIC>
+                            <PstlAdr>
+                                <Ctry>GB</Ctry>
+                            </PstlAdr>
+                        </FinInstnId>
+                    </DbtrAgt>
+                    <ChrgBr>SHAR</ChrgBr>
+                    <t t-foreach="docs" t-as="o"><t t-set="o_amount" t-value="o.amount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/><CdtTrfTxInf>
+                            <PmtId><EndToEndId><t t-esc="o.partner_id.name.upper()[:16]"/></EndToEndId></PmtId>
+                            <Amt><InstdAmt Ccy="USD"><t t-esc="'%.2f'%(o_amount)"/></InstdAmt></Amt>
+                            <CdtrAgt>
+                                <FinInstnId>
+                                    <ClrSysMmbId>
+                                        <MmbId>US FEDWIRE CODE</MmbId>
+                                    </ClrSysMmbId>
+                                    <PstlAdr>
+                                        <Ctry><t t-esc="o.partner_id.country_id.code"/></Ctry>
+                                    </PstlAdr>
+                                </FinInstnId>
+                            </CdtrAgt>
+                            <Cdtr>
+                                <Nm><t t-esc="o.partner_id.name.upper()[:35]"/></Nm>
+                                <PstlAdr>
+                                    <StrtNm><t t-esc="o.partner_id.street"/> <t t-esc="o.partner_id.street2"/></StrtNm>
+                                    <PstCd><t t-esc="o.partner_id.zip"/></PstCd>
+                                    <TwnNm><t t-esc="o.partner_id.city"/></TwnNm>
+                                    <CtrySubDvsn><t t-esc="o.partner_id.state_id.name"/></CtrySubDvsn>
+                                    <Ctry><t t-esc="o.partner_id.country_id.code"/></Ctry>
+                                </PstlAdr>
+                            </Cdtr>
+                            <CdtrAcct>
+                                <Id>
+                                    <Othr>
+                                        <Id><t t-esc="o.partner_bank_id.acc_number"/></Id>
+                                    </Othr>
+                                </Id>
+                            </CdtrAcct>
+                            <RmtInf>
+                                <Ustrd>PAYMENT FROM AMSBIO</Ustrd>
+                            </RmtInf>
+                        </CdtTrfTxInf>
+                    </t>
+                </PmtInf>
+            </CstmrCdtTrfInitn>
+        </Document>
+        </xml>
+        
+        </template>
+
+
+    </odoo>
