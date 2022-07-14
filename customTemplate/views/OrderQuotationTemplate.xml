@@ -270,38 +270,42 @@
                                 contact AMSBIO.</li>
                         </ol>
                     </div>
-                    <style type="text/css">
-                        li {
-                            list-style-type: lower-alpha;
-                        }
+                    <div t-if="o.company_id.country_id.name == 'United Kingdom'">
+                        <style type="text/css">
+                            li {
+                                list-style-type: lower-alpha;
+                            }
 
-                        .amsbio-tos ol {
-                            margin-left: 2em;
-                        }
+                            .amsbio-tos ol {
+                                margin-left: 2em;
+                            }
 
-                        .amsbio-tos h1 {
-                            font-size: 14pt;
-                            font-weight: bold;
-                        }
+                            .amsbio-tos h1 {
+                                font-size: 14pt;
+                                font-weight: bold;
+                            }
 
-                        .amsbio-tos h2 {
-                            font-size: 12pt;
-                            font-weight: bold;
-                        }
+                            .amsbio-tos h2 {
+                                font-size: 12pt;
+                                font-weight: bold;
+                            }
 
-                        .amsbio-tos {
-                            text-align: justify;
-                            font-size: 10pt;
-                            page-break-before: always;
-                            font-family: Calibri, sans-serif;
-                        }
+                            .amsbio-tos {
+                                text-align: justify;
+                                font-size: 10pt;
+                                page-break-before: always;
+                                font-family: Calibri, sans-serif;
+                            }
 
-                        .footer-style {
-                            position: absolute;
-                            margin-top: 10px;
-                            padding: 0px;
-                        }
-                    </style>
+                            .footer-style {
+                                position: absolute;
+                                margin-top: 10px;
+                                padding: 0px;
+                            }
+                        </style>
+                    </div>
+                    <div t-else="">
+                    </div>
                     <!-- <div t-if="doc.state in ['draft','sent']" class="amsbio-tos"> -->
                     <div class="amsbio-tos">
                         <h1>Terms of Sale</h1>
