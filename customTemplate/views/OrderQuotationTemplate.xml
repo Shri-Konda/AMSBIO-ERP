@@ -99,7 +99,12 @@
                     </div>
                     <div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
                         <strong>Order Date:</strong>
-                        <p class="m-0" t-field="doc.date_order" />
+                            <t t-if="doc.company_id.country_id.name == 'United States'">
+                                <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date", "format": "MM-dd-yyyy"}' />
+                            </t>
+                            <t t-else="" >
+                                <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date", "format": "dd-MM-yyyy"}' />
+                            </t>
                     </div>
                     <div t-if="doc.date_order and doc.state in ['draft','sent']" class=" col-auto col-3 mw-100 mb-2">
                         <strong>Quotation Date:</strong>
@@ -302,8 +307,6 @@
                                 padding: 0px;
                             }
                     </style>
-                    
-                    
                     <!-- <div t-if="doc.state in ['draft','sent']" class="amsbio-tos"> -->
                     <div class="amsbio-tos">
                         <h1>Terms of Sale</h1>
@@ -993,6 +996,8 @@
                     </div>
                     <div t-else="doc.company_id.country_id.name == 'United States'" class="row">
                         <div class="col-12">
+                            <br />
+                            <br />
                             Page: <span class="page" /> / <span class="topage" />
                         </div>
                         <div class="col-3">
