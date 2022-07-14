@@ -270,7 +270,7 @@
                                 contact AMSBIO.</li>
                         </ol>
                     </div>
-                    <div t-if="o.company_id.country_id.name == 'United Kingdom'">
+                    <div t-if="doc.company_id.country_id.name == 'United Kingdom'">
                         <style type="text/css">
                             li {
                                 list-style-type: lower-alpha;
