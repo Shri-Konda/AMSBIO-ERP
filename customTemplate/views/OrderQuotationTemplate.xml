@@ -270,8 +270,8 @@
                                 contact AMSBIO.</li>
                         </ol>
                     </div>
-                    <div t-if="doc.company_id.country_id.name == 'United Kingdom'">
-                        <style type="text/css">
+                    <style type="text/css">
+                        <div t-if="doc.company_id.country_id.name == 'United Kingdom'">
                             li {
                                 list-style-type: lower-alpha;
                             }
@@ -302,10 +302,13 @@
                                 margin-top: 10px;
                                 padding: 0px;
                             }
-                        </style>
-                    </div>
-                    <div t-else="">
-                    </div>
+                        </div>
+                        <div t-else="">
+                        
+                        </div>
+                    </style>
+                    
+                    
                     <!-- <div t-if="doc.state in ['draft','sent']" class="amsbio-tos"> -->
                     <div class="amsbio-tos">
                         <h1>Terms of Sale</h1>
