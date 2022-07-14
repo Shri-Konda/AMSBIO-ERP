@@ -271,7 +271,6 @@
                         </ol>
                     </div>
                     <style type="text/css">
-                        <div t-if="doc.company_id.country_id.name == 'United Kingdom'">
                             li {
                                 list-style-type: lower-alpha;
                             }
@@ -302,10 +301,6 @@
                                 margin-top: 10px;
                                 padding: 0px;
                             }
-                        </div>
-                        <div t-else="">
-                        
-                        </div>
                     </style>
                     
                     
@@ -980,12 +975,7 @@
             </div>
             <div class="footer" style="font-family: Calibri;">
                 <div class="text-center" style="border-top: 1px solid black; font-size: 8pt;">
-                    <div t-if="doc.company_id.country_id.name == 'United States'" class="row">
-                        <div class="col-12">
-                            Page: <span class="page" /> / <span class="topage" />
-                        </div>
-                    </div>
-                    <div t-else="" class="row">
+                    <div t-if="doc.company_id.country_id.name == 'United Kingdom'" class="row">
                         <div class="col-3">
                             <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-left"
                                 style="width: 150px; margin-top: 2px;" />
@@ -994,6 +984,15 @@
                             AMS Biotechnology (Europe) Limited<br />
                             Company registered in England &amp; Wales. Company Reg No: 2117791<br />
                             Goods remain the property of AMS Biotechnology until paid for in full<br />
+                            Page: <span class="page" /> / <span class="topage" />
+                        </div>
+                        <div class="col-3">
+                            <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-right"
+                                style="width: 150px; height: 70px; margin-top: 2px;" />
+                        </div>
+                    </div>
+                    <div t-else="doc.company_id.country_id.name == 'United States'" class="row">
+                        <div class="col-12">
                             Page: <span class="page" /> / <span class="topage" />
                         </div>
                         <div class="col-3">
