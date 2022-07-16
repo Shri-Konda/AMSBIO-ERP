@@ -114,7 +114,18 @@
                     </div>
                     <div t-if="doc.date_order and doc.state in ['draft','sent']" class=" col-auto col-3 mw-100 mb-2">
                         <strong>Quotation Date:</strong>
-                        <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date"}' />
+                            <t t-if="doc.company_id.country_id.name == 'United States'">
+                                <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date", "format": "MM-dd-yyyy"}' />
+                            </t>
+                            <t t-if="doc.company_id.country_id.name == 'United Kingdom'">
+                                <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date", "format": "dd-MM-yyyy"}' />
+                            </t>
+                            <t t-if="doc.company_id.country_id.name == 'Switzerland'">
+                                <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date", "format": "dd-MM-yyyy"}' />
+                            </t>
+                            <t t-if="doc.company_id.country_id.name == 'Netherlands'">
+                                <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date", "format": "dd-MM-yyyy"}' />
+                            </t>
                     </div>
                     <div t-if="doc.delivery_time_week != '0'" class="col-auto col-3 mw-100 mb-2">
                         <strong>Delivery Time:</strong>
