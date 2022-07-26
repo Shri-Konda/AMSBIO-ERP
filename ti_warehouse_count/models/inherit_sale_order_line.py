@@ -10,6 +10,7 @@ from logging import getLogger
 _logger = getLogger(__name__)
 from odoo.osv import expression
 from odoo.tools import float_is_zero, float_compare
+from psycopg2 import IntegrityError
 
 
 
@@ -190,6 +191,20 @@ class SaleOrder(models.Model):
             'order_id': purchase_order.id,
         }
 
+    @api.model
+    def action_create_and_post_invoices(self):
+        for order in self.env["sale.order"].sudo().search([("invoice_status", "=", "to invoice"), ("state", "=", "sale")]):
+            try:
+                with self.env.cr.savepoint():
+                    invoiceable_lines = order._get_invoiceable_lines(True)
+                    if invoiceable_lines:
+                        invoice = order._create_invoices(final=True)
+                        if order.auto_purchase_order_id:
+                            invoice.action_post()
+            except IntegrityError as e:
+                _logger.error(f"Database error while creating invoice for {order.name}: {e}")
+            except Exception as e:
+                _logger.error("Error while creating invoice for %s: %s" % (order.name, e))
 
 class purchase_order(models.Model):
 
@@ -204,6 +219,24 @@ class purchase_order(models.Model):
                 if sale_order:
                     sale_order.with_company(sale_order.company_id).action_confirm()
         return res
+
+    @api.model
+    def action_create_and_post_bills(self):
+        for purchase in self.env["purchase.order"].sudo().search([("invoice_status", "=", "to invoice"), ("state", "=", "purchase")]):
+            try:
+                with self.env.cr.savepoint():
+                    bill_id = purchase.action_create_invoice()
+                    bill = self.env["account.move"].browse(bill_id.get("res_id", None))
+                    if bill:
+                        # If receipt have sale order and purchase order in it, it means it's from intermediate purchase order so we need to confirm the purchase order
+                        confirm_bill = purchase.picking_ids.filtered(lambda p: p.state == "done").mapped("sale_id")
+                        if confirm_bill:
+                            bill.write({'ref': "%s-%s" % (bill.ref, bill.id), "invoice_date": datetime.today()})
+                            bill.action_post()
+            except IntegrityError as e:
+                _logger.error(f"Database error while creating bill for {purchase.name}: {e}")
+            except Exception as e:
+                _logger.error("Error while creating bill for %s: %s" % (purchase.name, e))
 
 
     def _prepare_invoice(self):
