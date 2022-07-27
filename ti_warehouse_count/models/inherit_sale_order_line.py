@@ -225,12 +225,12 @@ class purchase_order(models.Model):
         for purchase in self.env["purchase.order"].sudo().search([("invoice_status", "=", "to invoice"), ("state", "=", "purchase")]):
             try:
                 with self.env.cr.savepoint():
-                    bill_id = purchase.action_create_invoice()
-                    bill = self.env["account.move"].browse(bill_id.get("res_id", None))
-                    if bill:
-                        # If receipt have sale order and purchase order in it, it means it's from intermediate purchase order so we need to confirm the purchase order
-                        confirm_bill = purchase.picking_ids.filtered(lambda p: p.state == "done").mapped("sale_id")
-                        if confirm_bill:
+                    # If receipt have sale order and purchase order in it, it means it's from intermediate purchase order so we need to create and confirm the purchase order
+                    is_intercompany_purchase = purchase.picking_ids.filtered(lambda p: p.state == "done").mapped("sale_id")
+                    if is_intercompany_purchase:
+                        bill_id = purchase.action_create_invoice()
+                        bill = self.env["account.move"].browse(bill_id.get("res_id", None))
+                        if bill:
                             bill.write({'ref': "%s-%s" % (bill.ref, bill.id), "invoice_date": datetime.today()})
                             bill.action_post()
             except IntegrityError as e:
