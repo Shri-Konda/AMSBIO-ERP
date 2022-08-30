@@ -205,24 +205,7 @@ for rec in records:
             <field name="numbercall">-1</field>
             <field name="interval_number">5</field>
             <field name="interval_type">minutes</field>
-            <field name="code">
-IrDefault = env['ir.default'].sudo()
-company_id = IrDefault.get('res.config.settings', 'reordering_rule')
-company = env['res.company'].sudo().browse([company_id])
-
-for rec in env['sale.order'].sudo().search([('invoice_status','=','to invoice'),('state','=','sale')]):
-  for picking in rec.picking_ids.filtered(lambda picking: picking.state=='done'):
-    if picking.sale_id and not picking.purchase_id and picking.sale_id.auto_purchase_order_id:
-      invoiceable_lines = rec._get_invoiceable_lines(True)
-      if invoiceable_lines:
-        move = picking.sale_id._create_invoices(final=True)
-        move.action_post()
-        
-  if rec.company_id.id == company.id:
-    invoiceable_lines = rec._get_invoiceable_lines(True)
-    if invoiceable_lines:
-      rec._create_invoices(final=True)
-            </field>
+            <field name="code">model.action_create_and_post_invoices()</field>
     </record>
 
     <record model="ir.cron" id="action_cron_generate_vendor_bill_and_invoice">
@@ -235,27 +218,7 @@ for rec in env['sale.order'].sudo().search([('invoice_status','=','to invoice'),
             <field name="numbercall">-1</field>
             <field name="interval_number">5</field>
             <field name="interval_type">minutes</field>
-            <field name="code">
-for rec in env['purchase.order'].sudo().search([('invoice_status','=','to invoice'),('state','=','purchase')]):
-  log("%s"%(rec),level='info')
-  for picking in rec.picking_ids.filtered(lambda picking: picking.state=='done'):
-    if picking.sale_id and picking.purchase_id:
-      if picking.purchase_id.invoice_status != 'to invoice':
-        continue
-      move = picking.purchase_id.action_create_invoice()
-      move = env['account.move'].sudo().browse([move.get('res_id',None)])
-      if move:
-          move.write({
-              'ref'           : '%s-%s'%(move.ref,move.id),
-              'invoice_date'  : datetime.datetime.today(),
-          })
-      move.action_post()
-
-      original_so = picking.purchase_id._get_sale_orders()
-      invoiceable_lines = original_so._get_invoiceable_lines(True)
-      if invoiceable_lines:
-        original_so._create_invoices(final=True)
-            </field>
+            <field name="code">model.action_create_and_post_bills()</field>
     </record>
 
 <!--  -->
