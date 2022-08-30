@@ -42,7 +42,7 @@
                         <p>
                             <t t-if="o.x_studio_delivery_location == 'US'">
                                 <p>
-                                    AMSBIO LLC 1035,<br />Cambridge Street,<br />Suite 16 B,<br />Cambridge,<br />MA 02141.<br />USA<br />Tel: +1 (617) 945 5033
+                                    AMSBIO LLC,<br />1035 Cambridge Street,<br />Suite 16 B,<br />Cambridge,<br />MA 02141.<br />USA<br />Tel: +1 (617) 945 5033
                                 </p>
                             </t>
                             <t t-if="o.x_studio_delivery_location == 'UK'">
