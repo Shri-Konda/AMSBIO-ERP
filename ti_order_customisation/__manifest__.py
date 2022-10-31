@@ -3,7 +3,7 @@
     'name'      : "TI Sale Order Customisation",
     'author'    : "Target Integration",
     'summary'   : "All customisations related to sale order",
-    'version'   : "14.0.0.2",
+    'version'   : "14.0.1.2",
     'website'   : "http://www.targetintegration.com",
     'category'  : "Sales/Sales",
 

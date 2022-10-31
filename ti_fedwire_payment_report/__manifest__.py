@@ -2,7 +2,7 @@
   "name"                 :  "TI Fedwire Payment report.",
   "summary"              :  """TI Fedwire Payment Report.""",
   'category'             :  'Accounting/Accounting',
-  "version"              :  "1.0.4",
+  "version"              :  "1.0.3",
   "sequence"             :  1,
   "author"               :  "Target Integration.",
   "website"              :  "http://www.targetintegration.com",
