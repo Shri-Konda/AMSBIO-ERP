@@ -15,8 +15,9 @@ class Partner(models.Model):
         context = {}
         if self.is_company:
             context["default_partner_id"] = self.id
-        else:
-            if self.parent_id:
-                context["default_partner_id"] = self.parent_id.id
+        elif self.parent_id:
+            context["default_partner_id"] = self.parent_id.id
+        elif self.type == "contact":
+            context["default_partner_id"] = self.id
         action["context"] = str(context)
         return action
