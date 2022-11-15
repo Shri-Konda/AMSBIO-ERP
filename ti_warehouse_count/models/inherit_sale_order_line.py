@@ -107,6 +107,20 @@ class SaleOrderLine(models.Model):
             self.route_id = self.order_id.company_id.route_id and self.order_id.company_id.route_id.id
         return result
 
+    @api.model
+    def _prepare_add_missing_fields(self, values):
+        """Override the default method to include route_id in onchange fields which will be computed based on cange of product_id."""
+
+        res = {}
+        onchange_fields = ['name', 'price_unit', 'product_uom', 'tax_id', 'route_id']
+        if values.get('order_id') and values.get('product_id') and any(f not in values for f in onchange_fields):
+            line = self.new(values)
+            line.product_id_change()
+            for field in onchange_fields:
+                if field not in values:
+                    res[field] = line._fields[field].convert_to_write(line[field], line)
+        return res
+
 
 
 class PurchaseOrderLine(models.Model):
@@ -184,16 +198,20 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         result = super(SaleOrder, self).action_confirm()
         for order in self:
+            purchase_order = order._get_purchase_orders()
+            _logger.info(f"\n==>purchase order {purchase_order.name} for {order.name}\n")
             if not order.auto_purchase_order_id:
-                po = order._get_purchase_orders()
-                if po and len(po)==1 and po.state!='purchase':
+                if purchase_order and len(purchase_order)==1 and purchase_order.state!='purchase':
                     for line in order.order_line.sudo():
                         line = line.with_company(line.company_id)
                         if not line.product_id:
-                            line.env['purchase.order.line'].sudo().create(order._prepare_po_line_data(line, order.date_order, po))
+                            line.env['purchase.order.line'].sudo().create(order._prepare_po_line_data(line, order.date_order, purchase_order))
 
-                    po.button_confirm()
-
+            # We have to confirm all the intermediate purchase orders made for intercompany purchases
+            companies_contacts = self.env["res.company"].search([]).mapped("partner_id")
+            _logger.info(f"\n==>Company Contacts: {companies_contacts.mapped('name')}\n==>supplier: {purchase_order and purchase_order.partner_id.name}\n")
+            if purchase_order and purchase_order.partner_id in companies_contacts:
+                purchase_order.button_confirm()
         return result
 
 
