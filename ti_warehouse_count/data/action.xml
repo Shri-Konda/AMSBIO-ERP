@@ -199,7 +199,6 @@ for rec in records:
             <field name="name">Generate Intercompany Invoices</field>
             <field name="model_id" ref="sale.model_sale_order"/>
             <field name="state">code</field>
-            <field name="active" eval="False"/>
             <field name="user_id" ref="base.user_root"/>
             <field name="doall" eval="False"/>
             <field name="numbercall">-1</field>
@@ -212,7 +211,6 @@ for rec in records:
             <field name="name">Generate Intercompany Vendor Bills</field>
             <field name="model_id" ref="purchase.model_purchase_order"/>
             <field name="state">code</field>
-            <field name="active" eval="False"/>
             <field name="user_id" ref="base.user_root"/>
             <field name="doall" eval="False"/>
             <field name="numbercall">-1</field>

@@ -208,7 +208,7 @@ class SaleOrder(models.Model):
                             line.env['purchase.order.line'].sudo().create(order._prepare_po_line_data(line, order.date_order, purchase_order))
 
             # We have to confirm all the intermediate purchase orders made for intercompany purchases
-            companies_contacts = self.env["res.company"].search([]).mapped("partner_id")
+            companies_contacts = self.env["res.company"].sudo().search([]).mapped("partner_id")
             _logger.info(f"\n==>Company Contacts: {companies_contacts.mapped('name')}\n==>supplier: {purchase_order and purchase_order.partner_id.name}\n")
             if purchase_order and purchase_order.partner_id in companies_contacts:
                 purchase_order.button_confirm()
@@ -271,7 +271,7 @@ class purchase_order(models.Model):
                     is_intercompany_purchase = purchase.picking_ids.filtered(lambda p: p.state == "done").mapped("sale_id")
                     if is_intercompany_purchase:
                         bill_id = purchase.action_create_invoice()
-                        bill = self.env["account.move"].browse(bill_id.get("res_id", None))
+                        bill = self.env["account.move"].sudo().browse(bill_id.get("res_id", None))
                         if bill:
                             bill.write({'ref': "%s-%s" % (bill.ref, bill.id), "invoice_date": datetime.today()})
                             bill.action_post()
