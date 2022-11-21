@@ -64,14 +64,10 @@
                 </div>
                 <br />
                 <div class="row mt32 mb32" id="informations">
-                    <!--<div t-if="o.date" class="col-auto col-3 mw-100 mb-2">-->
-                    <!--    <strong>Date:</strong>-->
-                    <!--    <p class="m-0" t-field="o.date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>-->
-                    <!--</div>-->
-                    <div class="col-auto col-3 mw-100 mb-2">
+                    <div t-if="o.date" class="col-auto col-3 mw-100 mb-2">
                         <strong>Date:</strong>
-                        <p class="m-0" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
-                    </div>
+                        <p class="m-0" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')" />
+                    </div
                     <div t-if="o.intercompany_sale_order" class="col-auto col-3 mw-100 mb-2">
                         <strong>Order No:</strong>
                         <p class="m-0" t-field="o.intercompany_sale_order" />
@@ -211,7 +207,7 @@
                         <h6>
                             AMSBIO LLC <br />
                             1035, CAMBRIDGE STREET, <br />
-                            Suite 16 B, <br />
+                            Suite 11 B, <br />
                             CAMBRIDGEMassachusetts (US)02141 <br />
                             United States
                         </h6>
