@@ -199,7 +199,6 @@ class SaleOrder(models.Model):
         result = super(SaleOrder, self).action_confirm()
         for order in self:
             purchase_order = order._get_purchase_orders()
-            _logger.info(f"\n==>purchase order {purchase_order.name} for {order.name}\n")
             if not order.auto_purchase_order_id:
                 if purchase_order and len(purchase_order)==1 and purchase_order.state!='purchase':
                     for line in order.order_line.sudo():
@@ -209,7 +208,6 @@ class SaleOrder(models.Model):
 
             # We have to confirm all the intermediate purchase orders made for intercompany purchases
             companies_contacts = self.env["res.company"].sudo().search([]).mapped("partner_id")
-            _logger.info(f"\n==>Company Contacts: {companies_contacts.mapped('name')}\n==>supplier: {purchase_order and purchase_order.partner_id.name}\n")
             if purchase_order and purchase_order.partner_id in companies_contacts:
                 purchase_order.button_confirm()
         return result

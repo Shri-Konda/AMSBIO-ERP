@@ -22,7 +22,6 @@ class StockBackorderConfirmation(models.TransientModel):
         res = super(StockBackorderConfirmation,self).process()
         for picking in self.pick_ids:
             origin_pickings = picking._get_source_po_pickings()
-            _logger.info(f"\n==>backorder process on {picking.name}\n==>origin_pickings: {origin_pickings.mapped('name')}\n")
             if origin_pickings:
                 for origin_picking in origin_pickings.filtered(lambda picking: picking.state in ["confirmed", "assigned"]):
                     backorder_confirmation_id = self.env['stock.backorder.confirmation'].with_context(button_validate_picking_ids=origin_picking.ids).sudo().create({
@@ -38,7 +37,6 @@ class StockBackorderConfirmation(models.TransientModel):
         res = super(StockBackorderConfirmation,self).process_cancel_backorder()
         for picking in self.pick_ids:
             origin_pickings = picking._get_source_po_pickings()
-            _logger.info(f"\n==>backorder process cancel on {picking.name}\n==>origin_pickings: {origin_pickings.mapped('name')}\n")
             if origin_pickings:
                 for origin_picking in origin_pickings.filtered(lambda po_pick: po_pick.state in ['assigned','confirmed']):
                     backorder_confirmation_id = self.env['stock.backorder.confirmation'].with_context(button_validate_picking_ids=origin_picking.ids).sudo().create({
@@ -57,14 +55,11 @@ class StockImmediateTransfer(models.TransientModel):
     def process(self):
         res = super(StockImmediateTransfer,self).process()
         for picking in self.pick_ids:
-            _logger.info(f"\n==>immediate transfer on {picking.name}\n")
             origin_pickings = picking._get_source_po_pickings()
             if origin_pickings:
                 for origin_picking in origin_pickings.filtered(lambda picking: picking.state in ["confirmed", "assigned"]):
-                    _logger.info(f"\n==>source picking: {origin_picking.name}\n")
                     is_immediate = origin_picking._check_immediate()
                     is_backorder = origin_picking._check_backorder()
-                    _logger.info(f"\n==>origin_picking: {origin_picking.name}\n==>is_immediate: {is_immediate}\n==>is_backorder: {is_backorder}\n")
                     # since main transfer was immediately transferred, we will do the immediate transfer on it's origin transfer as well
                     if is_immediate:
                         stock_immediate_transfer_id = self.env["stock.immediate.transfer"].with_context(button_validate_picking_ids=origin_picking.ids).sudo().create({
@@ -128,7 +123,6 @@ class Picking(models.Model):
         """
         for picking in self:
             source_pickings = picking._get_source_po_pickings()
-            _logger.info(f"\n==>picking: {picking.name}\n==>source picking: {source_pickings.mapped('name')}\n")
             if source_pickings:
                 for source_picking in source_pickings.filtered(lambda po_pick: po_pick.state in ['assigned']):
                     try:
