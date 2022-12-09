@@ -66,8 +66,8 @@
                 <div class="row mt32 mb32" id="informations">
                     <div t-if="o.date" class="col-auto col-3 mw-100 mb-2">
                         <strong>Date:</strong>
-                        <p class="m-0" t-field="o.date" t-options='{"widget": "date"}' />
-                    </div>
+                        <p class="m-0" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')" />
+                    </div
                     <div t-if="o.intercompany_sale_order" class="col-auto col-3 mw-100 mb-2">
                         <strong>Order No:</strong>
                         <p class="m-0" t-field="o.intercompany_sale_order" />
@@ -263,8 +263,8 @@
                     <div class="col-4 text-left">
                         <h6>
                             AMSBIO Europe BV<br/>	
-                            Joop Geesinkweg 841,<br/>
-                            Amsterdam 1114,<br/>
+                            Berenkoog 41,<br/>
+                            Alkmaar 1822BH,<br/>
                             Netherlands
                         </h6>
                     </div>
