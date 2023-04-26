@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="bank_statement_custom_template_access_user_rule" model="ir.rule">
+        <field name="name">User: Amsbio Custom Bank Statement Template</field>
+        <field name="model_id" ref="model_bank_statement_import_custom_template"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="bank_statement_custom_template_access_admin_rule" model="ir.rule">
+        <field name="name">Administrator: Amsbio Custom Bank Statement Template</field>
+        <field name="model_id" ref="model_bank_statement_import_custom_template"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+    </record>
+</odoo>
