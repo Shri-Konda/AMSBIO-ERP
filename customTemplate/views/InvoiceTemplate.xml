@@ -216,13 +216,24 @@
                         Bank transfers may be made to:
                         </strong></p>
                         <div t-if="o.company_id.country_id.name == 'United Kingdom'">
-                            <p>
-                                HSBC Bank plc, 65 Cornmarket Street, Oxford, OX1 3HY- UK <br />
-                                IBAN: GB20HBUK40353451723014 <br />
-                                SWIFT code (BIC):HBUKGB4108P <br />
-                                Sort code: 403534 <br />
-                                Account number: 51723014
-                            </p>
+							<t t-if="o.partner_id.property_product_pricelist.name == 'Sales Pricelist GBP'">
+								<p>
+									HSBC Bank plc, 65 Cornmarket Street, Oxford, OX1 3HY- UK <br />
+									IBAN: GB20HBUK40353451723014 <br />
+									SWIFT code (BIC):HBUKGB4108P <br />
+									Sort code: 403534 <br />
+									Account number: 51723014
+								</p>
+							</t>
+							<t t-if="o.partner_id.property_product_pricelist.name == 'Sales Pricelist ROW'">
+								<p>
+                                    HSBC Bank plc, International Branch, 27-32 Poultry, London EC2P 2BX – U.K. <br />
+                                    IBAN: GB03HBUK40127673806781 <br />
+                                    SWIFT code (BIC):HBUKGB4B <br />
+                                    Sort code: 40 12 76 <br />
+                                    Account number: 73806781 <br />
+								</p>
+							</t>
                             <p>We also accept payment by Visa and Mastercard.</p>
                         </div>
                         <div t-if="o.company_id.country_id.name == 'United States'">
