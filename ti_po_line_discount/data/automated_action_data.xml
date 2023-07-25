@@ -7,12 +7,21 @@
             <field name="state">code</field>
             <field name="trigger">on_create_or_write</field>
             <field name="code">
+# Currency conversion
+
 for rec in records:
     sale_line_obj = rec.sale_line_id
-    if sale_line_obj and sale_line_obj.company_id and sale_line_obj.company_id.po_line_discount and sale_line_obj.price_unit:
+    if sale_line_obj and sale_line_obj.company_id:
+      if sale_line_obj.company_id.po_line_discount and sale_line_obj.price_unit:
+        amount = sale_line_obj.price_unit - ((sale_line_obj.price_unit * sale_line_obj.company_id.po_line_discount) / 100) if sale_line_obj.product_id.type != 'consu' else 0.0
         rec.update({
-            'price_unit': sale_line_obj.price_unit - ((sale_line_obj.price_unit * sale_line_obj.company_id.po_line_discount) / 100)
+            'price_unit': sale_line_obj.currency_id._convert(amount, rec.currency_id, rec.company_id or env.company, datetime.datetime.today())
         })
+      else:
+        rec.update({
+            'price_unit': sale_line_obj.currency_id._convert(sale_line_obj.price_unit, rec.currency_id, rec.company_id or env.company, datetime.datetime.today())
+        })
+            
             </field>
             <field name="active" eval="True"/>
         </record>

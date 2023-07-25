@@ -13,10 +13,10 @@
     'website': "",
 
     'category': 'Uncategorized',
-    'version': '1.1',
+    'version': '16.0.1.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'stock'],
+    'depends': ['base', 'stock', 'account', 'sale', 'purchase', 'studio_customization'],
 
     # always loaded
     'data': [

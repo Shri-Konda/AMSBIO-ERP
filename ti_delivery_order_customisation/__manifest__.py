@@ -3,7 +3,7 @@
     'name'          : "TI Delivery Order Customisation",
     'author'        : "Target Integration",
     'summary'       : "Display sale order lines in delivery orders",
-    'version'       : "14.0.0.0",
+    'version'       : "16.0.1.0.0",
     'website'       : "http://www.targetintegration.com",
     'category'      : "Inventory/Inventory",
     'depends'       : [

@@ -3,7 +3,7 @@
     'name':     "Log Product Changes",
     'author':   "Target Integration",
     'summary':  "Track and log changes in product template",
-    'version':  "14.0.0.0",
+    'version':  "16.0.1.0.0",
     'website':  "http://www.targetintegration.com",
     'category': "Sales/Sales",
 

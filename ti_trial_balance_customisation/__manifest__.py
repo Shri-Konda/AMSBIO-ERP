@@ -1,8 +1,8 @@
 # -*-coding: utf-8 -*-
 {
-    'name'      : "TI Trial Balance Customisation",
+    'name'      : "AMSBIO Trial Balance Customisation",
     'summary'   : "Display Trial Balance as Difference of Debit and Credit",
-    'version'   : "14.0.0.0",
+    'version'   : "16.0.0.0",
     'category'  : "Accounting/Accounting",
     'license'   : "Other proprietary",
     'author'    : "Target Integration",

@@ -59,7 +59,6 @@ class StockImmediateTransfer(models.TransientModel):
             if origin_pickings:
                 for origin_picking in origin_pickings.filtered(lambda picking: picking.state in ["confirmed", "assigned"]):
                     is_immediate = origin_picking._check_immediate()
-                    is_backorder = origin_picking._check_backorder()
                     # since main transfer was immediately transferred, we will do the immediate transfer on it's origin transfer as well
                     if is_immediate:
                         stock_immediate_transfer_id = self.env["stock.immediate.transfer"].with_context(button_validate_picking_ids=origin_picking.ids).sudo().create({

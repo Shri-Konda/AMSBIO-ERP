@@ -1,14 +1,17 @@
 # -*-coding: utf-8 -*-
 {
-    'name': "TI Receipt Warning",
-    'author': "Target Integration",
-    'summary': "Warning for Receipts Immediate Transfer",
-    'version': "1.0", 
-    'category': "Uncategorized",
-    'website': "http://www.targetintegration.com",
-    # any module require for this one to work properly
-    'depends': ["base", "stock"],
-    'data': [
-        'wizard/stock_immediate_transfer_views.xml'
-    ]
+    'name'      : "AMSBIO Receipt Warning",
+    'summary'   : "Warning for immediate validation of receipt",
+    'version'   : "16.0.1.0",
+    'category'  : "Inventory/Inventory",
+    'license'   : "Other proprietary",
+    'author'    : "Target Integration",
+    'website'   : "http://www.targetintegration.com",
+
+    # modules necessary for this to work properly
+    'depends'   : ["stock"],
+    
+    # always loaded data
+    'data'      : ["wizard/stock_immediate_transfer_views.xml"],
+
 }

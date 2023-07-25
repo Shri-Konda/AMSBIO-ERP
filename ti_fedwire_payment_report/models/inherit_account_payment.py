@@ -3,7 +3,7 @@
 
 # https://support.targetintegration.com/issues/6344
 
-from odoo import api, fields, models, _
+from odoo import models, _
 from odoo.exceptions import UserError
 from logging import getLogger
 _logger = getLogger(__name__)
@@ -24,4 +24,5 @@ class Account_Payment(models.Model):
         if len(payment_date) >= 2:
             raise UserError(_('Please Select Payments with same date.'))
         else:
-            return self.env.ref('ti_fedwire_payment_report.ti_amsbio_payment_fedwire_transaction_report').report_action(self)
+            report = self.env["ir.actions.report"]._get_report_from_name("ti_fedwire_payment_report.report_template_fedwire_payment")
+            return report.report_action(self)

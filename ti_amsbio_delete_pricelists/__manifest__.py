@@ -2,7 +2,7 @@
 {
     'name'      : "Amsbio Delete Pricelists",
     'summary'   : "When product is archived, delete all associated sales/vendor pricelists",
-    'version'   : "14.0.0.0",
+    'version'   : "16.0.0.0",
     'category'  : "Sales/Sales",
     'license'   : "Other proprietary",
     'author'    : "Target Integration",

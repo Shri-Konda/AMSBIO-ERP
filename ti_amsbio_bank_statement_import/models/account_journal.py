@@ -5,50 +5,45 @@ import logging
 from odoo import models, fields, _
 from odoo.exceptions import UserError
 
-
 _logger = logging.getLogger(__name__)
 
-class AccountBankStatementImport(models.TransientModel):
-    _inherit = "account.bank.statement.import"
+class AccountJournal(models.Model):
+    _inherit = "account.journal"
 
-    def _default_custom_template_id(self):
-        custom_template = self.env["bank.statement.import.custom.template"].search([("company_id", 'in', self.env.company.ids)], limit=1)
-        return custom_template
+    custom_import_template_id = fields.Many2one("bank.statement.import.custom.template", check_company=True, copy=False, string="Custom Import Template", help="Select the custom csv template which will be used to format data from import csv.")
 
-    use_custom_template = fields.Boolean(default=False, string="Use Custom Template?")
-    custom_template_id = fields.Many2one("bank.statement.import.custom.template", help="Use this custom template to format csv file before importing.", default=_default_custom_template_id)
-
-    def import_file(self):
-        "override original method to use custom template for import bank statements"
+    def _import_bank_statement(self, attachments):
+        "override the method to format data using custom import template before adding for import"
 
         # In case of CSV files, only one file can be imported at a time.
-        if len(self.attachment_ids) > 1:
-            csv = [bool(self._check_csv(att.name)) for att in self.attachment_ids]
+        if len(attachments) > 1:
+            csv = [bool(self._check_csv(att.name)) for att in attachments]
             if True in csv and False in csv:
                 raise UserError(_('Mixing CSV files with other file types is not allowed.'))
             if csv.count(True) > 1:
                 raise UserError(_('Only one CSV file can be selected.'))
-            return super(AccountBankStatementImport, self).import_file()
+            return super()._import_bank_statement(attachments)
 
-        if not self._check_csv(self.attachment_ids.name):
-            return super(AccountBankStatementImport, self).import_file()
+        if not self._check_csv(attachments.name):
+            return super()._import_bank_statement(attachments)
 
-        if self.use_custom_template and self.custom_template_id:
-            return self._format_and_import_bank_statement(self.custom_template_id, self.attachment_ids)
-        else:
-            return super(AccountBankStatementImport, self).import_file()
+        # If custom import template is selected, then format data before importing
+        if self.custom_import_template_id:
+            return self._format_and_import_bank_statement(attachments)
 
+        return super(AccountJournal, self)._import_bank_statement(attachments)
 
-    def _format_and_import_bank_statement(self, custom_template, attachment_id):
+    def _format_and_import_bank_statement(self, attachment):
         "format the custom template to make it importable in Odoo"
 
         parsed_data = ""
+        custom_template = self.custom_import_template_id
         # adding header/field name of Odoo from custom template
         if custom_template.template_line_ids:
             parsed_data += ";".join([line.column_name for line in custom_template.template_line_ids]) + "\n"
 
         # get data from attachment and parse them
-        csv_data = attachment_id.index_content
+        csv_data = attachment.index_content
         lines = csv_data.splitlines()
         # _logger.info(f"\n==>lines: {lines}")
         if lines:
@@ -77,19 +72,19 @@ class AccountBankStatementImport(models.TransientModel):
         import_wizard = self.env['base_import.import'].create({
             'res_model': 'account.bank.statement.line',
             'file': parsed_data.encode(),
-            'file_name': attachment_id.name,
+            'file_name': attachment.name,
             'file_type': 'text/csv'
         })
 
         ctx = dict(self.env.context)
         ctx['wizard_id'] = import_wizard.id
+        ctx['default_journal_id'] = self.id
         return {
             'type': 'ir.actions.client',
             'tag': 'import_bank_stmt',
             'params': {
                 'model': 'account.bank.statement.line',
                 'context': ctx,
-                'filename': attachment_id.name,
+                'filename': 'bank_statement_import.csv',
             }
         }
-

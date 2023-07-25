@@ -7,19 +7,18 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
                 <field name="backorder_id" position="after">
-                    <field name="reserve_status" attrs="{'invisible': ['|', ('state', '!=', 'assigned'), ('picking_type_code', '!=', 'outgoing')]}"/>
+                    <field name="reserve_status" widget="badge" attrs="{'invisible': ['|', ('state', '!=', 'assigned'), ('picking_type_code', '!=', 'outgoing')]}" decoration-danger="reserve_status=='cancel'" decoration-info="reserve_status== 'partial'" decoration-muted="reserve_status == 'nothing'" decoration-success="reserve_status == 'full'"/>
                 </field>
             </field>
         </record>
-        
-        
+
         <record id="ti_view_picking_tree_inherit" model="ir.ui.view">
             <field name="name">ti.view.picking.tree.inherit</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.vpicktree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='company_id']" position="after">
-                    <field name="reserve_status"/>
+                    <field name="reserve_status" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}" widget="badge" decoration-danger="reserve_status=='cancel'" decoration-info="reserve_status== 'partial'" decoration-muted="reserve_status == 'nothing'" decoration-success="reserve_status == 'full'"/>
                   </xpath>
             </field>
         </record>

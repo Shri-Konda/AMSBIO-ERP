@@ -45,11 +45,11 @@
                                         <div class="mt16 row mx-2">
                                             <field name="vendor_pricelist_company_ids"  options="{'no_create': True}" widget="many2many_tags"  class="oe_inline" required="1"/>
                                         </div>
-                                        <div class="mt16 row mx-2">
-                                            <field name="vendor_pricelist_partner_company"  options="{'no_create': True}" class="oe_inline" required="1"/>
-                                        </div>
-                                        <div class="row mx-2 text-muted">
+                                        <div class="mt16 row mx-2 text-muted">
                                             Select the Vendor company.
+                                        </div>
+                                        <div class="row mx-2">
+                                            <field name="vendor_pricelist_partner_company"  options="{'no_create': True}" class="oe_inline" required="1"/>
                                         </div>
                                     </div>
                                 </div>

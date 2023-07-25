@@ -58,14 +58,14 @@
         </record>
 
         <template id="ti_report_shipping" inherit_id="stock.report_picking">
-            <xpath expr="//div[@name='div_sched_date']" position="after">
+            <!-- <xpath expr="//div[@name='div_sched_date']" position="after">
                 <div class="col-auto" name='cust_reference'>
                     <strong>Customer Reference:</strong>
                     <p t-field="o.client_order_ref"/>
                     <strong>InterCompany Sales Order:</strong>
                     <p t-field="o.intercompany_sale_order"/>
                 </div>
-            </xpath>
+            </xpath> -->
         </template>
 
         <template id="ti_report_delivery_document_inherit" inherit_id="stock.report_delivery_document">
