@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    amsbio_order_line_ids = fields.Many2many(comodel_name="amsbio.order.line", relation="stock_sale_order_line_rel", compute="_compute_order_line_ids", store=True, help="These lines correspond to the sale order lines of the sale order for which this delivery is created. If the sale order was created from the inter company sale order functionality, then these lines correspond to the order lines of original sale order.")
+    amsbio_order_line_ids = fields.Many2many(comodel_name="amsbio.order.line", relation="stock_sale_order_line_rel", compute="_compute_order_line_ids", store=True, string="AMSBIO Order Lines", help="These lines correspond to the sale order lines of the sale order for which this delivery is created. If the sale order was created from the inter company sale order functionality, then these lines correspond to the order lines of original sale order.")
 
     @api.depends("intercompany_sale_order", "origin")
     def _compute_order_line_ids(self):

@@ -11,7 +11,7 @@
                             <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             AMS Biotechnology (Europe) Limited (CH) <br />
                             Via Lisano 3, <br />
@@ -20,7 +20,7 @@
                             Switzerland
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             <div>VAT reg. no.: CHE-102.073.068 MWST</div>
                             <div>Email: sales@amsbio.com</div>
@@ -65,7 +65,7 @@
                     </div>
                     <div t-if="o.sale_id.client_order_ref" class="col-auto col-4 text-center">
                         <span>Your Reference:</span>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.sale_id.client_order_ref, 400, 75)" style="width:400px;height:75px" alt="Barcode" />
+                        <img t-att-src="'/report/barcode/Code128/' + o.sale_id.client_order_ref" style="width:400px;height:75px" alt="Barcode" />
                         <span t-field="o.sale_id.client_order_ref" />
                     </div>
                 </div>
@@ -89,31 +89,31 @@
                 <table class="table table-sm o_main_table" name="stock_line_table">
                     <thead>
                         <tr>
-                            <th name="th_codenum" class="text-left">
+                            <th name="th_codenum" class="text-start">
                                 <span>Code</span>
                             </th>
-                            <th name="th_description" class="text-left">
+                            <th name="th_description" class="text-start">
                                 <span>Description</span>
                             </th>
-                            <th name="th_storage" class="text-left">
+                            <th name="th_storage" class="text-start">
                                 <span>Storage Condition</span>
                             </th>
-                            <th name="th_shipping" class="text-left">
+                            <th name="th_shipping" class="text-start">
                                 <span>Shipping Temp</span>
                             </th>
-                            <th name="th_tariffcode" class="text-right">
+                            <th name="th_tariffcode" class="text-end">
                                 <span>Tariff Code</span>
                             </th>
-                            <th name="th_quantity" class="text-right">
+                            <th name="th_quantity" class="text-end">
                                 <span>Quantity</span>
                             </th>
-                            <th name="th_outsantding" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                            <th name="th_outsantding" t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                 <span>Outstanding</span>
                             </th>
                         </tr>
                     </thead>
                     <tbody class="tbody">
-                        <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)" />
+                        <t t-set="lines" t-value="o.move_ids.filtered(lambda x: x.product_uom_qty)" />
                         <tr t-foreach="lines" t-as="line">
                             <td name="stock_line_name">
                                 <span t-field="line.product_id.default_code" t-options="{'widget': 'text'}" />
@@ -121,20 +121,20 @@
                             <td name="stock_line_name" style="max-width: 125px;">
                                 <span t-field="line.name" t-options="{'widget': 'text'}" />
                             </td>
-                            <td name="td_storage" class="text-left o_price_total">
+                            <td name="td_storage" class="text-start o_price_total">
                                 <span t-field="line.product_id.x_studio_storage_temperature" />
                             </td>
-                            <td name="td_shipping" class="text-left o_price_total">
+                            <td name="td_shipping" class="text-start o_price_total">
                                 <span t-field="line.product_id.x_studio_shipping_temperature" />
                             </td>
-                            <td name="td_tariffcode" class="text-right">
-                                <span t-field="line.product_id.intrastat_id.code" />
+                            <td name="td_tariffcode" class="text-end">
+                                <span t-field="line.product_id.intrastat_code_id.code" />
                             </td>
-                            <td name="td_qty" class="text-right">
+                            <td name="td_qty" class="text-end">
                                 <span t-field="line.product_uom_qty" />
                                 <span t-field="line.product_uom" />
                             </td>
-                            <td name="td_outstanding" class="text-right">
+                            <td name="td_outstanding" class="text-end">
                                 <t t-set="out_qty" t-value="line.sale_line_id.product_uom_qty - line.sale_line_id.qty_delivered" />
                                 <t t-esc="out_qty" />
                                 <span t-field="line.product_uom" />
@@ -151,7 +151,7 @@
                                     <td name="td_amount_total_label">
                                         <strong>Total</strong>
                                     </td>
-                                    <td name="td_amount_total" class="text-right">
+                                    <td name="td_amount_total" class="text-end">
                                         <span t-field="o.sale_id.amount_total" />
                                     </td>
                                 </tr>
@@ -217,7 +217,7 @@
                     </div>
                     <div t-else="" class="row">
                         <div class="col-3">
-                            <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-left" style="max-width: 150px; margin-top: 2px;" />
+                            <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-start" style="max-width: 150px; margin-top: 2px;" />
                         </div>
                         <div class="col-6">
                             AMS Biotechnology (Europe) Limited
@@ -232,7 +232,7 @@
                             <span class="topage" />
                         </div>
                         <div class="col-3">
-                            <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-right" style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
+                            <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-end" style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
                         </div>
                     </div>
                 </div>

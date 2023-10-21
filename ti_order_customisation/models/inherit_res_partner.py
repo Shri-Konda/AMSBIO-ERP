@@ -11,6 +11,8 @@ class Partner(models.Model):
 
 
     def action_view_sale_order(self):
+        "override method to remove default partner when creating SO from smart button"
+
         action = super(Partner, self).action_view_sale_order()
         context = {}
         if self.is_company:
@@ -19,5 +21,7 @@ class Partner(models.Model):
             context["default_partner_id"] = self.parent_id.id
         elif self.type == "contact":
             context["default_partner_id"] = self.id
+        else:
+            context["default_partner_id"] = False
         action["context"] = str(context)
         return action

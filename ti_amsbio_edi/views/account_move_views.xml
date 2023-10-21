@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="edi_account_move_view_form" model="ir.ui.view">
+        <field name="name">edi.account.move.view.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page//group[@name='sale_info_group']" position="inside">
+                <separator string="EDI Information"/>
+                <field name="sent_to_edi"/>
+                <field name="ftp_server_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

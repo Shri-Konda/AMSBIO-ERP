@@ -10,7 +10,7 @@
                             <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             AMS Biotechnology (Europe) Limited <br/>
                             184, Milton Park,<br/>
@@ -19,7 +19,7 @@
                             United Kingdom
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             <div>VAT reg. no.: 502237295</div>
                             <div>EORI:  GB502237295000</div>
@@ -51,28 +51,28 @@
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-auto col-8">
+                    <div class="col-8">
                         <h2 class="mt16">
                             <span>Delivery Note</span>
                         <span t-field="o.name" />
                         </h2>
                     </div>
-                    <div t-if="o.sale_id.client_order_ref" class="col-auto col-4">
+                    <div t-if="o.sale_id.client_order_ref" class="col-4">
                         <span>Your Reference:</span>
                         <span t-field="o.sale_id.client_order_ref"/>
                     </div>
                 </div>
                 <br />
                 <div class="row mt32 mb32" id="informations">
-                    <div t-if="o.date" class="col-auto col-3 mw-100 mb-2">
+                    <div t-if="o.date" class="col-4 mw-100 mb-2">
                         <strong>Date:</strong>
                         <p class="m-0" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')" />
                     </div>
-                    <div t-if="o.intercompany_sale_order" class="col-auto col-3 mw-100 mb-2">
+                    <div t-if="o.intercompany_sale_order" class="col-4 mw-100 mb-2">
                         <strong>Order No:</strong>
                         <p class="m-0" t-field="o.intercompany_sale_order" />
                     </div>
-                    <div t-if="o.origin" class="col-auto col-3 mw-100 mb-2">
+                    <div t-if="o.origin" class="col-4 mw-100 mb-2">
                         <strong>Intercompany Sale Order:</strong>
                         <p class="m-0" t-field="o.origin" />
                     </div>
@@ -82,25 +82,25 @@
                 <table class="table table-sm o_main_table" name="stock_line_table">
                     <thead>
                         <tr>
-                            <th name="th_codenum" class="text-left"><span>Code</span></th>
-                            <th name="th_description" class="text-left"><span>Description</span></th>
-                            <th name="th_packsize" class="text-left"><span>Packsize</span></th>
-                            <th name="th_storage" class="text-left">
+                            <th name="th_codenum" class="text-start"><span>Code</span></th>
+                            <th name="th_description" class="text-start"><span>Description</span></th>
+                            <th name="th_packsize" class="text-start"><span>Packsize</span></th>
+                            <th name="th_storage" class="text-start">
                                 <span>Storage Condition</span>
                             </th>
-                            <th name="th_shipping" class="text-left">
+                            <th name="th_shipping" class="text-start">
                                 <span>Shipping Temp</span>
                             </th>
-                            <th name="th_tariffcode" class="text-right"><span>Tariff Code</span></th>
-                            <th name="th_quantity" class="text-right"><span>Quantity</span></th>
+                            <th name="th_tariffcode" class="text-end"><span>Tariff Code</span></th>
+                            <th name="th_quantity" class="text-end"><span>Quantity</span></th>
                             <!--<th name="th_subtotal"
-                                t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                 <span>Subtotal</span>
                             </th>-->
                         </tr>
                     </thead>
                     <tbody class="tbody">
-                        <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)" />
+                        <t t-set="lines" t-value="o.move_ids.filtered(lambda x: x.product_uom_qty)" />
                         <tr t-foreach="lines" t-as="line">
                             <td name="stock_line_name">
                                 <span t-field="line.product_id.default_code" t-options="{'widget': 'text'}" />
@@ -111,23 +111,23 @@
                             <td name="stock_line_packsize">
                                 <span t-field="line.x_studio_packsize" t-options="{'widget': 'text'}" />
                             </td>
-                            <td name="td_storage" class="text-left o_price_total">
+                            <td name="td_storage" class="text-start o_price_total">
                                 <span t-field="line.product_id.x_studio_storage_temperature"/>
                             </td>
-                            <td name="td_shipping" class="text-left o_price_total">
+                            <td name="td_shipping" class="text-start o_price_total">
                                 <span t-field="line.product_id.x_studio_shipping_temperature"/>
                             </td>
-                            <td name="td_tariffcode" class="text-right">
-                                <span t-field="line.product_id.intrastat_id.code"/>
+                            <td name="td_tariffcode" class="text-end">
+                                <span t-field="line.product_id.intrastat_code_id.code"/>
                             </td>
-                            <td name="td_qty" class="text-right">
+                            <td name="td_qty" class="text-end">
                                 <span t-field="line.product_uom_qty" />
                                 <span t-field="line.product_uom" />
                             </td>
-                            <!--<td name="td_subtotal" class="text-right">
+                            <!--<td name="td_subtotal" class="text-end">
                                 <span t-field="line.sale_line_id.price_subtotal" t-options="{'widget': 'monetary'}" />
                             </td>
-                            <td name="td_notes" class="text-left">
+                            <td name="td_notes" class="text-start">
                                 <span t-field="line.note" t-options="{'widget': 'text'}"/>
                             </td>-->
                         </tr>
@@ -144,7 +144,7 @@
                     </div>
                     <div t-else="" class="row">
                         <div class="col-3">
-                            <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-left"
+                            <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-start"
                                 style="max-width: 150px; margin-top: 2px;" />
                         </div>
                         <div class="col-6">
@@ -154,7 +154,7 @@
                             Page: <span class="page" /> / <span class="topage" />
                         </div>
                         <div class="col-3">
-                            <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-right"
+                            <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-end"
                                 style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
                         </div>
                     </div>
@@ -173,7 +173,7 @@
                             <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             AMS Biotechnology (Europe) Limited <br/>
                             184, Milton Park,<br/>
@@ -182,7 +182,7 @@
                             United Kingdom
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             <div>VAT reg. no.: 502237295</div>
                             <div>EORI:  GB502237295000</div>
@@ -203,7 +203,7 @@
                             <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             AMSBIO LLC <br />
                             1035, CAMBRIDGE STREET, <br />
@@ -212,7 +212,7 @@
                             United States
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             <div>Email: sales-llc@amsbio.com</div>
                             <div><i class="fa fa-phone fa-fw" /> +16179455033</div>
@@ -231,7 +231,7 @@
                             <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             AMS Biotechnology (Europe) Limited (CH) <br />
                             Via Lisano 3, <br />
@@ -240,7 +240,7 @@
                             Switzerland
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             <div>VAT reg. no.: CHE-102.073.068 MWST</div>
                             <div>Email: sales@amsbio.com</div>
@@ -260,7 +260,7 @@
                             <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             AMSBIO Europe BV<br/>	
                             Berenkoog 41,<br/>
@@ -268,7 +268,7 @@
                             Netherlands
                         </h6>
                     </div>
-                    <div class="col-4 text-left">
+                    <div class="col-4 text-start">
                         <h6>
                             <div>VAT reg. no.: NL863058681B01<span/></div>
                             <div >EORI: NL863058681<span /></div>

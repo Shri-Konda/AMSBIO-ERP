@@ -1,3 +1,2 @@
-# ti_accounting_group_customization
-
-https://support.targetintegration.com/issues/8554
+This module implements the following requirement:
+    - Adds new accounting user group "Group User 2" which has restricted access in accounting application [https://support.targetintegration.com/issues/8554]

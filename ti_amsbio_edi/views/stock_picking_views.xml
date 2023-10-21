@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="edi_picking_view_form" model="ir.ui.view">
+        <field name="name">edi.picking.view.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='extra']//group[@name='other_infos']" position="after">
+                <group string="EDI Information">
+                    <field name="sent_to_edi"/>
+                    <field name="ftp_server_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

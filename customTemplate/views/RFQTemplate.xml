@@ -5,19 +5,19 @@
             <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
                 <div class="header" style="font-family: Calibri;" t-att-style="report_header_style">
                     <div class="row">
-                        <div class="col-4 text-left">
+                        <div class="col-4 text-start">
                             <h6 style="margin-left: -2px;">
                                 <span style="color: #fff;">.</span>
                                 <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                             </h6>
                         </div>
-                        <div class="col-4 text-left">
+                        <div class="col-4 text-start">
                             <h6>
                                 <div t-field="o.company_id.partner_id"
                                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True, "phone_icons": True}' />
                             </h6>
                         </div>
-                        <div class="col-4 text-left">
+                        <div class="col-4 text-start">
                             <h6>
                                 <div>VAT reg. no.: <span t-field="o.company_id.partner_id.vat" /></div>
                                 <div>EORI: <span t-field="o.company_id.x_studio_eori" /></div>
@@ -54,7 +54,7 @@
                                 <th name="th_description"><strong>Description</strong></th>
                                 <th name="th_lotid"><strong>Lot ID</strong></th>
                                 <th name="th_expected_date" class="text-center"><strong>Expected Date</strong></th>
-                                <th name="th_quantity" class="text-right"><strong>Qty</strong></th>
+                                <th name="th_quantity" class="text-end"><strong>Qty</strong></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,7 +71,7 @@
                                         <td class="text-center">
                                             <span t-field="order_line.date_planned" />
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-end">
                                             <span t-field="order_line.product_qty" />
                                             <span t-field="order_line.product_uom" groups="uom.group_uom" />
                                         </td>
@@ -99,7 +99,7 @@
                         </div>
                         <div t-else="" class="row">
                             <div class="col-3">
-                                <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-left"
+                                <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-start"
                                     style="max-width: 150px; margin-top: 2px;" />
                             </div>
                             <div class="col-6">
@@ -109,7 +109,7 @@
                                 Page: <span class="page" /> / <span class="topage" />
                             </div>
                             <div class="col-3">
-                                <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-right"
+                                <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-end"
                                     style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
                             </div>
                         </div>

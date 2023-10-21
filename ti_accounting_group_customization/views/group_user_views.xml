@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <menuitem id="group_user_2_configuration_menu" name="Configuration" parent="account_accountant.menu_accounting" groups="ti_accounting_group_customization.group_user_2" sequence="100"/>
-    <menuitem id="group_user_2_currencies_menu" name="Currencies" parent="ti_accounting_group_customization.group_user_2_configuration_menu" groups="ti_accounting_group_customization.group_user_2" action="base.action_currency_form"/>
+    <!-- <menuitem id="group_user_2_configuration_menu" name="Configuration" parent="account_accountant.menu_accounting" groups="ti_accounting_group_customization.group_user_2" sequence="100"/>
+    <menuitem id="group_user_2_currencies_menu" name="Currencies" parent="ti_accounting_group_customization.group_user_2_configuration_menu" groups="ti_accounting_group_customization.group_user_2" action="base.action_currency_form"/> -->
+
+    <menuitem id="group_user_2_configuration_menu"
+        name="Configuration"
+        parent="account_accountant.menu_accounting"
+        groups="ti_accounting_group_customization.group_user_2"
+        sequence="100">
+
+        <menuitem id="group_user_2_currencies_menu"
+        name="Currencies"
+        groups="ti_accounting_group_customization.group_user_2"
+        action="base.action_currency_form"/>
+    
+    </menuitem>
 </odoo>

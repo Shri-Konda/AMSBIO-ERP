@@ -2,7 +2,6 @@
 <odoo>
     <data>
         <!-- QWeb Reports -->
-
         <record id="ti_amsbio_payment_transaction_report" model="ir.actions.report">
             <field name="name">BACS_Payment</field>
             <field name="model">account.payment</field>

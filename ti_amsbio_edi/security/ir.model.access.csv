@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ftp_server_user,access.ftp.server.user,model_ftp_server,base.group_user,1,0,0,0
+access_ftp_server_manager,access.ftp.server.manager,model_ftp_server,base.group_system,1,1,1,1
+access_ftp_server_log_user,access.ftp.server.log.user,model_ftp_server_log,base.group_user,1,1,1,0
+access_select_edi_order,access.select.edi.order,model_select_edi_order,base.group_user,1,1,1,1

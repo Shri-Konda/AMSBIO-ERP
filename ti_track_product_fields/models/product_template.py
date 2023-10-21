@@ -71,7 +71,7 @@ class SupplierInfo(models.Model):
         # If pricelist is linked with some product and our fields are changed, we will log the changes on product form
         record = self.product_tmpl_id or self.product_id
         if old_values and record:
-            message = record.message_post(body=_(f"Change in Vendor Pricelist: {self.name.name}"))
+            message = record.message_post(body=_(f"Change in Vendor Pricelist: {self.partner_id.name}"))
             for key, old_value in old_values.items():
                 model = self.env["ir.model"].search([('model', '=', self._name)], limit=1)
                 field = self.env["ir.model.fields"].search([('name', '=', key), ('model_id', '=', model.id)], limit=1)

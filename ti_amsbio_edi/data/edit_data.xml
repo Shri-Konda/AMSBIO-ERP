@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="amsbio_edi_missing_product" model="product.product">
+            <field name="name">EDI Missing Product</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="type">product</field>
+        </record>
+    </data>
+</odoo>

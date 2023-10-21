@@ -1,16 +1,14 @@
+# -*- coding: utf-8 -*-
 
-from odoo import models, fields, api,tools, _
-from odoo import tools
 import logging
+from odoo import models, api, tools
+
+
 _logger = logging.getLogger(__name__)
-
-
 
 class IrUiMenu(models.Model):
     _inherit = "ir.ui.menu"
 
-
-    
     def _menus_to_hide_from_group_user2(self):
         """ Return the ids of the menu items hide to the user. """
 
@@ -29,17 +27,17 @@ class IrUiMenu(models.Model):
         finally:
             return menus
 
-
-
     @api.model
     @tools.ormcache('frozenset(self.env.user.groups_id.ids)', 'debug')
     def _visible_menu_ids(self, debug=False):
         "override method to hide few menus from group user 2"
 
-        res = super(IrUiMenu, self)._visible_menu_ids(debug=debug)
-        if self.env.user.sudo().has_group('ti_accounting_group_customization.group_user_2'):
+        visible_menus = super(IrUiMenu, self)._visible_menu_ids(debug=debug)
+        # _logger.info(f"\n==>visible_menus: {visible_menus}")
+        if self.env.user.has_group('ti_accounting_group_customization.group_user_2'):
             menus_to_hide = self._menus_to_hide_from_group_user2()
+            # _logger.info(f"\n==>menus_to_hide: {menus_to_hide}")
             if menus_to_hide:
-                res = res - menus_to_hide
+                visible_menus = visible_menus - menus_to_hide
 
-        return res
+        return visible_menus

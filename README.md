@@ -1,1 +1,1 @@
-# AMSBIO-ERP Custom addons
+This repository contains Odoo V16.0 AMSBIO custom modules

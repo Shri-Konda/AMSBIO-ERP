@@ -5,19 +5,19 @@
                 <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
                 <div class="header" style="font-family: Calibri;" t-att-style="report_header_style">
                     <div class="row">
-                        <div class="col-4 text-left">
+                        <div class="col-4 text-start">
                             <h6 style="margin-left: -2px;">
                                 <span style="color: #fff;">.</span>
                                 <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                             </h6>
                         </div>
-                        <div class="col-4 text-left">
+                        <div class="col-4 text-start">
                             <h6>
                                 <div t-field="o.company_id.partner_id"
                                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True, "phone_icons": True}' />
                             </h6>
                         </div>
-                        <div class="col-4 text-left">
+                        <div class="col-4 text-start">
                             <h6>
                                 <div t-if="o.company_id.country_id.name == 'United States'">
                                     <div>Email: <span t-field="o.company_id.partner_id.email" /></div>
@@ -90,9 +90,9 @@
                                 <th name="th_packsize"><strong>Packsize</strong></th>
                                 <th name="th_taxes"><strong>Taxes</strong></th>
                                 <th name="th_date_req" class="text-center"><strong>Lot ID</strong></th>
-                                <th name="th_quantity" class="text-right"><strong>Qty</strong></th>
-                                <th name="th_price_unit" class="text-right"><strong>Unit Price</strong></th>
-                                <th name="th_amount" class="text-right"><strong>Amount</strong></th>
+                                <th name="th_quantity" class="text-end"><strong>Qty</strong></th>
+                                <th name="th_price_unit" class="text-end"><strong>Unit Price</strong></th>
+                                <th name="th_amount" class="text-end"><strong>Amount</strong></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,20 +112,20 @@
                                         <td id="packsize">
                                             <span t-field="line.x_studio_packsize" />
                                         </td>
-                                        <td name="td_taxes" class="text-right"><span
+                                        <td name="td_taxes" class="text-end"><span
                                                 t-esc="str('%.0f'%line.taxes_id.amount)" />%
                                         </td>
                                         <td class="text-center">
                                             <span />
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-end">
                                             <span t-field="line.product_qty" />
                                             <span t-field="line.product_uom.id" groups="uom.group_uom" />
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-end">
                                             <span t-field="line.price_unit" />
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-end">
                                             <span t-field="line.price_subtotal"
                                                 t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
                                         </td>
@@ -145,7 +145,7 @@
                                 </tr>
                                 <t
                                     t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">
-                                    <tr class="is-subtotal text-right">
+                                    <tr class="is-subtotal text-end">
                                         <td colspan="99" id="subtotal">
                                             <strong class="mr16">Subtotal</strong>
                                             <span t-esc="current_subtotal"
@@ -162,21 +162,21 @@
                             <table class="table table-sm">
                                 <tr class="border-black">
                                     <td name="td_subtotal_label"><strong>Subtotal</strong></td>
-                                    <td class="text-right">
+                                    <td class="text-end">
                                         <span t-field="o.amount_untaxed"
                                             t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td name="td_taxes_label">Taxes</td>
-                                    <td class="text-right">
+                                    <td class="text-end">
                                         <span t-field="o.amount_tax"
                                             t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
                                     </td>
                                 </tr>
                                 <tr class="border-black o_total">
                                     <td name="td_amount_total_label"><strong>Total</strong></td>
-                                    <td class="text-right">
+                                    <td class="text-end">
                                         <span t-field="o.amount_total"
                                             t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
                                     </td>
@@ -206,7 +206,7 @@
                         </div>
                         <div t-else="" class="row">
                             <div class="col-3">
-                                <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-left"
+                                <img t-att-src="'/customTemplate/static/img/Thames_valley.jpg'" class="text-start"
                                     style="max-width: 150px; margin-top: 2px;" />
                             </div>
                             <div class="col-6">
@@ -216,7 +216,7 @@
                                 Page: <span class="page" /> / <span class="topage" />
                             </div>
                             <div class="col-3">
-                                <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-right"
+                                <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-end"
                                     style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
                             </div>
                         </div>

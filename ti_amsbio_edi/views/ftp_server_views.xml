@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ftp_server_view_tree" model="ir.ui.view">
+        <field name="name">ftp.server.view.tree</field>
+        <field name="model">ftp.server</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="hostname"/>
+                <field name="active"/>
+                <field name="state" widget="badge" decoration-success="state == 'connected'" decoration-info="state == 'draft'"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ftp_server_view_form" model="ir.ui.view">
+        <field name="name">ftp.server.view.form</field>
+        <field name="model">ftp.server</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_test_connection" type="object" string="Test Connection" class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_open_failed_log" icon="fa-times-circle-o">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="failed_order_count"/></span>
+                                <span class="o_stat_text">Failed Orders</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_open_orders" icon="fa-list">
+                            <field string="Orders" name="order_count" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_open_deliveries" icon="fa-truck">
+                            <field string="Deliveries" name="delivery_count" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_open_invoices" icon="fa-usd">
+                            <field string="Invoices" name="invoice_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Server Name" class="oe_edit_only"/>
+                        <h1 class="mt0">
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="hostname"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="company_id" groups="!base.group_multi_company" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Configuration" name="config" groups="base.group_no_one">
+                            <group>
+                                <group string="Import Credentials">
+                                    <field name="import_username" string="Username"/>
+                                    <field name="import_password" string="Password" password="True"/>
+                                </group>
+                                <group string="Export Credentials">
+                                    <field name="export_username" string="Username"/>
+                                    <field name="export_password" string="Password" password="True"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="filesystem" string="Filesystem" groups="base.group_no_one">
+                            <group string="FTP Directories">
+                                <label for="ftp_import_location" string="Import Orders From" class="font-weight-bold"/>
+                                <field name="ftp_import_location" nolabel="1"/>
+
+                                <label for="ftp_order_location" string="Export Orders To" class="font-weight-bold"/>
+                                <field name="ftp_order_location" nolabel="1"/>
+
+                                <label for="ftp_delivery_location" string="Export Deliveries To" class="font-weight-bold"/>
+                                <field name="ftp_delivery_location" nolabel="1" />
+
+                                <label for="ftp_invoice_location" string="Export Invoices To" class="font-weight-bold"/>
+                                <field name="ftp_invoice_location" nolabel="1"/>
+    
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="ftp_server_view_search" model="ir.ui.view">
+        <field name="name">ftp.server.view.search</field>
+        <field name="model">ftp.server</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="hostname"/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="by_status" domain="[]" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ftp_server" model="ir.actions.act_window">
+        <field name="name">FTP Servers</field>
+        <field name="res_model">ftp.server</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="help">Create FTP servers to for EDI Integration</field>
+    </record>
+
+    <record id="ftp_server_log_view_tree" model="ir.ui.view">
+        <field name="name">ftp.server.log.view.tree</field>
+        <field name="model">ftp.server.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="create_date"/>
+                <field name="order_id"/>
+                <field name="attachment_id"/>
+                <field name="ftp_server_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-danger="state == 'fail'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ftp_server_log_view_form" model="ir.ui.view">
+        <field name="name">ftp.server.log.view.form</field>
+        <field name="model">ftp.server.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_order_done" string="Mark as Done" type="object" class="btn-primary" attrs="{'invisible': [('state', '=', 'done')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="order_id"/>
+                            <field name="ftp_server_id"/>
+                            <label for="attachment_id"/>
+                            <div>
+                                <field name="attachment_id"/>
+                                <button name="action_download_attachment" type="object">
+                                    <span class="fa fa-download"/>
+                                </button>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="failure" string="Failure Reason" attrs="{'invisible': [('failure_reason', '=', False)]}">
+                            <field name="failure_reason"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ftp_server_log_view_search" model="ir.ui.view">
+        <field name="name">ftp.server.log.view.search</field>
+        <field name="model">ftp.server.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="order_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="FTP Server" name="by_ftp_server" domain="[]" context="{'group_by': 'ftp_server_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ftp_server_log" model="ir.actions.act_window">
+        <field name="name">FTP Server Logs</field>
+        <field name="res_model">ftp.server.log</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="context">{'create': 0, 'edit': 0, 'copy': 0}</field>
+    </record>
+
+    <menuitem id="edi_main_menu" name="EDI Integration" parent="base.menu_custom" sequence="100"/>
+    <menuitem id="ftp_server_menu" name="FTP Servers" parent="ti_amsbio_edi.edi_main_menu" action="ti_amsbio_edi.action_ftp_server"/>
+    <menuitem id="ftp_server_log_menu" name="FTP Servers Logs" parent="ti_amsbio_edi.edi_main_menu" action="ti_amsbio_edi.action_ftp_server_log"/>
+</odoo>

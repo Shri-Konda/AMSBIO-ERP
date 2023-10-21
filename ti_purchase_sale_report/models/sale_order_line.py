@@ -29,6 +29,6 @@ class SaleOrderLine(models.Model):
         for order_line in self:
             seller = self.env["product.supplierinfo"].search([('company_id', '=', order_line.company_id.id), ('product_tmpl_id', '=', order_line.product_template_id.id)], limit=1)
             if seller:
-                order_line.product_supplier_id = seller.name
+                order_line.product_supplier_id = seller.display_name
             else:
                 order_line.product_supplier_id = False

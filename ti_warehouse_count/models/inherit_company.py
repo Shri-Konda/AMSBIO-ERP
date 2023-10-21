@@ -14,10 +14,8 @@ _logger = getLogger(__name__)
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    
     product_tracking_number = fields.Char('Product Tracking Number',default='1')
-
-    route_id = fields.Many2one('stock.location.route', string='Route', domain=[('sale_selectable', '=', True)], ondelete='restrict', check_company=True)
+    route_id = fields.Many2one('stock.route', string='Route', domain=[('sale_selectable', '=', True)], ondelete='restrict', check_company=True)
 
 
 class StockMove(models.Model):
@@ -35,57 +33,45 @@ class StockMove(models.Model):
             rec.action_clear_lines_show_details()
             rec._generate_serial_numbers()
         return True
+    
+class StockLot(models.Model):
+    _inherit = "stock.lot"
+    
+    @api.model
+    def generate_lot_names(self, first_lot, count):
+        "override method to update product tracking number on company"
 
-
-    def _generate_serial_numbers(self, next_serial_count=False):
-        """ This method will generate `lot_name` from a string (field
-        `next_serial`) and create a move line for each generated `lot_name`.
-        """
-        self.ensure_one()
-
-        if not next_serial_count:
-            next_serial_count = self.next_serial_count
-        # We look if the serial number contains at least one digit.
-        caught_initial_number = regex_findall("\d+", self.next_serial)
+        # We look if the first lot contains at least one digit.
+        caught_initial_number = regex_findall(r"\d+", first_lot)
         if not caught_initial_number:
-            raise UserError(_('The serial number must contain at least one digit.'))
-        # We base the serie on the last number find in the base serial number.
+            return self.generate_lot_names(first_lot + "0", count)
+        # We base the series on the last number found in the base lot.
         initial_number = caught_initial_number[-1]
         padding = len(initial_number)
-        # We split the serial number to get the prefix and suffix.
-        splitted = regex_split(initial_number, self.next_serial)
-        # initial_number could appear several times in the SN, e.g. BAV023B00001S00001
+        # We split the lot name to get the prefix and suffix.
+        splitted = regex_split(initial_number, first_lot)
+        # initial_number could appear several times, e.g. BAV023B00001S00001
         prefix = initial_number.join(splitted[:-1])
         suffix = splitted[-1]
         initial_number = int(initial_number)
 
         lot_names = []
-        for i in range(0, next_serial_count):
+        for i in range(0, count):
             lot_names.append('%s%s%s' % (
                 prefix,
                 str(initial_number + i).zfill(padding),
                 suffix
             ))
 
-        move_lines_commands = self._generate_serial_move_line_commands(lot_names)
-        self.write({'move_line_ids': move_lines_commands})
+        # set the tracking number in company level as well
         self.company_id.product_tracking_number = '%s%s%s' % (prefix,str(int(self.company_id.product_tracking_number)+1 + i).zfill(padding),suffix)
-        return True
+        return lot_names
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-
-    type = fields.Selection(
-        [('contact', 'Contact'),
-         ('invoice', 'Invoice Address'),
-         ('delivery', 'Delivery Address'),
-         ('other', 'Other Address'),
-         ("private", "Broker"),
-        ], string='Address Type',
-        default='contact',
-        help="Invoice & Delivery addresses are used in sales orders.")
+    type = fields.Selection(selection_add=[('private', "Broker")])
 
 
 class Account_Payment(models.Model):
@@ -96,4 +82,5 @@ class Account_Payment(models.Model):
         if len(payment_date) >= 2:
             raise UserError(_('Please Select Payments with same date.'))
         else:
-            return self.env.ref('ti_warehouse_count.ti_amsbio_payment_transaction_report').report_action(self)
+            report = self.env["ir.actions.report"]._get_report_from_name("ti_warehouse_count.report_template_bacs_payment")
+            return report.report_action(self)
