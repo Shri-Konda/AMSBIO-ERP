@@ -54,7 +54,7 @@ class SaleOrder(models.Model):
         ftp_servers = self.env["ftp.server"]._get_ftp_servers()
         for server in ftp_servers:
             # upload order files to ftp server
-            upload_from = server.local_export_order_location
+            upload_from = server.get_export_orders_folder()
             upload_to = server.ftp_order_location
             server.send_files_to_ftp(upload_from, upload_to)
 

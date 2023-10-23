@@ -130,14 +130,14 @@ class AccountMove(models.Model):
             self.partner_shipping_id.phone or "",
             self.partner_shipping_id.email or "",
             self.name.lstrip("INV/"),
-            format_date(self.env, self.invoice_date),
+            self.invoice_date.strftime("%d/%m/%Y"),
             self._get_customer_purchase_order_number(),
             self.ref or "",
             self.currency_id.name,
             "%.2f " % self.amount_total
         ]
-        for line in self.invoice_line_ids.filtered(lambda x: not x.display_type).sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True):
-            if line.display_type:
+        for line in self.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True):
+            if line.display_type in ["line_section", "line_note"]:
                 line_values = [""] * len(header)
                 line_values[0] = line.name or ""
             else:
@@ -157,7 +157,7 @@ class AccountMove(models.Model):
                     "%.2f" % line._edi_get_sales_tax(),
                     line._edi_get_tax_percentage(),
                     "%.2f" % line._edi_get_taxed_price_without_discount(),
-                    line.product_id.intrastat_id.code or "",
+                    line.product_id.intrastat_code_id.code or "",
                     "%.2f" % line.price_total
                 ]
                 line_values = invoice_values + line_values
@@ -189,11 +189,6 @@ class JournalItem(models.Model):
 
     def _edi_get_sales_tax(self):
         "returns tax amount of the invoice"
-
-        # line_discount_price_unit = self.price_unit * (1 - (self.discount / 100.0))
-        # taxes_res = self.tax_ids._origin.with_context(force_sign=1).compute_all(line_discount_price_unit,
-        #         quantity=self.quantity, currency=self.currency_id, product=self.product_id, partner=self.partner_id, is_refund=self.move_id.move_type in ('out_refund', 'in_refund'))
-        # _logger.info(f"\n==>taxes_res: {taxes_res}")
         return self.price_total - self.price_subtotal
 
     def _edi_get_tax_percentage(self):
@@ -205,17 +200,15 @@ class JournalItem(models.Model):
     def _edi_get_taxed_price_without_discount(self):
         "returns the total price including taxes without discount"
 
-        prices = self._get_price_total_and_subtotal_model(
-            price_unit = self.price_unit,
-            quantity = self.quantity,
-            discount = 0,
-            currency = self.currency_id,
-            product = self.product_id,
-            partner = self.partner_id,
-            taxes = self.tax_ids,
-            move_type = self.move_id.move_type
+        tax_res = self.tax_ids.compute_all(
+            self.price_unit,
+            quantity=self.quantity,
+            currency=self.currency_id,
+            product=self.product_id,
+            partner=self.partner_id,
+            is_refund=self.is_refund,
         )
-        return prices["price_total"]
+        return tax_res["total_excluded"]
 
 
 

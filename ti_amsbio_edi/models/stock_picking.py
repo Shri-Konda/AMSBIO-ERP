@@ -111,7 +111,7 @@ class StockPicking(models.Model):
             "FDEN",
             intercompany_sale_order and intercompany_sale_order.client_order_ref or "",
         ]
-        for move in self.move_lines.filtered(lambda move: move.sale_line_id.edi_order_line_number):
+        for move in self.move_ids.filtered(lambda move: move.sale_line_id.edi_order_line_number):
             line_valuse = [
                 move.sale_line_id.edi_order_line_number,
                 move.product_id.default_code or "",
@@ -119,7 +119,7 @@ class StockPicking(models.Model):
                 1,
                 move.product_id.x_studio_storage_temperature or "",
                 move.product_id.x_studio_shipping_temperature or "",
-                move.product_id.intrastat_id.code or "",
+                move.product_id.intrastat_code_id.code or "",
                 int(move.product_uom_qty),
                 move.product_uom.display_name or ""
             ]

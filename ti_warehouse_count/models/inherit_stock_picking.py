@@ -105,8 +105,8 @@ class Picking(models.Model):
     def _set_done_qty_on_source_picking(self, source_picking):
         "Set done qty on the source picking"
 
-        picking_moves = self.move_lines.filtered(lambda move: move.state in ["assigned", "partially_available"])
-        origin_moves = source_picking.move_lines.filtered(lambda move: move.state in ["assigned"])
+        picking_moves = self.move_ids.filtered(lambda move: move.state in ["assigned", "partially_available"])
+        origin_moves = source_picking.move_ids.filtered(lambda move: move.state in ["assigned"])
         for origin_move in origin_moves:
             if origin_move.product_id.tracking != 'none':
                 origin_move.next_serial = None
