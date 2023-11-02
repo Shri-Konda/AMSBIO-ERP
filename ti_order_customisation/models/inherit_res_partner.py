@@ -1,13 +1,18 @@
 # -*-coding: utf-8 -*-
 
 import logging
-from odoo import models
+from odoo import models, fields
 
 _logger = logging.getLogger(__name__)
 
 
 class Partner(models.Model):
     _inherit = "res.partner"
+
+    extended_contact_type = fields.Selection(selection=[
+        ('academic', "Academic"),
+        ('industrial', "Industrial")
+    ], string="Academic/Industrial")
 
 
     def action_view_sale_order(self):

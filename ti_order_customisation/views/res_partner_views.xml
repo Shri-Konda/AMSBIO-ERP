@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="extended_contact_type_partner_view_form" model="ir.ui.view">
+        <field name="name">extended.contact.type.partner.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="100"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='contact_addresses']/field[@name='child_ids']/form/sheet/group" position="before">
+                <field name="extended_contact_type" widget="radio" options="{'horizontal': true}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
