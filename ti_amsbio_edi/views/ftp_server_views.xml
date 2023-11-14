@@ -73,6 +73,10 @@
                             </group>
                         </page>
                         <page name="filesystem" string="Filesystem" groups="base.group_no_one">
+                            <group string="Local Directories">
+                                <label for="local_import_location" string="Import Orders To" class="font-weight-bold"/>
+                                <field name="local_import_location" nolabel="1"/>
+                            </group>
                             <group string="FTP Directories">
                                 <label for="ftp_import_location" string="Import Orders From" class="font-weight-bold"/>
                                 <field name="ftp_import_location" nolabel="1"/>

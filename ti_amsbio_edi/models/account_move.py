@@ -209,6 +209,3 @@ class JournalItem(models.Model):
             is_refund=self.is_refund,
         )
         return tax_res["total_excluded"]
-
-
-

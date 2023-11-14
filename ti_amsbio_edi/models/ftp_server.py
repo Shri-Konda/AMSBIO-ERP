@@ -35,9 +35,8 @@ class FTPServer(models.Model):
     partner_id = fields.Many2one("res.partner", "Customer", check_company=True, required=True)
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company, required=True, help="Select the company for which orders, deliveries, and invoices will be exchanged through this FTP server.")
 
-    @api.model
     def get_local_import_folder(self):
-        return get_module_resource('ti_amsbio_edi', "import_folder")
+        return self.local_import_location
 
     @api.model
     def get_export_deliveries_folder(self):
@@ -50,7 +49,8 @@ class FTPServer(models.Model):
     @api.model
     def get_export_orders_folder(self):
         return get_module_resource("ti_amsbio_edi", "export_folder/export_orders")
-
+    
+    local_import_location = fields.Char(string="Local Import Location", required=True, help="Files will be stored temporarily in this directory before processing")
     ftp_import_location = fields.Char(string="FTP Source Location", required=True, help="FTP Location from to download order csv files.")
     ftp_order_location = fields.Char(string="Order Directory", required=True, help="Directory in FTP server where Order csvs will be uploaded.")
     ftp_delivery_location = fields.Char(string="Delivery Directory", required=True, help="Directory in FTP server where Delivery Order csvs will be uploaded.")

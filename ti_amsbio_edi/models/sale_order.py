@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
 
     is_edi_order = fields.Boolean(string="EDI Order", default=False, readonly=True, copy=False, help="True is order is created from EDI Integration")
     ftp_server_id = fields.Many2one("ftp.server", string="FTP Server", check_company=True, readonly=True, copy=False,)
-    customer_purchase_order_number = fields.Char(help="Purchase order number of the end customer")
+    customer_purchase_order_number = fields.Char(string="Customer Internal Reference", help="Purchase order number of the end customer")
 
     def write(self, vals):
         "override method to create order csv when certain values are updated"
