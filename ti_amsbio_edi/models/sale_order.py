@@ -3,7 +3,6 @@
 import os
 import csv
 import logging
-from pathlib import Path
 from psycopg2 import IntegrityError, InternalError
 from odoo.tools import format_date
 from odoo import models, fields, api, _, Command
@@ -322,7 +321,7 @@ class SaleOrder(models.Model):
         order_export_folder = self.ftp_server_id.get_export_orders_folder()
         order_values = self._prepare_order_confirmation_csv_values()
         if order_values:
-            filepath = Path(f"{order_export_folder}/ACK_{self.name.replace('/', '_')}.csv")
+            filepath = f"{order_export_folder}/ACK_{self.name.replace('/', '_')}.csv"
             with open(filepath, "w") as csv_file:
                 csv_writer = csv.writer(csv_file)
                 csv_writer.writerows(order_values)

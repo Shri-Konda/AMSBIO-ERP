@@ -38,19 +38,22 @@ class FTPServer(models.Model):
     def get_local_import_folder(self):
         return self.local_import_location
 
-    @api.model
     def get_export_deliveries_folder(self):
-        return get_module_resource("ti_amsbio_edi", "export_folder/export_deliveries")
+        return self.local_delivery_export_location
 
-    @api.model
     def get_export_invoices_folder(self):
-        return get_module_resource("ti_amsbio_edi", "export_folder/export_invoices")
+        return self.local_invoice_export_location
 
-    @api.model
+
     def get_export_orders_folder(self):
-        return get_module_resource("ti_amsbio_edi", "export_folder/export_orders")
+        return self.local_order_export_location
     
     local_import_location = fields.Char(string="Local Import Location", required=True, help="Files will be stored temporarily in this directory before processing")
+    local_order_export_location = fields.Char(string="Local Order Export Location", required=True, help="Order acknowledgement files will be stored temporarily in this directory before sending to FTP")
+    local_delivery_export_location = fields.Char(string="Local Delivery Export Location", required=True, help="Delivery acknowledgement files will be stored temporarily in this directory before sending to FTP")
+    local_invoice_export_location = fields.Char(string="Local Invoice Export Location", required=True, help="Invoice acknowledgement files will be stored temporarily in this directory before sending to FTP")
+
+
     ftp_import_location = fields.Char(string="FTP Source Location", required=True, help="FTP Location from to download order csv files.")
     ftp_order_location = fields.Char(string="Order Directory", required=True, help="Directory in FTP server where Order csvs will be uploaded.")
     ftp_delivery_location = fields.Char(string="Delivery Directory", required=True, help="Directory in FTP server where Delivery Order csvs will be uploaded.")
