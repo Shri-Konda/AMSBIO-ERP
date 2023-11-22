@@ -192,6 +192,14 @@
                     </div>
                 </div>
         </xpath>
+        <xpath expr="//div[@id='informations']" position="after">
+            <div t-if="o.sale_id and o.sale_id.customer_purchase_order_number" class="row mt32 mb32">
+                <div class="col-4 mw-100 mb-2">
+                    <strong>Customer Internal Reference:</strong>
+                    <p class="m-0" t-out="o.sale_id.customer_purchase_order_number"/>
+                </div>
+            </div>
+        </xpath>
     </template>
 
     <template id="report_deliverynote_document_inherit_US" inherit_id="report_deliverynote_document_inherit" primary="True">
@@ -221,11 +229,10 @@
                 </div>
         </xpath>
         <xpath expr="//div[@id='informations']" position="after">
-            <t t-set="intercompany_sale_order" t-value="o.env['sale.order'].sudo().search([('name', '=', o.intercompany_sale_order)], limit=1)"/>
-            <div t-if="intercompany_sale_order and intercompany_sale_order.customer_purchase_order_number" class="row mt32 mb32">
+            <div t-if="o.sale_id and o.sale_id.customer_purchase_order_number" class="row mt32 mb32">
                 <div class="col-4 mw-100 mb-2">
                     <strong>Customer Internal Reference:</strong>
-                    <p class="m-0" t-out="intercompany_sale_order.customer_purchase_order_number"/>
+                    <p class="m-0" t-out="o.sale_id.customer_purchase_order_number"/>
                 </div>
             </div>
         </xpath>
@@ -258,6 +265,14 @@
                     </div>
                 </div>
         </xpath>
+        <xpath expr="//div[@id='informations']" position="after">
+            <div t-if="o.sale_id and o.sale_id.customer_purchase_order_number" class="row mt32 mb32">
+                <div class="col-4 mw-100 mb-2">
+                    <strong>Customer Internal Reference:</strong>
+                    <p class="m-0" t-out="o.sale_id.customer_purchase_order_number"/>
+                </div>
+            </div>
+        </xpath>
     </template>
 
     <template id="report_deliverynote_document_inherit_BV" inherit_id="report_deliverynote_document_inherit" primary="True">
@@ -286,6 +301,14 @@
                         </h6>
                     </div>
                 </div>
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="after">
+            <div t-if="o.sale_id and o.sale_id.customer_purchase_order_number" class="row mt32 mb32">
+                <div class="col-4 mw-100 mb-2">
+                    <strong>Customer Internal Reference:</strong>
+                    <p class="m-0" t-out="o.sale_id.customer_purchase_order_number"/>
+                </div>
+            </div>
         </xpath>
     </template>
 

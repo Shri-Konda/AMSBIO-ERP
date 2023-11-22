@@ -4,14 +4,15 @@
             <t t-call="web.basic_layout">
                 <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-3">
                             <h6 style="margin-left: -2px;">
                                 <span style="color: #fff;">.</span>
                                 <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                             </h6>
                         </div>
-                        <div class="col-4 text-start">
+                        <div class="col-5 text-start">
                             <h6>
+                                <strong t-if="o.company_id.country_id.code == 'CH'">Importer:</strong>
                                 <div t-field="o.company_id.partner_id"
                                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True, "phone_icons": True}' />
                             </h6>
