@@ -144,6 +144,7 @@ for rec in records:
       'client_order_ref'  : "%s"%(original_so.client_order_ref or rec.client_order_ref),
       'intercompany_sale_order': "%s"%(rec.auto_purchase_order_id.origin or ""),
       'x_studio_courier_ref'   : "%s"%(original_so.x_studio_courier_ref or ""),
+      'customer_purchase_order_number': original_so.customer_purchase_order_number or ""
     })
   else:
     po = rec._get_purchase_orders()
