@@ -1,16 +1,21 @@
 <odoo>
-    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document" priority="100">
         <xpath expr="//t" position="replace">
             <t t-call="web.basic_layout">
                 <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
+                    <style>
+                        .header p, span, strong, em {
+                            line-height: inherit !important;
+                        }
+                    </style>
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-4">
                             <h6 style="margin-left: -2px;">
                                 <span style="color: #fff;">.</span>
                                 <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
                             </h6>
                         </div>
-                        <div class="col-5 text-start">
+                        <div class="col-4 text-start">
                             <h6>
                                 <strong t-if="o.company_id.country_id.code == 'CH'">Importer:</strong>
                                 <div t-field="o.company_id.partner_id"
@@ -131,6 +136,9 @@
                                         <td name="account_invoice_line_name" style="width: 300px;"><span t-field="line.name"
                                                 t-options="{'widget': 'text'}" /></td>
                                         <!-- <td name="td_country" class="text-end" style="width: 70px;"><span t-field="line.intrastat_product_origin_country_id" t-options="{'widget': 'text'}"/></td> -->
+                                        <td class="text-end">
+                                            <span t-field="line.intrastat_product_origin_country_id"/>
+                                        </td>
                                         <td class="text-end" style="width: 60px;">
                                             <span t-field="line.quantity" />
                                             <span t-field="line.product_uom_id" groups="uom.group_uom" />

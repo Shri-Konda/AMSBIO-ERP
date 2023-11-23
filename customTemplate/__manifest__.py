@@ -13,7 +13,7 @@
     'website': "",
     'license'   : "Other proprietary",
     'category': 'Uncategorized',
-    'version': '16.0.1.0.0',
+    'version': '16.0.1.0.2',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'stock', 'account', 'sale', 'purchase'],

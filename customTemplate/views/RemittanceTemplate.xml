@@ -3,6 +3,11 @@
         <xpath expr="//t" position="replace">
             <t t-call="web.basic_layout">
                 <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
+                    <style>
+                        .header p, span, strong, em {
+                            line-height: inherit !important;
+                        }
+                    </style>
                     <div class="row">
                         <div class="col-4">
                             <h6 style="margin-left: -2px;">
