@@ -65,7 +65,7 @@ class SaleOrder(models.Model):
         import_folder = ftp_server.get_local_import_folder()
         os.chdir(import_folder)
         files = [file for file in os.listdir() if not file.startswith(".")]
-        _logger.info(f"\n==>import_folder: {import_folder}\n==>files: {files}")
+        # _logger.info(f"\n==>import_folder: {import_folder}\n==>files: {files}")
         for file in files:
             ftp_server_log_values = {}
             attachment = ftp_server.create_file_attachment(file)
@@ -79,13 +79,16 @@ class SaleOrder(models.Model):
                         'is_edi_order'      : True,
                         'ftp_server_id'     : ftp_server.id
                     })
-                    _logger.info(f"\n==>order_values: {order_values}")
+                    # _logger.info(f"\n==>order_values: {order_values}")
                     order = self.create(order_values)
                     if order:
                         msg = "Order successfully created from EDI. Please find attached the csv file for more information"
                         # updating res_model and res_id on attachment
                         attachment.write({'res_model': "sale.order", 'res_id': order.id})
                         order.message_post(body=_(msg), attachment_ids=attachment.ids)
+
+                        # notify salesteam through email
+                        order._notify_salesteam_for_edi_order()
 
                         # add delivery address to main customer's contact as delivery address
                         if order.partner_shipping_id not in order.partner_id.child_ids:
@@ -271,7 +274,6 @@ class SaleOrder(models.Model):
             return discounted_price, 0.0
 
 
-
     def _add_shipping_handling_costs(self, order_line_values):
         "Add shipping costs and handling fees based on shipping temperature of products in order line"
 
@@ -302,6 +304,13 @@ class SaleOrder(models.Model):
             order_line_values.append(Command.create({'product_id': handling_fee.id, 'product_uom_qty': 1}))
 
         return order_line_values
+
+    def _notify_salesteam_for_edi_order(self):
+        "send an email to sales team for EDI order"
+
+        email_template = self.env.ref("ti_amsbio_edi.amsbio_notify_edi_order_template")
+        if email_template:
+            email_template.send_mail(self.id, force_send=True)
 
     def action_confirm(self):
         "When order is confirmed and is EDI order, then send confirmation to FTP server"

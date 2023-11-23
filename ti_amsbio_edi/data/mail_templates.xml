@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="amsbio_notify_edi_order_template" model="mail.template">
+            <field name="name">EDI Orders Notification</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="email_from">scans@amsbio.com</field>
+            <field name="email_to">sales-llc@amsbio.com</field>
+            <field name="subject">Fisher EDI Order {{ object.name }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello, <br/><br/>
+                        Please process the Fisher PO <t t-out="object.customer_purchase_order_number or ''"/>. This is currently added into Odoo as a quotation with order number <t t-out="object.name"/>. This order was sent through EDI.<br/><br/>
+                        Thanks,
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>
