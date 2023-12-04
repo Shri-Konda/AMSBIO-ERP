@@ -65,7 +65,7 @@ class SaleOrder(models.Model):
         import_folder = ftp_server.get_local_import_folder()
         os.chdir(import_folder)
         files = [file for file in os.listdir() if not file.startswith(".")]
-        _logger.info(f"\n==>import_folder: {import_folder}\n==>files: {files}")
+        # _logger.info(f"\n==>import_folder: {import_folder}\n==>files: {files}")
         for file in files:
             ftp_server_log_values = {}
             attachment = ftp_server.create_file_attachment(file)
@@ -79,13 +79,16 @@ class SaleOrder(models.Model):
                         'is_edi_order'      : True,
                         'ftp_server_id'     : ftp_server.id
                     })
-                    _logger.info(f"\n==>order_values: {order_values}")
+                    # _logger.info(f"\n==>order_values: {order_values}")
                     order = self.create(order_values)
                     if order:
                         msg = "Order successfully created from EDI. Please find attached the csv file for more information"
                         # updating res_model and res_id on attachment
                         attachment.write({'res_model': "sale.order", 'res_id': order.id})
                         order.message_post(body=_(msg), attachment_ids=attachment.ids)
+
+                        # notify salesteam through email
+                        order._notify_salesteam_for_edi_order()
 
                         # add delivery address to main customer's contact as delivery address
                         if order.partner_shipping_id not in order.partner_id.child_ids:
@@ -142,13 +145,13 @@ class SaleOrder(models.Model):
 
             # Adding first line of data as well
             order_line_values.append(Command.create(self._prepare_order_line_values(customer, order_data)))
-            if order_data[17]:
-                order_notes.append(order_data[17])
+            if order_data[18]:
+                order_notes.append(order_data[18])
             # Now preparing order line values
             for line_data in csv_reader:
                 order_line_values.append(Command.create(self._prepare_order_line_values(customer, line_data)))
-                if line_data[17]:
-                    order_notes.append(line_data[17])
+                if line_data[18]:
+                    order_notes.append(line_data[18])
 
         # Add shipping costs and handling fees
         order_line_with_shipping = self._add_shipping_handling_costs(order_line_values)
@@ -174,8 +177,8 @@ class SaleOrder(models.Model):
         customer = self._search_or_create_customer(order_data)
         values["partner_shipping_id"] = customer.id
         values.update({
-            'client_order_ref': order_data[13],
-            'customer_purchase_order_number': order_data[14]
+            'client_order_ref': order_data[14],
+            'customer_purchase_order_number': order_data[15]
         })
         return values
 
@@ -187,18 +190,20 @@ class SaleOrder(models.Model):
         name = order_data[4] and order_data[4].strip() or ""
         street = order_data[5] and order_data[5] or ""
         street2 = order_data[6] and order_data[6] or ""
-        city = order_data[7] and order_data[7] or ""
-        if order_data[8]:
-            state_id = self.env["res.country.state"].sudo().search([("code", "=", order_data[8]), ('country_id', '=', country_id)], limit=1).id
+        street3 = order_data[7] and order_data[7] or ""
+        city = order_data[8] and order_data[8] or ""
+        if order_data[9]:
+            state_id = self.env["res.country.state"].sudo().search([("code", "=", order_data[9]), ('country_id', '=', country_id)], limit=1).id
         else:
             state_id = False
-        zip = order_data[9] and order_data[9] or ""
+        zip = order_data[10] and order_data[10] or ""
 
         # search for customer
         customer = self.env["res.partner"].search([
             ('name', '=', name),
             ('street', '=', street),
             ('street2', '=', street2),
+            ('street3', '=', street3),
             ('city', '=', city),
             ('state_id', '=', state_id),
             ('country_id', '=', country_id),
@@ -208,10 +213,11 @@ class SaleOrder(models.Model):
         if not customer:
             customer_values = {
                 'name'      : name,
-                'phone'     : order_data[11],
-                'email'     : order_data[12],
+                'phone'     : order_data[12],
+                'email'     : order_data[13],
                 'street'    : street,
                 'street2'   : street2,
+                'street3'   : street3,
                 'city'      : city,
                 'state_id'  : state_id,
                 'country_id': country_id,
@@ -227,14 +233,14 @@ class SaleOrder(models.Model):
         "Prepare order line values from the given data"
 
         values = {}
-        product_code = str(line_data[15])
+        product_code = str(line_data[16])
         product = self.env["product.product"].search([('default_code', "=", product_code)], limit=1)
         if product:
-            price, discount = self._get_discount_from_edi_unit_price(customer, product, float(line_data[18]), float(line_data[19]))
+            price, discount = self._get_discount_from_edi_unit_price(customer, product, float(line_data[19]), float(line_data[20]))
             values.update({
             'product_id'     : product.id,
-            'name'           : line_data[16] or product.description_sale,
-            'product_uom_qty': line_data[18],
+            'name'           : line_data[17] or product.description_sale,
+            'product_uom_qty': line_data[19],
             'price_unit'     : price,
             'discount'       : discount,
         })
@@ -242,9 +248,9 @@ class SaleOrder(models.Model):
             product = self.env.ref("ti_amsbio_edi.amsbio_edi_missing_product")
             values.update({
                 'product_id'     : product.id,
-                'name'           : line_data[16] or product.description_sale,
-                'product_uom_qty': line_data[18],
-                'price_unit'     : line_data[19],
+                'name'           : line_data[17] or product.description_sale,
+                'product_uom_qty': line_data[19],
+                'price_unit'     : line_data[20],
             })
         values.update({'edi_order_line_number': line_data[0]})
         return values
@@ -269,7 +275,6 @@ class SaleOrder(models.Model):
             return real_price, discount
         else:
             return discounted_price, 0.0
-
 
 
     def _add_shipping_handling_costs(self, order_line_values):
@@ -302,6 +307,13 @@ class SaleOrder(models.Model):
             order_line_values.append(Command.create({'product_id': handling_fee.id, 'product_uom_qty': 1}))
 
         return order_line_values
+
+    def _notify_salesteam_for_edi_order(self):
+        "send an email to sales team for EDI order"
+
+        email_template = self.env.ref("ti_amsbio_edi.amsbio_notify_edi_order_template")
+        if email_template:
+            email_template.send_mail(self.id, force_send=True)
 
     def action_confirm(self):
         "When order is confirmed and is EDI order, then send confirmation to FTP server"

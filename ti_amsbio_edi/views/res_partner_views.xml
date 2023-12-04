@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="edi_partner_view_form_inherit" model="ir.ui.view">
+        <field name="name">edi.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="100"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_address_format')]/field[@name='street2']" position="after">
+                <field name="street3" placeholder="Street 3..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+            </xpath>
+
+            <xpath expr="//page[@name='contact_addresses']//div[hasclass('o_address_format')]/field[@name='street2'] " position="after">
+                <field name="street3" placeholder="Street 3..." class="o_address_street"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
