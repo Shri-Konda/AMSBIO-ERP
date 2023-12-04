@@ -2,7 +2,7 @@
 {
     'name'      : "Amsbio EDI Integration",
     'summary'   : "EDI Integration of Odoo and third party to exchange orders, delivery, and invoice data through FTP",
-    'version'   : "16.0.4.2",
+    'version'   : "16.0.4.3",
     'category'  : "Sales/Sales",
     'license'   : "Other proprietary",
     'author'    : "Target Integration",
@@ -21,7 +21,8 @@
                 "views/sale_order_views.xml",
                 "views/stock_picking_views.xml",
                 "views/account_move_views.xml",
-                "wizard/select_edi_order_views.xml"
+                "wizard/select_edi_order_views.xml",
+                "views/res_partner_views.xml"
     ],
     'external_dependencies': {
         'python': ["paramiko"]
