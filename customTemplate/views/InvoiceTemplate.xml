@@ -95,24 +95,21 @@
                     <table class="table table-sm o_main_table" name="invoice_line_table">
                         <thead>
                             <tr>
-                                <th name="th_codenum" class="text-start" style="width: 140px;"><span>Code</span></th>
-                                <th name="th_description" class="text-start" style="width: 300px;"><span>Description</span></th>
-                                <th name="th_country" class="text-end" style="width: 80px;"><span>Origin Country</span></th>
-                                <th name="th_quantity" class="text-end" style="width: 60px;"><span>Quantity</span></th>
-                                <th name="th_priceunit" style="width: 65px;"
-                                    t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                <th name="th_codenum" class="text-start" style="vertical-align: bottom !important;"><span>Code</span></th>
+                                <th name="th_description" class="text-start" style="vertical-align: bottom !important;"><span>Description</span></th>
+                                <th name="th_country" class="text-end" style="vertical-align: bottom !important;"><span>Origin Country</span></th>
+                                <th name="th_quantity" class="text-end" style="vertical-align: bottom !important;"><span>Quantity</span></th>
+                                <th name="th_priceunit" t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" style="vertical-align: bottom !important;">
                                     <span>Unit Price</span>
                                 </th>
-                                <th name="th_price_unit" t-if="display_discount" style="width: 45px;"
-                                    t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                <th name="th_price_unit" t-if="display_discount" t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" style="vertical-align: bottom !important;">
                                     <span>Disc.%</span>
                                 </th>
-                                <th name="th_taxes" style="width: 30px;"
-                                    t-attf-class="text-start {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                <th name="th_taxes" t-attf-class="text-start {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" style="vertical-align: bottom !important;">
                                     <span>Sales Taxes</span>
                                 </th>
-                                <th name="th_tariffcode" class="text-start" style="width: 50px;"><span>Tariff Code</span></th>
-                                <th name="th_subtotal" class="text-end" style="width: 65px;">
+                                <th name="th_tariffcode" class="text-start" style="vertical-align: bottom !important;"><span>Tariff Code</span></th>
+                                <th name="th_subtotal" class="text-end" style="vertical-align: bottom !important;">
                                     <span groups="account.group_show_line_subtotals_tax_excluded">Amount</span>
                                 </th>
                             </tr>
