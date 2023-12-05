@@ -10,6 +10,8 @@ class SaleOrderLine(models.Model):
 
     product_supplier_id = fields.Many2one("res.partner", "Supplier", compute="_compute_product_supplier_id", store=True)
     original_customer = fields.Char("Original Customer", compute="_compute_original_customer", store=True)
+    order_partner_shipping_city = fields.Char(related="order_id.partner_shipping_id.city", store=True, string="Delivery City")
+    order_partner_shipping_zip = fields.Char(related="order_id.partner_shipping_id.zip", store=True, string="Delivery Postal Code")
 
     @api.depends("order_id.intercompany_sale_order", "order_partner_id")
     def _compute_original_customer(self):
