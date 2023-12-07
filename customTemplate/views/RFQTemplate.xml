@@ -4,6 +4,11 @@
             <t t-call="web.basic_layout">
             <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
                 <div class="header" style="font-family: Calibri;" t-att-style="report_header_style">
+                    <style>
+                        .header p, span, strong, em {
+                            line-height: inherit !important;
+                        }
+                    </style>
                     <div class="row">
                         <div class="col-4 text-start">
                             <h6 style="margin-left: -2px;">
