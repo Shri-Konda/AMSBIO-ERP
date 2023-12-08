@@ -1,5 +1,5 @@
 <odoo>
-    <template id="report_deliverynote_document_inherit" inherit_id="stock.report_delivery_document">
+    <template id="report_deliverynote_document_inherit" inherit_id="stock.report_delivery_document" priority="100">
         <xpath expr="//t" position="replace">
             <t t-call="web.basic_layout">
             <div t-attf-class="header" t-att-style="report_header_style" style="font-family: Calibri;">
