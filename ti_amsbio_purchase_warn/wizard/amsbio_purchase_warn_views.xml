@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="amsbio_purchase_warn_view_form" model="ir.ui.view">
+        <field name="name">amsbio.purchase.warn.view.form</field>
+        <field name="model">amsbio.purchase.warn</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="purchase_order_id" invisible="1"/>
+                <field name="purchase_partner_id" invisible="1"/>
+                <field name="purchase_warn" invisible="1"/>
+                <p><field name="purchase_warn_msg"/></p>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn btn-primary" attrs="{'invisible': [('purchase_warn', '=', 'block')]}"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_amsbio_purchase_warn,access.amsbio.purchase.warn,model_amsbio_purchase_warn,base.group_user,1,1,1,1
