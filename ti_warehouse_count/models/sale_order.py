@@ -94,26 +94,30 @@ class SaleOrderLine(models.Model):
     @api.depends('product_id')
     def _compute_warehouse_qty(self):
         for line in self:
+            line.uk_warehouse_qty = 0
+            line.uk_us_warehouse_qty = 0
+            line.ch_warehouse_qty = 0
+            line.bv_warehouse_qty = 0
             IrDefault = self.env['ir.default'].sudo()
             company_id = IrDefault.get('res.config.settings', 'warehouse_count')
             company_id = self.env['res.company'].sudo().browse([company_id])
             if company_id and line.company_id.id == company_id.id:
-                warehouses = self.env['stock.warehouse'].sudo().search([("company_id","=",line.company_id.id)])
-                if len(warehouses)==4:
-                    line.uk_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[0])
-                    line.uk_us_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[1])
-                    line.ch_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[2])
-                    line.bv_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[3])
-                else:
-                    line.uk_warehouse_qty = 0
-                    line.uk_us_warehouse_qty = 0
-                    line.ch_warehouse_qty = 0
-                    line.bv_warehouse_qty = 0
-            else:
-                    line.uk_warehouse_qty = 0
-                    line.uk_us_warehouse_qty = 0
-                    line.ch_warehouse_qty = 0
-                    line.bv_warehouse_qty = 0
+                uk_warehouse = self.env["stock.warehouse"].sudo().search([("code", '=', "UK")], limit=1)
+                us_warehouse = self.env["stock.warehouse"].sudo().search([("code", '=', "US")], limit=1)
+                ch_warehouse = self.env["stock.warehouse"].sudo().search([("code", '=', "CH")], limit=1)
+                bv_warehouse = self.env["stock.warehouse"].sudo().search([("code", '=', "NL")], limit=1)
+
+                if uk_warehouse:
+                    line.uk_warehouse_qty = line.product_id.with_context(warehouse=uk_warehouse.id).qty_available
+
+                if us_warehouse:
+                    line.uk_us_warehouse_qty = line.product_id.with_context(warehouse=us_warehouse.id).qty_available
+
+                if ch_warehouse:
+                    line.ch_warehouse_qty = line.product_id.with_context(warehouse=ch_warehouse.id).qty_available
+
+                if bv_warehouse:
+                    line.bv_warehouse_qty = line.product_id.with_context(warehouse=bv_warehouse.id).qty_available
 
     @api.model_create_multi
     def create(self, vals_list):
