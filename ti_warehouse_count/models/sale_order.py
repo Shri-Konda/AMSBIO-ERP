@@ -108,16 +108,16 @@ class SaleOrderLine(models.Model):
                 bv_warehouse = self.env["stock.warehouse"].sudo().search([("code", '=', "NL")], limit=1)
 
                 if uk_warehouse:
-                    line.uk_warehouse_qty = line.product_id.with_context(warehouse=uk_warehouse.id).qty_available
+                    line.uk_warehouse_qty = line.product_id.with_context(warehouse=uk_warehouse.id).free_qty
 
                 if us_warehouse:
-                    line.uk_us_warehouse_qty = line.product_id.with_context(warehouse=us_warehouse.id).qty_available
+                    line.uk_us_warehouse_qty = line.product_id.with_context(warehouse=us_warehouse.id).free_qty
 
                 if ch_warehouse:
-                    line.ch_warehouse_qty = line.product_id.with_context(warehouse=ch_warehouse.id).qty_available
+                    line.ch_warehouse_qty = line.product_id.with_context(warehouse=ch_warehouse.id).free_qty
 
                 if bv_warehouse:
-                    line.bv_warehouse_qty = line.product_id.with_context(warehouse=bv_warehouse.id).qty_available
+                    line.bv_warehouse_qty = line.product_id.with_context(warehouse=bv_warehouse.id).free_qty
 
     @api.model_create_multi
     def create(self, vals_list):
