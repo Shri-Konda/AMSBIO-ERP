@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="amsbio_crm_quote_first_reminder_template" model="mail.template">
+            <field name="name">Outstanding Quotations First Reminder Template</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="email_from">{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="subject">Quotation {{ object.name }} Pending for a Week</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello <t t-out="object.partner_id.name"/>, <br/><br/>
+                        Your quotation <t t-out="object.name"/>  amounting in <span style="font-weight: bold;"  t-out="format_amount(object.amount_total, object.pricelist_id.currency_id) or ''"/> is pending for more than a week.<br/><br/>
+                        Thanks,
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="amsbio_crm_quote_second_reminder_template" model="mail.template">
+            <field name="name">Outstanding Quotations Second Reminder Template</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="email_from">{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="subject">Quotation {{ object.name }} Pending for 3 Weeks</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello <t t-out="object.partner_id.name"/>, <br/><br/>
+                        Your quotation <t t-out="object.name"/>  amounting in <span style="font-weight: bold;"  t-out="format_amount(object.amount_total, object.pricelist_id.currency_id) or ''"/> is pending for more than 3 week.<br/><br/>
+                        Thanks,
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>
