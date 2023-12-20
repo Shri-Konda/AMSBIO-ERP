@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="amsbio_lost_message_partner_view_form" model="ir.ui.view">
+            <field name="name">amsbio.lost.message.partner.view.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Previous Conversation">
+                        <field name="amsbio_previous_conversation" widget="html"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="amsbio_lost_message_sale_view_form" model="ir.ui.view">
+            <field name="name">amsbio.lost.message.sale.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Previous Conversation">
+                        <field name="amsbio_previous_conversation" widget="html"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="amsbio_lost_message_lead_view_form" model="ir.ui.view">
+            <field name="name">amsbio.lost.message.leader.view.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Previous Conversation">
+                        <field name="amsbio_previous_conversation" widget="html"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
