@@ -16,6 +16,11 @@ class MailAttachWizard(models.TransientModel):
         if self.res_reference._name in ["crm.lead", "res.partner", "sale.order"]:
             record = self.env[self.res_reference._name].browse(self.res_reference.id)
             # _logger.info(f"\n==>record: {record}")
-            record.write({'amsbio_previous_conversation': "\n".join(self.message_ids.mapped('body'))})
+            messages = []
+            if record.amsbio_previous_conversation:
+                messages.append(record.amsbio_previous_conversation)
+            for body in self.message_ids.mapped("body"):
+                messages.append(body)
+            record.write({'amsbio_previous_conversation': "\n".join(messages)})
 
         return result
