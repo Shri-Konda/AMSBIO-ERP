@@ -2,12 +2,14 @@
 
 import re
 import logging
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from odoo import models, api
 
 
 _logger = logging.getLogger(__name__)
 
-class MailThread(models.Model):
+class MailThread(models.AbstractModel):
     _inherit = "mail.thread"
 
     @api.returns("mail.message", lambda value: value.id)
@@ -37,9 +39,20 @@ class MailThread(models.Model):
                         else:
                             # create new contact with given email address
                             contact = self.env["res.partner"].sudo().create({'name': name, 'email': email})
+                            contact.write({'amsbio_previous_conversation': message_id.body})
                             _logger.info(f"\n==>contact created: {contact}")
             except Exception as e:
                 _logger.warning(f"\n==>There was an error during automatic routing of message: {message_id.id}")
 
         return message_id
+    
+class mail_message(models.Model):
+    _inherit = "mail.message"
 
+    @api.model
+    def _cron_clean_old_lost_messages(self):
+        """delete lost messages which are not routed"""
+
+        lost_messages = self.search([('is_unattached', '=', True), ('model', '=', "lost.message.parent"), ('create_date', '<=', datetime.today()-relativedelta(days=7))])
+        _logger.info(f"\n==>deleting old messages: {lost_messages}")
+        lost_messages.unlink()

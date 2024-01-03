@@ -2,7 +2,7 @@
 {
     'name'      : "Lost Message Routing Extended",
     'summary'   : "Fixes the routing of lost messages",
-    'version'   : "16.0.0.0",
+    'version'   : "16.0.1.0",
     'category'  : "Sales/Sales",
     'license'   : "Other proprietary",
     'author'    : "Target Integration",
@@ -12,5 +12,8 @@
     'depends'   : ["mail_manual_routing", "sale", "crm"],
 
     # data always loaded
-    'data'      : ["views/sale_views.xml"]
+    'data'      : [
+            "data/crons.xml",
+            "views/sale_views.xml"
+        ]
 }
