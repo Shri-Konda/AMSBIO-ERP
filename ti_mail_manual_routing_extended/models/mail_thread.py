@@ -33,14 +33,19 @@ class MailThread(models.AbstractModel):
                     # search for existing contact with given email address
                     if email:
                         contact = self.env["res.partner"].sudo().search([("email", "=", email.strip())], limit=1)
-                        _logger.info(f"\n==>email: {email} ==>contact: {contact}")
+                        # _logger.info(f"\n==>email: {email} ==>contact: {contact}")
                         if contact:
-                            contact.write({'amsbio_previous_conversation': message_id.body})
+                            new_message = ""
+                            if message_id.body:
+                                new_message += message_id.body + "\n"
+                            if contact.amsbio_previous_conversation:
+                                new_message += contact.amsbio_previous_conversation
+                            contact.write({'amsbio_previous_conversation': new_message})
                         else:
                             # create new contact with given email address
                             contact = self.env["res.partner"].sudo().create({'name': name, 'email': email})
                             contact.write({'amsbio_previous_conversation': message_id.body})
-                            _logger.info(f"\n==>contact created: {contact}")
+                            # _logger.info(f"\n==>contact created: {contact}")
             except Exception as e:
                 _logger.warning(f"\n==>There was an error during automatic routing of message: {message_id.id}")
 
@@ -54,5 +59,5 @@ class mail_message(models.Model):
         """delete lost messages which are not routed"""
 
         lost_messages = self.search([('is_unattached', '=', True), ('model', '=', "lost.message.parent"), ('create_date', '<=', datetime.today()-relativedelta(days=7))])
-        _logger.info(f"\n==>deleting old messages: {lost_messages}")
+        # _logger.info(f"\n==>deleting old messages: {lost_messages}")
         lost_messages.unlink()
