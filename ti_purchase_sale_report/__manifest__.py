@@ -1,8 +1,8 @@
 # -*-coding: utf-8 -*-
 {
-    'name'      : "Purchase Sale Analysis",
+    'name'      : "AMSBIO Purchase Sale Analysis",
     'summary'   : "Gives report about a product from vendor to customer",
-    'version'   : "16.0.1.0.0",
+    'version'   : "16.0.2.0",
     'category'  : "Sales/Sales",
     'license'   : "Other proprietary",
     'author'    : "Target Integration",

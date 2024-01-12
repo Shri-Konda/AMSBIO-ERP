@@ -11,6 +11,8 @@ class SaleReport(models.Model):
 
     suppplier_id = fields.Many2one("res.partner", "Supplier", readonly=True)
     original_customer = fields.Char("Original Customer", readonly=True)
+    order_partner_shipping_city = fields.Char("Delivery City", readonly=True)
+    order_partner_shipping_zip = fields.Char("Delivery Postal Code", readonly=True)
     
     def _select_sale(self):
         select_ = f"""
@@ -18,6 +20,8 @@ class SaleReport(models.Model):
             l.product_id AS product_id,
             l.product_supplier_id as suppplier_id,
             l.original_customer as original_customer,
+            l.order_partner_shipping_city as order_partner_shipping_city,
+            l.order_partner_shipping_zip as order_partner_shipping_zip,
             t.uom_id AS product_uom,
             CASE WHEN l.product_id IS NOT NULL THEN SUM(l.product_uom_qty / u.factor * u2.factor) ELSE 0 END AS product_uom_qty,
             CASE WHEN l.product_id IS NOT NULL THEN SUM(l.qty_delivered / u.factor * u2.factor) ELSE 0 END AS qty_delivered,
@@ -84,4 +88,7 @@ class SaleReport(models.Model):
         groupby = super(SaleReport, self)._group_by_sale()
         return """
             l.product_supplier_id,
-            l.original_customer,""" + groupby
+            l.original_customer,
+            l.order_partner_shipping_city,
+            l.order_partner_shipping_zip,
+        """ + groupby
