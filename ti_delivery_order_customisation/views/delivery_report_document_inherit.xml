@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="ti_delivery_order_line" inherit_id="customTemplate.report_deliverynote_document_inherit">
+    <template id="ti_delivery_order_line" inherit_id="customTemplate.report_deliverynote_document_inherit" priority="120">
         <xpath expr="//table[@name='stock_line_table']/tbody[hasclass('tbody')]" position="inside">
             <!-- Here we will print only sections and notes in the last of the table  -->
             <t t-if="print_sections_notes">
