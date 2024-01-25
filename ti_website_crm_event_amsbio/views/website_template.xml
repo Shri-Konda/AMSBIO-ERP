@@ -142,7 +142,7 @@
                                                             <span class="s_website_form_mark"> *</span>
                                                         </label>
                                                         <div class="col-sm">
-                                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" id="tag_ids">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" id="tag_ids" style="max-height: 600px;overflow: auto;">
                                                                 <!-- <input class="" type="radio" id="intrest_radio" name="intrest_radio" style="position: relative; opacity: 0;" required="required"/> -->
                                                                 <t t-foreach="crm_tags"  t-as="tag">
                                                                     <div class="checkbox col-12 col-lg-4 col-md-6">
@@ -170,7 +170,7 @@
                                                             <span class="s_website_form_mark"> *</span>
                                                         </label>
                                                         <div class="col-sm">
-                                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" id="tag_ids">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" id="sub_tag_ids" style="max-height: 600px;overflow: auto;">
                                                                 <!-- <input class="" type="radio" id="sub_intrest_radio" name="sub_intrest_radio" style="position: relative; opacity: 0;"/> -->
                                                                 <t t-foreach="child_crm_tags"  t-as="sub_tag">
                                                                     <div class="checkbox col-12 col-lg-4 col-md-6 d-none" t-attf-id="#{'sub_tag_parent_id_' + str(sub_tag.parent_id.id)}">
