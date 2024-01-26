@@ -31,15 +31,20 @@ class NewLead(http.Controller):
             lead = request.env["crm.lead"].sudo()
             create_vals = {}
             tag_id_list = []
+            sub_tag_id_list = []
             for key in post:
                 if key in lead._fields:
                     create_vals.update({key: post.get(key)})
                 else:
-                    if "tag_id_" in key:
+                    if "sub_tag_id_" in key:
+                        sub_tag_id_list.append(int(post.get(key)))
+                    elif "tag_id_" in key:
                         # tag_id_list.append(int(key.split("_")[-1]))
                         tag_id_list.append(int(post.get(key)))
             if tag_id_list:
                 create_vals.update({"intrest_ids": [Command.set(tag_id_list)]})
+            if sub_tag_id_list:
+                create_vals.update({"sub_intrest_ids": [Command.set(sub_tag_id_list)]})
             if create_vals:
                 _logger.info(f"\n\n\n----------create_vals-----------{create_vals}---------{redirect}")
                 lead.create(create_vals)
