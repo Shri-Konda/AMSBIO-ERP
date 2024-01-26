@@ -35,7 +35,7 @@
                             <div class="col-12 mt-4 mt-lg-0">
                                 <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
                                     <div class="container">
-                                        <form id="ti_new_lead_form" action="/new/lead" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-success-mode="redirect" data-success-page="/contactus-thank-you" data-pre-fill="true">
+                                        <form id="ti_new_lead_form" t-att-action="action" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-success-mode="redirect" data-success-page="/contactus-thank-you" data-pre-fill="true">
                                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" t-nocache="The csrf token must always be up to date."/>
                                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                                 <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required" data-type="char" data-name="Field">

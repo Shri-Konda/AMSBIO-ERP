@@ -22,10 +22,14 @@
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
             <data>
-                <field name="tag_ids" position="after">
+                <xpath expr="//field[@name='tag_ids']" position="after">
                     <field name="intrest_ids" widget="many2many_tags"/>
                     <field name="sub_intrest_ids" widget="many2many_tags"/>
-                </field>
+                </xpath>
+                <xpath expr="//group[@name='lead_priority']/field[@name='tag_ids']" position="after">
+                    <field name="intrest_ids" widget="many2many_tags"/>
+                    <field name="sub_intrest_ids" widget="many2many_tags"/>
+                </xpath>
             </data>
         </field>
     </record>

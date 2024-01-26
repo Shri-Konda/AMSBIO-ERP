@@ -17,8 +17,8 @@ class CrmLead(models.Model):
 class CrmTag(models.Model):
     _inherit = "crm.tag"
 
-    parent_id = fields.Many2one("crm.tag", "Parent Tag")
-    child_ids = fields.One2many("crm.tag", "parent_id", "Childs Tags")
+    parent_id = fields.Many2one("crm.tag", "Parent Tag", copy=False)
+    child_ids = fields.One2many("crm.tag", "parent_id", "Childs Tags", copy=False)
 
     @api.constrains("parent_id")
     def _check_parent_id(self):
