@@ -168,6 +168,7 @@
 
                                     <!--Tax totals-->
                                     <t t-set="tax_totals" t-value="o.tax_totals"/>
+                                    <t t-if="o.company_id.country_id.code == 'CH'" t-set="taxes_name" t-value="'MWST/TVA/IVA'"/>
                                     <t t-call="account.document_tax_totals"/>
 
                                     <!--Payments-->
