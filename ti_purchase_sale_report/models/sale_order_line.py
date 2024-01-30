@@ -34,3 +34,8 @@ class SaleOrderLine(models.Model):
                 order_line.product_supplier_id = seller.display_name
             else:
                 order_line.product_supplier_id = False
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    amount_currency = fields.Monetary(group_operator="sum")
