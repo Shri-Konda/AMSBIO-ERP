@@ -126,7 +126,10 @@
                                                             <select id="event_id" class="form-control s_website_form_input" name="event_id" required="">
                                                                 <option value="">Event...</option>
                                                                 <t t-foreach="events" t-as="e">
-                                                                    <option t-att-value="e.id">
+                                                                    <option t-if="e.id == default_event_id" t-att-value="e.id" selected="selected">
+                                                                        <t t-esc="e.name" />
+                                                                    </option>
+                                                                    <option t-else="" t-att-value="e.id">
                                                                         <t t-esc="e.name" />
                                                                     </option>
                                                                 </t>
@@ -173,7 +176,7 @@
                                                             <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" id="sub_tag_ids" style="max-height: 600px;overflow: auto;">
                                                                 <!-- <input class="" type="radio" id="sub_intrest_radio" name="sub_intrest_radio" style="position: relative; opacity: 0;"/> -->
                                                                 <t t-foreach="child_crm_tags"  t-as="sub_tag">
-                                                                    <div class="checkbox col-12 col-lg-4 col-md-6 d-none" t-attf-id="#{'sub_tag_parent_id_' + str(sub_tag.parent_id.id)}">
+                                                                    <div class="checkbox col-12 col-lg-4 col-md-6 d-none" t-attf-data-parent_id="#{str(sub_tag.parent_id.id)}">
                                                                         <div class="">
                                                                             <input t-attf-id="#{'sub_tag_id_' + str(sub_tag.id)}" type="checkbox" class="sub_intrest_tag" t-attf-name="#{'sub_tag_id_' + str(sub_tag.id)}" style="margin-right: 0.5em;" t-att-value="sub_tag.id"/>
                                                                             <label t-attf-for="#{'sub_tag_id_' + str(sub_tag.id)}">

@@ -23,13 +23,16 @@ class NewLead(http.Controller):
         new_lead_event = False
         redirect = "/new/lead/thankyou"
         action = "/new/lead"
+        default_event_id = False
+        if post.get("default_event_id", False):
+            default_event_id = int(post.get('default_event_id', False))
         if '/new-lead-event' in request.httprequest.path:
             new_lead_event = True
             action = "/new-lead-event"
             redirect = "/new-lead-event/thankyou"
         if request.httprequest.method == 'POST' and post:
             lead = request.env["crm.lead"].sudo()
-            create_vals = {}
+            create_vals = {"type": "lead", "event_id": default_event_id}
             tag_id_list = []
             sub_tag_id_list = []
             for key in post:
@@ -41,6 +44,7 @@ class NewLead(http.Controller):
                     elif "tag_id_" in key:
                         # tag_id_list.append(int(key.split("_")[-1]))
                         tag_id_list.append(int(post.get(key)))
+
             if tag_id_list:
                 create_vals.update({"intrest_ids": [Command.set(tag_id_list)]})
             if sub_tag_id_list:
@@ -49,7 +53,7 @@ class NewLead(http.Controller):
                 _logger.info(f"\n\n\n----------create_vals-----------{create_vals}---------{redirect}")
                 lead.create(create_vals)
                 return request.redirect(redirect)
-
+        
         return request.env['ir.ui.view']._render_template("ti_website_crm_event_amsbio.ti_amsbio_crm_event_website_form", {
             "crm_tags": crm_tags,
             "child_crm_tags": child_crm_tags,
@@ -59,7 +63,8 @@ class NewLead(http.Controller):
             "email":request.env.user.email,
             "commercial_company_name":request.env.user.partner_id.commercial_company_name,
             "new_lead_event": new_lead_event,
-            "events": request.env["event.event"].sudo().search([("website_published", "=", True)])
+            "events": request.env["event.event"].sudo().search([("website_published", "=", True)]),
+            "default_event_id": default_event_id,
         })
     
     @http.route(['/new/lead/thankyou', '/new-lead-event/thankyou'], type='http', auth="public", website=True)
