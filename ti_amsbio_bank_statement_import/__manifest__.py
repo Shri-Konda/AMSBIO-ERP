@@ -2,7 +2,7 @@
 {
     'name'      : "AMSBIO Import Bank Statements",
     'summary'   : "Upload bank statements in custom csv format and create bank statements",
-    'version'   : "16.0.1.0",
+    'version'   : "16.0.1.1",
     'category'  : "Accounting",
     'license'   : "Other proprietary",
     'author'    : "Target Integration",

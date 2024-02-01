@@ -37,6 +37,7 @@ class AccountJournal(models.Model):
         "format the custom template to make it importable in Odoo"
 
         parsed_data = ""
+        parsed_vals = []
         custom_template = self.custom_import_template_id
         # adding header/field name of Odoo from custom template
         if custom_template.template_line_ids:
@@ -65,8 +66,12 @@ class AccountJournal(models.Model):
                         break
                 if has_debit_or_credit:
                     values = [line._get_formatted_value(row, line.column_index) for line in custom_template.template_line_ids]
-                    parsed_data += ";".join(values) + "\n"
-                # _logger.info(f"\n{row} ==> {values}")
+                    parsed_vals.append(values)
+
+        # sort the data by date as Odoo requires sorted data
+        parsed_vals.sort(key=lambda l: l[0])
+        for vals in parsed_vals:
+            parsed_data += ";".join(vals) + "\n"
 
         # create import wizard with the data
         import_wizard = self.env['base_import.import'].create({
