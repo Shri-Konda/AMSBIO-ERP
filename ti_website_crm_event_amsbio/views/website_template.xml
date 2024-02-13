@@ -178,7 +178,7 @@
                                                                 <t t-foreach="child_crm_tags"  t-as="sub_tag">
                                                                     <div class="checkbox col-12 col-lg-4 col-md-6 d-none" t-attf-data-parent_id="#{str(sub_tag.parent_id.id)}">
                                                                         <div class="">
-                                                                            <input t-attf-id="#{'sub_tag_id_' + str(sub_tag.id)}" type="checkbox" class="sub_intrest_tag" t-attf-name="#{'sub_tag_id_' + str(sub_tag.id)}" style="margin-right: 0.5em;" t-att-value="sub_tag.id"/>
+                                                                            <input t-attf-id="#{'sub_tag_id_' + str(sub_tag.id)}" type="checkbox" class="sub_intrest_tag" t-attf-name="#{'sub_tag_id_' + str(sub_tag.id)}" style="margin-right: 0.5em;" t-att-value="sub_tag.id" t-att-parent_tag_id="sub_tag.parent_id.id"/>
                                                                             <label t-attf-for="#{'sub_tag_id_' + str(sub_tag.id)}">
                                                                                 <span t-field="sub_tag.name"/>
                                                                             </label>
