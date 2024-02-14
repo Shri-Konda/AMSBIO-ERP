@@ -145,13 +145,13 @@ class SaleOrder(models.Model):
 
             # Adding first line of data as well
             order_line_values.append(Command.create(self._prepare_order_line_values(customer, order_data)))
-            if order_data[18]:
-                order_notes.append(order_data[18])
+            if order_data[19]:
+                order_notes.append(order_data[19])
             # Now preparing order line values
             for line_data in csv_reader:
                 order_line_values.append(Command.create(self._prepare_order_line_values(customer, line_data)))
-                if line_data[18]:
-                    order_notes.append(line_data[18])
+                if line_data[19]:
+                    order_notes.append(line_data[19])
 
         # Add shipping costs and handling fees
         order_line_with_shipping = self._add_shipping_handling_costs(order_line_values)
@@ -177,8 +177,8 @@ class SaleOrder(models.Model):
         customer = self._search_or_create_customer(order_data)
         values["partner_shipping_id"] = customer.id
         values.update({
-            'client_order_ref': order_data[14],
-            'customer_purchase_order_number': order_data[15]
+            'client_order_ref': order_data[15],
+            'customer_purchase_order_number': order_data[16]
         })
         return values
 
@@ -215,6 +215,7 @@ class SaleOrder(models.Model):
                 'name'      : name,
                 'phone'     : order_data[12],
                 'email'     : order_data[13],
+                'x_studio_fax': order_data[14],
                 'street'    : street,
                 'street2'   : street2,
                 'street3'   : street3,
@@ -228,19 +229,18 @@ class SaleOrder(models.Model):
             customer = self.env["res.partner"].create(customer_values)
         return customer
 
-
     def _prepare_order_line_values(self, customer, line_data):
         "Prepare order line values from the given data"
 
         values = {}
-        product_code = str(line_data[16])
+        product_code = str(line_data[17])
         product = self.env["product.product"].search([('default_code', "=", product_code)], limit=1)
         if product:
-            price, discount = self._get_discount_from_edi_unit_price(customer, product, float(line_data[19]), float(line_data[20]))
+            price, discount = self._get_discount_from_edi_unit_price(customer, product, float(line_data[20]), float(line_data[21]))
             values.update({
             'product_id'     : product.id,
-            'name'           : line_data[17] or product.description_sale,
-            'product_uom_qty': line_data[19],
+            'name'           : line_data[18] or product.description_sale,
+            'product_uom_qty': line_data[20],
             'price_unit'     : price,
             'discount'       : discount,
         })
@@ -248,9 +248,9 @@ class SaleOrder(models.Model):
             product = self.env.ref("ti_amsbio_edi.amsbio_edi_missing_product")
             values.update({
                 'product_id'     : product.id,
-                'name'           : line_data[17] or product.description_sale,
-                'product_uom_qty': line_data[19],
-                'price_unit'     : line_data[20],
+                'name'           : line_data[18] or product.description_sale,
+                'product_uom_qty': line_data[20],
+                'price_unit'     : line_data[21],
             })
         values.update({'edi_order_line_number': line_data[0]})
         return values
