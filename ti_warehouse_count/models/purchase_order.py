@@ -78,7 +78,7 @@ class purchase_order(models.Model):
             try:
                 with self.env.cr.savepoint():
                     # If receipt have sale order and purchase order in it, it means it's from intermediate purchase order so we need to create and confirm the purchase order
-                    is_intercompany_purchase = purchase.picking_ids.filtered(lambda p: p.state == "done").mapped("intercompany_sale_order")
+                    is_intercompany_purchase = purchase.picking_ids.filtered(lambda p: p.state == "done").mapped("sale_id")
                     if is_intercompany_purchase:
                         bill_id = purchase.action_create_invoice()
                         bill = self.env["account.move"].sudo().browse(bill_id.get("res_id", None))
