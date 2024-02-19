@@ -144,7 +144,7 @@
                                                             <span class="s_website_form_label_content">Interests</span>
                                                             <span class="s_website_form_mark"> *</span>
                                                         </label>
-                                                        <div class="col-sm">
+                                                        <div class="col-sm" style="padding-top: calc(0.375rem + 1px);">
                                                             <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" id="tag_ids" style="max-height: 600px;overflow: auto;">
                                                                 <!-- <input class="" type="radio" id="intrest_radio" name="intrest_radio" style="position: relative; opacity: 0;" required="required"/> -->
                                                                 <t t-foreach="crm_tags"  t-as="tag">
@@ -172,7 +172,7 @@
                                                             <span class="s_website_form_label_content">Sub-Interests</span>
                                                             <span class="s_website_form_mark"> *</span>
                                                         </label>
-                                                        <div class="col-sm">
+                                                        <div class="col-sm" style="padding-top: calc(0.375rem + 1px);">
                                                             <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" id="sub_tag_ids" style="max-height: 600px;overflow: auto;">
                                                                 <!-- <input class="" type="radio" id="sub_intrest_radio" name="sub_intrest_radio" style="position: relative; opacity: 0;"/> -->
                                                                 <t t-foreach="child_crm_tags"  t-as="sub_tag">
@@ -194,6 +194,68 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="mailing_list">
+                                                        <span class="s_website_form_label_content">Mailing list sign up</span>
+                                                    </label>
+                                                    <div class="col-sm" style="padding-top: calc(0.375rem + 1px);">
+                                                        <input type="checkbox" id="mailing_list_checkbox" class="" name="mailing_list" style="margin-right: 0.5em;"/>
+                                                        <label for="mailing_list_checkbox">Yes, please add me to your mailing list</label>
+                                                        <div>
+                                                            <small style="font-size: smaller;">
+                                                                We would love to send you information on special offers, product news and application notes. At AMSBIO, we abide by all applicable data privacy legislation and respect you individual rights to your data. you can opt out of these communications at any time.
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div t-if="not new_lead_event" class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="amsbio_source">
+                                                        <span class="s_website_form_label_content">How did you hear about us?</span>
+                                                        <span class="s_website_form_mark"> *</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <select id="amsbio_source" class="form-control s_website_form_input" name="amsbio_source" required="">
+                                                            <option value="">Please select*</option>
+                                                            <option value="customer">
+                                                                <span>Existing Customer</span>
+                                                            </option>
+                                                            <option value="googlw">
+                                                                <span>Google Search/Google Ad</span>
+                                                            </option>
+                                                            <option value="human">
+                                                                <span>Colleague/Friend/Word of Mouth</span>
+                                                            </option>
+                                                            <option value="journal">
+                                                                <span>Journal Publication</span>
+                                                            </option>
+                                                            <option value="email">
+                                                                <span>Email Compaign</span>
+                                                            </option>
+                                                            <option value="web_print_ad">
+                                                                <span>Web or Print Advert</span>
+                                                            </option>
+                                                            <option value="socail_media">
+                                                                <span>Social Media (e.g. LinkedIn)</span>
+                                                            </option>
+                                                            <option value="other_web">
+                                                                <span>From other website</span>
+                                                            </option>
+                                                            <option value="other">
+                                                                <span>Other</span>
+                                                            </option>
+                                                            <option value="cant_recall">
+                                                                <span>Can't recall</span>
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                             <div class="mb-0 py-2 col-12 s_website_form_submit mt-4" data-name="Submit Button">
                                                 <button class="btn btn-primary btn-lg w-100" type="submit" form="ti_new_lead_form">Submit</button>
                                             </div>

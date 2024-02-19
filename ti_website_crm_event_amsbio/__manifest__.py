@@ -7,7 +7,7 @@
     'summary': """Custom module for Amsbio customizations.""",
     'description': """ Custom module for Amsbio customizations """,
     'author': "Target Integartion",
-    'version': '16.0.1.0.0',
+    'version': '16.0.1.0.1',
     'category' : 'CRM/Website',
     'depends': ['sales_team', "crm", "website_event"],
     'data':[

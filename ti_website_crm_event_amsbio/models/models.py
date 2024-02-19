@@ -12,6 +12,22 @@ class CrmLead(models.Model):
 
     intrest_ids = fields.Many2many("crm.tag", "main_intrest_lead_rel", "lead_id", "tag_id", string="Intrests", copy=False)
     sub_intrest_ids = fields.Many2many("crm.tag", "sub_intrest_lead_rel", "lead_id", "tag_id", string="Sub-Intrests", copy=False)
+    mailing_list = fields.Boolean("Mailing list")
+    amsbio_source = fields.Selection(
+        [
+            ("customer", "Existing Customer"),
+            ("googlw", "Google Search/Google Ad"),
+            ("human", "Colleague/Friend/Word of Mouth"),
+            ("journal", "Journal Publication"),
+            ("email", "Email Compaign"),
+            ("web_print_ad", "Web or Print Advert"),
+            ("socail_media", "Social Media (e.g. LinkedIn)"),
+            ("other_web", "From other website"),
+            ("other", "Other"),
+            ("cant_recall", "Can't recall"),
+        ],
+        string="How did you hear about us?"
+    )
     
 
 class CrmTag(models.Model):
