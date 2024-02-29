@@ -201,20 +201,20 @@ class SaleOrder(models.Model):
         # search for customer
         customer = self.env["res.partner"].search([
             ('name', '=', name),
-            ('street', '=', street),
-            ('street2', '=', street2),
+            ('fisher_street', '=', street),
+            ('fisher_street2', '=', street2),
             ('street3', '=', street3),
-            ('city', '=', city),
-            ('state_id', '=', state_id),
+            ('fisher_city', '=', city),
+            ('fisher_state', '=', order_data[9]),
             ('country_id', '=', country_id),
-            ('zip', '=', zip),
+            ('fisher_zip', '=', zip),
         ], limit=1)
         # _logger.info(f"\n==>address_domain: {address_domain} ==>customer: {customer}")
         if not customer:
             customer_values = {
                 'name'      : name,
                 'phone'     : order_data[12],
-                'email'     : order_data[13],
+                'email'     : order_data[13] or "encompassconfirmations@thermofisher.com",
                 'x_studio_fax': order_data[14],
                 'street'    : street,
                 'street2'   : street2,
@@ -225,6 +225,11 @@ class SaleOrder(models.Model):
                 'zip'       : zip,
                 'type'      : "delivery",
                 'amsbio_edi_account_number': order_data[2],
+                'fisher_street': street,
+                'fisher_street2': street2,
+                'fisher_city': city,
+                'fisher_state': order_data[9],
+                'fisher_zip' : zip,
             }
             customer = self.env["res.partner"].create(customer_values)
         return customer
@@ -400,11 +405,11 @@ class SaleOrder(models.Model):
             self.partner_invoice_id.country_id.name or "",
             self.partner_invoice_id.phone or "",
             self.partner_invoice_id.email or "",
-            self.partner_shipping_id.street or "",
-            self.partner_shipping_id.street2 or "",
-            self.partner_shipping_id.city or "",
-            self.partner_shipping_id.state_id.display_name or "",
-            self.partner_shipping_id.zip or "",
+            self.partner_shipping_id.fisher_street or "",
+            self.partner_shipping_id.fisher_street2 or "",
+            self.partner_shipping_id.fisher_city or "",
+            self.partner_shipping_id.fisher_state or "",
+            self.partner_shipping_id.fisher_zip or "",
             self.partner_shipping_id.country_id.name or "",
             self.partner_shipping_id.phone or "",
             self.partner_shipping_id.email or "",

@@ -2,7 +2,7 @@
 {
     'name'      : "Amsbio EDI Integration",
     'summary'   : "EDI Integration of Odoo and third party to exchange orders, delivery, and invoice data through FTP",
-    'version'   : "16.0.4.4",
+    'version'   : "16.0.5.5",
     'category'  : "Sales/Sales",
     'license'   : "Other proprietary",
     'author'    : "Target Integration",
