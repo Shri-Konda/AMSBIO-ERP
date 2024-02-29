@@ -7,56 +7,10 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <data>
-                <!-- <xpath expr="//notebook" position="inside">
-                    <page name="contact_department" string="Departments">
-                        <
-                    </page>
-                </xpath> -->
 
-
-                <field name="category_id" position="after">
-                    <field name="contact_department_ids" widget="many2many_tags" attrs="{'invisible': [('is_company', '=', False)]}" domain="[('contact_id', '=', id)]" context="{'default_contact_id': parent_id}"/>
-                    <field name="parent_id" invisible="1"/>
-                    <field name="conatc_department_id" attrs="{'invisible': ['|', ('is_company', '=', True), ('parent_id', '=', False)]}"  domain="[('contact_id', '=', parent_id)]" context="{'default_contact_id': parent_id}"/>
-                </field>
             </data>
         </field>
     </record>
-
-    <record id="ti_contact_hierarchy_amsbio_contact_department_tree_view" model="ir.ui.view"> 
-        <field name="name">contact.department.tree.view.inherit</field>
-        <field name="model">contact.department</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
-                <field name="contact_id" />
-            </tree>
-        </field>
-    </record>
-
-    <record id="ti_contact_hierarchy_amsbio_contact_department_form_view" model="ir.ui.view"> 
-        <field name="name">contact.department.form.view.inherit</field>
-        <field name="model">contact.department</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="contact_id" domain="[('is_company', '=', True)]"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="ti_contact_hierarchy_amsbio_contact_department_action" model="ir.actions.act_window">
-        <field name="name">Contact Department</field>
-        <field name="res_model">contact.department</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <menuitem id="ti_contact_hierarchy_amsbio_contact_department_menuitem" name="Contact Department" action="ti_contact_hierarchy_amsbio.ti_contact_hierarchy_amsbio_contact_department_action" parent="contacts.res_partner_menu_config" sequence="10"/>
-
 
 
 </odoo>

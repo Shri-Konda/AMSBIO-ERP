@@ -11,8 +11,7 @@
     'category' : 'Contact',
     'depends': ["contacts"],
     'data':[
-        'security/ir.model.access.csv',
-        'views/models_views.xml',
+        # 'views/models_views.xml',
     ],
     'installable' : True,
     'application' : False,

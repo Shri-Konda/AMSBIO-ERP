@@ -7,20 +7,33 @@ from odoo.tools.json import scriptsafe as json_scriptsafe
 import logging
 _logger = logging.getLogger(__name__)
 
-class ContactDepartment(models.Model):
-    _name = "contact.department"
-
-    name = fields.Char("Name", required=True, copy=False)
-    contact_id = fields.Many2one("res.partner", string="Company", doamin="[('is_company', '=', True)]")
-
-    
 
 class Contact(models.Model):
     _inherit = "res.partner"
 
-    # company type contact will have multiple it's own departments
-    contact_department_ids = fields.One2many("contact.department", "contact_id", string="Departments")
+    company_type = fields.Selection(selection_add=[('department', 'Department')], compute='_compute_company_type', inverse='_write_company_type')
+    is_department = fields.Boolean(string='Is a Department', default=False,
+        help="Check if the contact is a department")
 
-    # company child contact has many2one field so that we can identify each child relate to which department
-    conatc_department_id = fields.Many2one("contact.department", string="Department")
+    @api.depends('is_company', 'is_department')
+    def _compute_company_type(self):
+        for partner in self:
+            partner.company_type = 'company' if partner.is_company else 'department' if partner.is_department else 'person'
+
+    def _write_company_type(self):
+        for partner in self:
+            partner.is_company = partner.company_type == 'company'
+            partner.is_department = partner.company_type == 'department'
+
+    @api.onchange('company_type')
+    def onchange_company_type(self):
+        if self.company_type == 'company':
+            self.is_company = True
+            self.is_department = False
+        elif self.company_type == 'department':
+            self.is_department = True
+            self.is_company = False
+        else:
+            self.is_company = False
+            self.is_department = False
 

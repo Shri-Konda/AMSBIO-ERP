@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_contact_department_public_readonly,contact.department.public.read,model_contact_department,,1,0,0,0
-access_contact_department_internal_full,contact.department.internal.full,model_contact_department,base.group_erp_manager,1,1,1,1
