@@ -11,6 +11,11 @@ class Partner(models.Model):
 
     amsbio_edi_account_number = fields.Char("EDI Account Number", readonly=True, copy=False, help="Unique account number for the customer whose orders are created through EDI integration.")
     street3 = fields.Char(string="Street 3")
+    fisher_street = fields.Char(string="Fisher Address Street", readonly=True, copy=False)
+    fisher_street2 = fields.Char(string="Fisher Address Street2", readonly=True, copy=False)
+    fisher_city = fields.Char(string="Fisher Address City", readonly=True, copy=False)
+    fisher_state = fields.Char(string="Fisher Address State", readonly=True, copy=False)
+    fisher_zip = fields.Char(string="Fisher Address ZIP", readonly=True, copy=False)
 
     @api.model
     def _formatting_address_fields(self):

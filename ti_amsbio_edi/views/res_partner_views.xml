@@ -13,6 +13,19 @@
             <xpath expr="//page[@name='contact_addresses']//div[hasclass('o_address_format')]/field[@name='street2'] " position="after">
                 <field name="street3" placeholder="Street 3..." class="o_address_street"/>
             </xpath>
+
+            <xpath expr="//page[@name='sales_purchases']" position="inside">
+                <group string="Fisher Delivery Address" groups="base.group_no_one">
+                    <group>
+                        <field name="fisher_street" class="o_address_street" attrs="{'invisible': [('fisher_street', '=', '')]}"/>
+                        <field name="fisher_street2" class="o_address_street" attrs="{'invisible': [('fisher_street2', '=', '')]}"/>
+                        <field name="fisher_city" class="o_address_city" attrs="{'invisible': [('fisher_city', '=', '')]}"/>
+                        <field name="fisher_state" class="o_address_state"  attrs="{'invisible': [('fisher_state', '=', '')]}" />
+                    </group>
+                    <group>
+                    </group>
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>
