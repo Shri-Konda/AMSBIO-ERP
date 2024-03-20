@@ -7,7 +7,13 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <data>
-
+                <button name="create_company" position="before">
+                    <br/>
+                    <group>
+                        <field name="department_partner_id" attrs="{'invisible': [('company_type', '!=', 'department')]}" placeholder="Department"/>
+                    </group>
+                    <br/>
+                </button>
             </data>
         </field>
     </record>

@@ -14,6 +14,7 @@ class Contact(models.Model):
     company_type = fields.Selection(selection_add=[('department', 'Department')], compute='_compute_company_type', inverse='_write_company_type')
     is_department = fields.Boolean(string='Is a Department', default=False,
         help="Check if the contact is a department")
+    department_partner_id = fields.Many2one("res.partner", string="Department Partner")
 
     @api.depends('is_company', 'is_department')
     def _compute_company_type(self):
