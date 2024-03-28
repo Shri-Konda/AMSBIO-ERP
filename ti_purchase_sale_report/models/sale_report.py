@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class SaleReport(models.Model):
     _inherit = "sale.report"
 
-    suppplier_id = fields.Many2one("res.partner", "Supplier", readonly=True)
+    product_supplier = fields.Char("Supplier", readonly=True)
     original_customer = fields.Char("Original Customer", readonly=True)
     order_partner_shipping_city = fields.Char("Delivery City", readonly=True)
     order_partner_shipping_zip = fields.Char("Delivery Postal Code", readonly=True)
@@ -18,7 +18,7 @@ class SaleReport(models.Model):
         select_ = f"""
             MIN(l.id) AS id,
             l.product_id AS product_id,
-            l.product_supplier_id as suppplier_id,
+            l.product_supplier as product_supplier,
             l.original_customer as original_customer,
             l.order_partner_shipping_city as order_partner_shipping_city,
             l.order_partner_shipping_zip as order_partner_shipping_zip,
@@ -87,7 +87,7 @@ class SaleReport(models.Model):
     def _group_by_sale(self):
         groupby = super(SaleReport, self)._group_by_sale()
         return """
-            l.product_supplier_id,
+            l.product_supplier,
             l.original_customer,
             l.order_partner_shipping_city,
             l.order_partner_shipping_zip,

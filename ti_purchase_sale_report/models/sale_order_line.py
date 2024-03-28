@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    product_supplier_id = fields.Many2one("res.partner", "Supplier", compute="_compute_product_supplier_id", store=True)
+    product_supplier = fields.Char("Supplier", compute="_compute_product_supplier", store=True)
     original_customer = fields.Char("Original Customer", compute="_compute_original_customer", store=True)
     order_partner_shipping_city = fields.Char(related="order_id.partner_shipping_id.city", store=True, string="Delivery City")
     order_partner_shipping_zip = fields.Char(related="order_id.partner_shipping_id.zip", store=True, string="Delivery Postal Code")
@@ -27,13 +27,20 @@ class SaleOrderLine(models.Model):
                 order_line.original_customer = order_line.order_id.partner_id.name
                 
     @api.depends("product_id.seller_ids")
-    def _compute_product_supplier_id(self):
+    def _compute_product_supplier(self):
         for order_line in self:
-            seller = self.env["product.supplierinfo"].search([('company_id', '=', order_line.company_id.id), ('product_tmpl_id', '=', order_line.product_template_id.id)], limit=1)
+            seller = self.env["product.supplierinfo"]
+            # if the product is eu supplier product, then avoid checking for company pricelits
+            if order_line.product_id.is_eu_supplier:
+                companies_contacts = self.env["res.company"].sudo().search([]).mapped("partner_id")
+                seller = self.env["product.supplierinfo"].sudo().search([('partner_id', 'not in', companies_contacts.ids), ('product_tmpl_id', '=', order_line.product_template_id.id)], limit=1)
+            # if product still does not have supplier, then include all the pricelits
+            if not seller:
+                seller = self.env["product.supplierinfo"].sudo().search([('product_tmpl_id', '=', order_line.product_template_id.id)], limit=1)
             if seller:
-                order_line.product_supplier_id = seller.display_name
+                order_line.product_supplier = seller.display_name
             else:
-                order_line.product_supplier_id = False
+                order_line.product_supplier = False
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
